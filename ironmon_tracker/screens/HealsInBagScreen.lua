@@ -42,13 +42,13 @@ SCREEN.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return SCREEN.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56, Constants.SCREEN.MARGIN + 136, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 50, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 44, Constants.SCREEN.MARGIN + 137, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 44*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:prevPage()
@@ -57,7 +57,7 @@ SCREEN.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 87, Constants.SCREEN.MARGIN + 137, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 87*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:nextPage()
@@ -75,10 +75,10 @@ SCREEN.Pager = {
 	defaultSort = function(a, b) return (a.sortValue or 0) > (b.sortValue or 0) or (a.sortValue == b.sortValue and a.id < b.id) end,
 	realignButtonsToGrid = function(self)
 		table.sort(self.Buttons, self.defaultSort)
-		local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 38
-		local y = Constants.SCREEN.MARGIN + 17
+		local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 38*Constants.SCALE
+		local y = Constants.SCREEN.MARGIN + 17*Constants.SCALE
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-		local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 12
+		local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 12*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, 2, 4, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -138,7 +138,7 @@ function HealsInBagScreen.createButtons()
 	-- TABS
 	for _, tab in ipairs(Utils.getSortedList(SCREEN.Tabs)) do
 		local tabText = Resources.HealsInBagScreen[tab.resourceKey]
-		local tabWidth = (tabPadding * 2) + Utils.calcWordPixelLength(tabText)
+		local tabWidth = (tabPadding / 2) + Utils.calcWordPixelLength(tabText)/Constants.SCALE
 		SCREEN.Buttons["Tab" .. tab.tabKey] = {
 			type = Constants.ButtonTypes.NO_BORDER,
 			getCustomText = function(self) return tabText end,
@@ -170,7 +170,7 @@ function HealsInBagScreen.createButtons()
 			end,
 			onClick = function(self) SCREEN.changeTab(self.tab) end,
 		}
-		startX = startX + tabWidth
+		startX = startX + tabWidth*Constants.SCALE
 	end
 end
 
@@ -286,7 +286,7 @@ function HealsInBagScreen.buildPagedButtons(tab)
 			tab = tab,
 			id = item.id,
 			sortValue = item.sortValue,
-			dimensions = { width = 80, height = 11, },
+			dimensions = { width = 80*Constants.SCALE, height = 11, },
 			textColor = item.isHelpful and "Positive text" or SCREEN.Colors.text,
 			boxColors = { SCREEN.Colors.border, SCREEN.Colors.boxFill },
 			isVisible = function(self) return SCREEN.Pager.currentPage == self.pageVisible end,
@@ -305,15 +305,15 @@ function HealsInBagScreen.buildPagedButtons(tab)
 				end
 				-- Draw the image icon off to the left
 				if self.image then
-					Drawing.drawImage(self.image, x - 20, y)
+					Drawing.drawImage(self.image, x - 20*Constants.SCALE, y,14,14)
 				end
 				-- Draw the quantity off to the right
 				local quantityText = string.format("%s", quantity)
 				local extraWidth = Utils.calcWordPixelLength(quantityText)
 				local offsetX = x + w - extraWidth
 				Drawing.drawText(offsetX, y, quantityText, textColor, shadowcolor)
-				gui.drawLine(offsetX - 2, y + 5, offsetX, y + 8, textColor)
-				gui.drawLine(offsetX - 2, y + 8, offsetX, y + 5, textColor)
+				gui.drawLine(offsetX - 2*Constants.SCALE, y + 5*Constants.SCALE, offsetX, y + 8*Constants.SCALE, textColor)
+				gui.drawLine(offsetX - 2*Constants.SCALE, y + 8*Constants.SCALE, offsetX, y + 5*Constants.SCALE, textColor)
 			end,
 		}
 		table.insert(SCREEN.Pager.Buttons, button)

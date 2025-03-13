@@ -7,22 +7,22 @@ QuickloadScreen = {
 QuickloadScreen.SetButtonSetup = {
 	["ROMs Folder"] = {
 		resourceKey = "OptionRomsFolder",
-		offsetY = Constants.SCREEN.MARGIN + 55,
+		offsetY = Constants.SCREEN.MARGIN + 55*Constants.SCALE,
 		statusIconVisible = function(self) return Options["Use premade ROMs"] end,
 	},
 	["Randomizer JAR"] = {
 		resourceKey = "OptionRandomizerJar",
-		offsetY = Constants.SCREEN.MARGIN + 87,
+		offsetY = Constants.SCREEN.MARGIN + 87*Constants.SCALE,
 		statusIconVisible = function(self) return Options["Generate ROM each time"] end,
 	},
 	["Source ROM"] = {
 		resourceKey = "OptionSourceRom",
-		offsetY = Constants.SCREEN.MARGIN + 101,
+		offsetY = Constants.SCREEN.MARGIN + 101*Constants.SCALE,
 		statusIconVisible = function(self) return Options["Generate ROM each time"] end,
 	},
 	["Settings File"] = {
 		resourceKey = "OptionSettingsFile",
-		offsetY = Constants.SCREEN.MARGIN + 115,
+		offsetY = Constants.SCREEN.MARGIN + 115*Constants.SCALE,
 		statusIconVisible = function(self) return Options["Generate ROM each time"] end,
 	},
 }
@@ -31,7 +31,7 @@ QuickloadScreen.Buttons = {
 	ButtonCombo = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function() return Resources.QuickloadScreen.ButtonCombo .. ":" end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 12, 130, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 12*Constants.SCALE, 130, 11 },
 		draw = function(self, shadowcolor)
 			local offsetX = Utils.calcWordPixelLength(self:getText())
 			local comboRaw = Options.CONTROLS["Load next seed"] or Constants.BLANKLINE
@@ -48,8 +48,8 @@ QuickloadScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Use premade ROMs",
 		getText = function(self) return Resources.QuickloadScreen.OptionPremadeRoms end,
-		clickableArea = { Constants.SCREEN.WIDTH + 13, Constants.SCREEN.MARGIN + 44, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + 13, Constants.SCREEN.MARGIN + 44, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + 13*Constants.SCALE, Constants.SCREEN.MARGIN + 44*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + 13*Constants.SCALE, Constants.SCREEN.MARGIN + 44*Constants.SCALE, 8, 8 },
 		toggleState = false,
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -80,8 +80,8 @@ QuickloadScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Generate ROM each time",
 		getText = function(self) return Resources.QuickloadScreen.OptionGenerateRom end,
-		clickableArea = { Constants.SCREEN.WIDTH + 13, Constants.SCREEN.MARGIN + 74, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + 13, Constants.SCREEN.MARGIN + 74, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + 13*Constants.SCALE, Constants.SCREEN.MARGIN + 74*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + 13*Constants.SCALE, Constants.SCREEN.MARGIN + 74*Constants.SCALE, 8, 8 },
 		toggleState = false,
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -101,8 +101,8 @@ QuickloadScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Refocus emulator after load",
 		getText = function(self) return Resources.QuickloadScreen.OptionRefocusEmulator end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137, 110, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 110, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 8, 8 },
 		toggleState = false,
 		isVisible = function(self) return Main.emulator ~= Main.EMU.BIZHAWK28 end, -- Option not needed nor used for Bizhawk 2.8
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
@@ -184,7 +184,7 @@ function QuickloadScreen.createButtons()
 			optionKey = optionKey,
 			isSet = false,
 			statusIconVisible = optionObj.statusIconVisible,
-			box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108, optionObj.offsetY, 24, 11 },
+			box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108*Constants.SCALE, optionObj.offsetY, 24, 11 },
 			updateSelf = function(self)
 				if not self.isSet then
 					self.filename = ""
@@ -360,9 +360,9 @@ function QuickloadScreen.drawScreen()
 
 	local shadowcolor = Utils.calcShadowColor(Theme.COLORS[QuickloadScreen.boxFillColor])
 	local topboxX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local topboxY = Constants.SCREEN.MARGIN + 10
+	local topboxY = Constants.SCREEN.MARGIN + 10*Constants.SCALE
 	local topboxWidth = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2)
-	local topboxHeight = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10
+	local topboxHeight = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE
 
 	-- Draw header text
 	local headerShadow = Utils.calcShadowColor(Theme.COLORS["Main background"])
@@ -374,14 +374,14 @@ function QuickloadScreen.drawScreen()
 	local offsetY = topboxY
 
 	-- Draw text to explain a choice should be made
-	offsetY = offsetY + 18
+	offsetY = offsetY + 18*Constants.SCALE
 	local chooseText = string.format("%s:", Resources.QuickloadScreen.ChoiceHeader)
 	Drawing.drawText(topboxX + 2, offsetY, chooseText, Theme.COLORS[QuickloadScreen.textColor], shadowcolor)
 	offsetY = offsetY + Constants.SCREEN.LINESPACING + 1
 
 	local boxes = {
 		{ x = topboxX + 4, y = offsetY, w = topboxWidth - 8, h = 30, },
-		{ x = topboxX + 4, y = offsetY + 30, w = topboxWidth - 8, h = 60, },
+		{ x = topboxX + 4, y = offsetY + 30*Constants.SCALE, w = topboxWidth - 8, h = 60, },
 	}
 	for _, box in ipairs(boxes) do
 		gui.drawRectangle(box.x + 1, box.y + 1, box.w, box.h, shadowcolor)

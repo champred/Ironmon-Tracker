@@ -353,7 +353,7 @@ end
 -- forcedCheck: if true, will force an update check (please use sparingly)
 function Main.CheckForVersionUpdate(forcedCheck)
 	-- Update check not supported on Linux Bizhawk 2.8, Lua 5.1
-	if Main.emulator == Main.EMU.BIZHAWK28 and Main.OS ~= "Windows" then
+	if Main.OS ~= "Windows" then
 		return
 	end
 

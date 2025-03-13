@@ -26,7 +26,7 @@ SCREEN.Buttons = {
 	AddMoveType = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function() return Resources.CoverageCalcScreen.ButtonAddType end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 16, Constants.SCREEN.MARGIN + 22, 50, 12 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 16*Constants.SCALE, Constants.SCREEN.MARGIN + 22*Constants.SCALE, 50, 12 },
 		isDisabled = false,
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Main end,
 		updateSelf = function(self)
@@ -47,7 +47,7 @@ SCREEN.Buttons = {
 	ClearMoveTypes = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function() return Resources.CoverageCalcScreen.ButtonClearTypes end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 73, Constants.SCREEN.MARGIN + 22, 50, 12 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 73*Constants.SCALE, Constants.SCREEN.MARGIN + 22*Constants.SCALE, 50, 12 },
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Main end,
 		onClick = function(self)
 			SCREEN.resetTypesAndData()
@@ -58,8 +58,8 @@ SCREEN.Buttons = {
 	OptionOnlyFullyEvolved = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		getText = function() return " " .. Resources.CoverageCalcScreen.OptionFullyEvolvedOnly end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 113, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 113, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 113*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 113*Constants.SCALE, 8, 8 },
 		toggleState = false,
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Main end,
 		onClick = function(self)
@@ -74,7 +74,7 @@ SCREEN.Buttons = {
 		getText = function(self) return Resources.CoverageCalcScreen.ButtonPokemonMatchups end,
 		image = Constants.PixelImages.POKEBALL,
 		iconColors = TrackerScreen.PokeBalls.ColorList,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 129, 105, 16 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 129*Constants.SCALE, 105, 16 },
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Main and #SCREEN.addedTypesOrdered > 0 end,
 		onClick = function()
 			SCREEN.currentView = SCREEN.Views.Pokemon
@@ -90,13 +90,13 @@ SCREEN.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return SCREEN.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 69, Constants.SCREEN.MARGIN + 136, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 69*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 50, 10, },
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Pokemon and SCREEN.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56, Constants.SCREEN.MARGIN + 137, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Pokemon and SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:prevPage()
@@ -105,7 +105,7 @@ SCREEN.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 100, Constants.SCREEN.MARGIN + 137, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 100*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.currentView == SCREEN.Views.Pokemon and SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:nextPage()
@@ -133,9 +133,9 @@ SCREEN.Pager = {
 	realignButtonsToGrid = function(self)
 		table.sort(self.Buttons, self.defaultSort)
 		local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2
-		local y = Constants.SCREEN.MARGIN + 17
+		local y = Constants.SCREEN.MARGIN + 17*Constants.SCALE
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-		local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 10
+		local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 30*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, 3, 7, false, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -190,11 +190,11 @@ end
 
 function CoverageCalcScreen.createButtons()
 	local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-	local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 5
+	local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 5*Constants.SCALE
 	local createMoveTypeBtn = function(moveType)
 		return {
 			type = Constants.ButtonTypes.NO_BORDER,
-			moveType = moveType,
+			moveType = moveType or PokemonData.Types.EMPTY,
 			dimensions = { width = 30, height = 12 },
 			draw = function(self, shadowcolor)
 				local x, y = self.box[1], self.box[2]
@@ -225,8 +225,8 @@ function CoverageCalcScreen.createButtons()
 		end
 		table.insert(buttonsToAdd, button)
 	end
-	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 17
-	local startY = Constants.SCREEN.MARGIN + 45
+	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 17*Constants.SCALE
+	local startY = Constants.SCREEN.MARGIN + 45*Constants.SCALE
 	Utils.gridAlign(buttonsToAdd, startX, startY, 8, 8, false, cutoffX, cutoffY)
 	for i, button in ipairs(buttonsToAdd) do
 		local btnKey = "AddedType" .. i
@@ -247,13 +247,13 @@ function CoverageCalcScreen.createButtons()
 		local tabKey = keys[1]
 		local label = keys[2]
 		local valueColor = keys[3]
-		local labelCenterX = Utils.getCenteredTextX(label, 20) - 2
+		local labelCenterX = Utils.getCenteredTextX(label, 20*Constants.SCALE) - 2
 		local button = {
 			type = Constants.ButtonTypes.NO_BORDER,
 			textColor = SCREEN.Colors.highlight,
 			calcValue = 0,
 			tab = SCREEN.Tabs[tabKey],
-			dimensions = { width = 20, height = 20 },
+			dimensions = { width = 20*Constants.SCALE, height = 20*Constants.SCALE },
 			isVisible = function(self) return SCREEN.currentView == SCREEN.Views.Main end,
 			updateSelf = function(self)
 				local effData = SCREEN.CoverageData[self.tab] or {}
@@ -274,7 +274,7 @@ function CoverageCalcScreen.createButtons()
 					resultsText = Constants.BLANKLINE
 					colorForValue = SCREEN.Colors.text
 				end
-				Drawing.drawText(x + centeredOffsetX, y + 10, resultsText, Theme.COLORS[colorForValue], shadowcolor)
+				Drawing.drawText(x + centeredOffsetX, y + 10*Constants.SCALE, resultsText, Theme.COLORS[colorForValue], shadowcolor)
 			end,
 			onClick = function(self)
 				if self.calcValue <= 0 then
@@ -287,7 +287,7 @@ function CoverageCalcScreen.createButtons()
 		table.insert(buttonsToAdd, button)
 	end
 	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	startY = Constants.SCREEN.MARGIN + 83
+	startY = Constants.SCREEN.MARGIN + 83*Constants.SCALE
 	Utils.gridAlign(buttonsToAdd, startX, startY, 2, 2, false, cutoffX, cutoffY)
 	for _, button in ipairs(buttonsToAdd) do
 		local btnKey = "Effectiveness" .. button.tab
@@ -312,8 +312,8 @@ function CoverageCalcScreen.createButtons()
 		end
 		table.insert(buttonsToAdd, button)
 	end
-	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 17
-	startY = Constants.SCREEN.MARGIN + 24
+	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 17*Constants.SCALE
+	startY = Constants.SCREEN.MARGIN + 24*Constants.SCALE
 	Utils.gridAlign(buttonsToAdd, startX, startY, 8, 8, false, cutoffX, cutoffY)
 	for _, button in ipairs(buttonsToAdd) do
 		local btnKey = "MoveType" .. button.moveType
@@ -328,7 +328,7 @@ function CoverageCalcScreen.createButtons()
 	for _, keys in ipairs(effectivenesses) do
 		local tabKey = keys[1]
 		local tabText = keys[2]
-		local tabWidth = (tabPadding * 2) + Utils.calcWordPixelLength(tabText)
+		local tabWidth = (tabPadding / 2) + Utils.calcWordPixelLength(tabText)/Constants.SCALE
 		SCREEN.Buttons["Tab" .. tabText] = {
 			type = Constants.ButtonTypes.NO_BORDER,
 			getCustomText = function(self) return tabText end,
@@ -360,7 +360,7 @@ function CoverageCalcScreen.createButtons()
 			end,
 			onClick = function(self) SCREEN.changeTab(self.tab) end,
 		}
-		startX = startX + tabWidth
+		startX = startX + tabWidth*Constants.SCALE
 	end
 end
 
@@ -568,9 +568,9 @@ function CoverageCalcScreen.drawScreen()
 
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[SCREEN.Colors.text],
 		border = Theme.COLORS[SCREEN.Colors.border],
 		fill = Theme.COLORS[SCREEN.Colors.boxFill],
@@ -627,6 +627,6 @@ function CoverageCalcScreen.drawPokemonView(canvas)
 	local totalCount = #(SCREEN.CoverageData[SCREEN.currentTab] or {})
 	if totalCount > 0 then
 		local totalText = string.format("%s: %s", Resources.CoverageCalcScreen.LabelTotal, totalCount)
-		Drawing.drawTransparentTextbox(canvas.x + 3, canvas.y + 124, totalText, canvas.text, canvas.fill, canvas.shadow)
+		Drawing.drawTransparentTextbox(canvas.x + 3, canvas.y + 124*Constants.SCALE, totalText, canvas.text, canvas.fill, canvas.shadow)
 	end
 end

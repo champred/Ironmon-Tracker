@@ -13,7 +13,7 @@ StreamerScreen.Buttons = {
 	AttemptsCountEdit = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.StreamerScreen.ButtonEdit end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 112, Constants.SCREEN.MARGIN + 14, 23, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 112*Constants.SCALE, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 23, 11 },
 		draw = function(self, shadowcolor)
 			-- Draw the Label text to its left
 			local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3
@@ -25,7 +25,7 @@ StreamerScreen.Buttons = {
 	WelcomeMessageEdit = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.StreamerScreen.ButtonEdit end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 112, Constants.SCREEN.MARGIN + 29, 23, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 112*Constants.SCALE, Constants.SCREEN.MARGIN + 29*Constants.SCALE, 23, 11 },
 		draw = function(self, shadowcolor)
 			-- Draw the Label text to its left
 			local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3
@@ -38,8 +38,8 @@ StreamerScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Show on new game screen",
 		getText = function(self) return Resources.StreamerScreen.OptionDisplayFavorites end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 10, Constants.SCREEN.MARGIN + 64, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 10, Constants.SCREEN.MARGIN + 64, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 10*Constants.SCALE, Constants.SCREEN.MARGIN + 64*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 10*Constants.SCALE, Constants.SCREEN.MARGIN + 64*Constants.SCALE, 8, 8 },
 		toggleState = false, -- update later in initialize
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -49,8 +49,8 @@ StreamerScreen.Buttons = {
 	},
 	PokemonFavorite1 = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8, 79, 32, 29 },
-		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8, 75, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8*Constants.SCALE, 79*Constants.SCALE, 32, 29 },
+		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8*Constants.SCALE, 75*Constants.SCALE, 32, 32 },
 		pokemonID = 1,
 		getIconId = function(self) return self.pokemonID, SpriteData.Types.Idle end,
 		onClick = function(self)
@@ -60,8 +60,8 @@ StreamerScreen.Buttons = {
 	},
 	PokemonFavorite2 = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53, 79, 32, 29 },
-		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53, 75, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53*Constants.SCALE, 79*Constants.SCALE, 32, 29 },
+		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53*Constants.SCALE, 75*Constants.SCALE, 32, 32 },
 		pokemonID = 4,
 		getIconId = function(self) return self.pokemonID, SpriteData.Types.Idle end,
 		onClick = function(self)
@@ -71,8 +71,8 @@ StreamerScreen.Buttons = {
 	},
 	PokemonFavorite3 = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98, 79, 32, 29 },
-		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98, 75, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98*Constants.SCALE, 79*Constants.SCALE, 32, 29 },
+		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98*Constants.SCALE, 75*Constants.SCALE, 32, 32 },
 		pokemonID = 7,
 		getIconId = function(self) return self.pokemonID, SpriteData.Types.Idle end,
 		onClick = function(self)
@@ -84,7 +84,7 @@ StreamerScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		getText = function(self) return Resources.StreamerScreen.ButtonStreamConnect end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 10, Constants.SCREEN.MARGIN + 115, 100, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 10*Constants.SCALE, Constants.SCREEN.MARGIN + 115*Constants.SCALE, 100, 16 },
 		updateSelf = function(self)
 			if Network.CurrentConnection.State == Network.ConnectionState.Established then
 				self.image = Constants.PixelImages.CHECKMARK
@@ -230,9 +230,9 @@ function StreamerScreen.drawScreen()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[StreamerScreen.Colors.upperText],
 		border = Theme.COLORS[StreamerScreen.Colors.upperBorder],
 		fill = Theme.COLORS[StreamerScreen.Colors.upperBoxFill],
@@ -241,9 +241,9 @@ function StreamerScreen.drawScreen()
 	-- Will use the bottom-box later for OAuth Twitch stuff
 	local botBox = {
 		x = topBox.x,
-		y = topBox.y + topBox.height + 5,
+		y = topBox.y + topBox.height + 5*Constants.SCALE,
 		width = topBox.width,
-		height = Constants.SCREEN.HEIGHT - topBox.height - 15,
+		height = Constants.SCREEN.HEIGHT - topBox.height - 15*Constants.SCALE,
 		text = Theme.COLORS[StreamerScreen.Colors.lowerText],
 		border = Theme.COLORS[StreamerScreen.Colors.lowerBorder],
 		fill = Theme.COLORS[StreamerScreen.Colors.lowerBoxFill],
@@ -262,7 +262,7 @@ function StreamerScreen.drawScreen()
 	textLineY = textLineY + Constants.SCREEN.LINESPACING
 
 	-- Draw Favorites Label
-	Drawing.drawText(topBox.x + 3, topBox.y + 40, Resources.StreamerScreen.LabelFavorites .. ":", topBox.text, topBox.shadow)
+	Drawing.drawText(topBox.x + 3, topBox.y + 40*Constants.SCALE, Resources.StreamerScreen.LabelFavorites .. ":", topBox.text, topBox.shadow)
 
 	-- Draw bottom border box
 	-- gui.defaultTextBackground(botBox.fill)

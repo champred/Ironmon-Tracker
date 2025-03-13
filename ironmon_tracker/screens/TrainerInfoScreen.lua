@@ -13,7 +13,7 @@ TrainerInfoScreen = {
 	},
 }
 local SCREEN = TrainerInfoScreen
-local VALUE_COL_X = 52
+local VALUE_COL_X = 52*Constants.SCALE
 
 local function hasData()
 	return SCREEN.Data.trainerGame and SCREEN.Data.trainerGame.trainerId ~= nil
@@ -30,7 +30,7 @@ SCREEN.Buttons = {
 				return Constants.BLANKLINE
 			end
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 32, Constants.SCREEN.MARGIN + 2, 32, 32 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 32*Constants.SCALE, Constants.SCREEN.MARGIN + 2, 32, 32 },
 		isVisible = function(self) return true end,
 		onClick = function(self)
 			if hasData() then
@@ -55,10 +55,10 @@ SCREEN.Buttons = {
 
 			local text = self:getText()
 			local centerX = Utils.getCenteredTextX(text, w) - 1
-			Drawing.drawText(x + centerX, y + 32, text, textColor, shadowcolor)
+			Drawing.drawText(x + centerX, y + 34*Constants.SCALE, text, textColor, shadowcolor)
 			if SCREEN.Data.trainerGame.doubleBattle then
-				Drawing.drawText(x, y + 44, Resources.TrainerInfoScreen.LabelDouble, highlightColor, shadowcolor)
-				Drawing.drawText(x, y + 54, Resources.TrainerInfoScreen.LabelBattle, highlightColor, shadowcolor)
+				Drawing.drawText(x, y + 44*Constants.SCALE, Resources.TrainerInfoScreen.LabelDouble, highlightColor, shadowcolor)
+				Drawing.drawText(x, y + 54*Constants.SCALE, Resources.TrainerInfoScreen.LabelBattle, highlightColor, shadowcolor)
 			end
 		end,
 	},
@@ -84,8 +84,8 @@ SCREEN.Buttons = {
 				return Constants.BLANKLINE
 			end
 		end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 15, 94, 12 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 15, 10, 12 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 15*Constants.SCALE, 94, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 15*Constants.SCALE, 10, 12 },
 		onClick = function(self)
 			if SCREEN.Data.trainerInternal and SCREEN.Data.trainerInternal.routeId then
 				if TrainersOnRouteScreen.buildScreen(SCREEN.Data.trainerInternal.routeId) then
@@ -104,7 +104,7 @@ SCREEN.Buttons = {
 				return Utils.formatSpecialCharacters("Pokémon:")
 			end
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 30, 90, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 30*Constants.SCALE, 90, 11 },
 		draw = function(self, shadowcolor)
 			if not hasData() then return end
 			local x, y = self.box[1], self.box[2]
@@ -118,7 +118,7 @@ SCREEN.Buttons = {
 		getText = function()
 			return string.format("%s:", Resources.TrainerInfoScreen.LabelAvgIvs)
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 41, 90, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 41*Constants.SCALE, 90, 11 },
 		draw = function(self, shadowcolor)
 			if not hasData() then return end
 			local x, y = self.box[1], self.box[2]
@@ -131,7 +131,7 @@ SCREEN.Buttons = {
 		getText = function()
 			return string.format("%s:", Resources.TrainerInfoScreen.LabelAIScript)
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 52, 90, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 52*Constants.SCALE, 90, 11 },
 		draw = function(self, shadowcolor)
 			if not hasData() then return end
 			local x, y = self.box[1], self.box[2]
@@ -144,14 +144,14 @@ SCREEN.Buttons = {
 		getText = function()
 			return string.format("%s:", Resources.TrainerInfoScreen.LabelUsableItems)
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 63, 90, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 63*Constants.SCALE, 90, 11 },
 		isVisible = function(self) return hasData() and SCREEN.Data.trainerGame.itemList end,
 		draw = function(self, shadowcolor)
 			if not hasData() then return end
 			local x, y = self.box[1], self.box[2]
 			local textColor = Theme.COLORS[SCREEN.Colors.goodValue]
 			local itemList = SCREEN.Data.trainerGame.itemList or Constants.BLANKLINE
-			Drawing.drawText(x + 7, y + 11, itemList, textColor, shadowcolor)
+			Drawing.drawText(x + 7*Constants.SCALE, y + 11*Constants.SCALE, itemList, textColor, shadowcolor)
 		end,
 	},
 	Back = Drawing.createUIElementBackButton(function()
@@ -318,6 +318,7 @@ function TrainerInfoScreen.buildScreen(trainerId)
 		local defaultColorList = TrackerScreen.PokeBalls.ColorList
 		local button = {
 			type = Constants.ButtonTypes.FULL_BORDER,
+			moveType=PokemonData.Types.EMPTY,
 			image = Constants.PixelImages.POKEBALL,
 			getCustomText = function(self)
 				return string.format("%s.%s", Resources.TrackerScreen.LevelAbbreviation, pokemon.level)
@@ -328,13 +329,13 @@ function TrainerInfoScreen.buildScreen(trainerId)
 				local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
 				local textColor = Theme.COLORS[SCREEN.Colors.text]
 				local text = self:getCustomText()
-				local centerX = Utils.getCenteredTextX(text, w) - 1
+				local centerX = Utils.getCenteredTextX(text, w*Constants.SCALE) - 1
 				-- Draw a pokeball and the mon's level
-				Drawing.drawImageAsPixels(self.image, x + w/2 - 5, y + 3, self.iconColors, shadowcolor)
-				Drawing.drawText(x + centerX, y + h - 12, text, textColor, shadowcolor)
+				Drawing.drawImageAsPixels(self.image, x + w/2 - 5*Constants.SCALE, y + 3*Constants.SCALE, self.iconColors, shadowcolor)
+				Drawing.drawText(x + centerX, y + (h - 12)*Constants.SCALE, text, textColor, shadowcolor)
 				-- Draw a little held item icon if the pokemon is holding one (don't reveal actual item)
 				if pokemon.heldItem ~= 0 then
-					Drawing.drawImageAsPixels(Constants.PixelImages.HELD_ITEM, x + w - 6, y + 1)
+					Drawing.drawImageAsPixels(Constants.PixelImages.HELD_ITEM, x + w - 6*Constants.SCALE, y + 1)
 				end
 			end,
 		}
@@ -363,9 +364,9 @@ function TrainerInfoScreen.buildScreen(trainerId)
 
 	-- Align the team party balls in a grid
 	table.sort(SCREEN.TemporaryButtons, function(a, b) return a.ordinal < b.ordinal end)
-	local gridStartX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 22
-	local gridStartY = Constants.SCREEN.MARGIN + 90
-	local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 20
+	local gridStartX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 22*Constants.SCALE
+	local gridStartY = Constants.SCREEN.MARGIN + 90*Constants.SCALE
+	local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 20*Constants.SCALE
 	local cutoffY = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 5
 	Utils.gridAlign(SCREEN.TemporaryButtons, gridStartX, gridStartY, 0, 0, false, cutoffX, cutoffY)
 

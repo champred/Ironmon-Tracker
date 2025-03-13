@@ -11,7 +11,7 @@ ViewLogWarningScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		getText = function(self) return Resources.ViewLogWarningScreen.ButtonViewCurrentLog end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 39, 56, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 39*Constants.SCALE, 56, 16 },
 		onClick = function(self)
 			LogOverlay.viewLogFile(FileManager.PostFixes.AUTORANDOMIZED)
 		end,
@@ -20,7 +20,7 @@ ViewLogWarningScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		getText = function(self) return Resources.ViewLogWarningScreen.ButtonViewPreviousLog end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 64, Constants.SCREEN.MARGIN + 39, 72, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 64*Constants.SCALE, Constants.SCREEN.MARGIN + 39*Constants.SCALE, 72, 16 },
 		onClick = function(self)
 			LogOverlay.viewLogFile(FileManager.PostFixes.PREVIOUSATTEMPT)
 		end
@@ -29,19 +29,19 @@ ViewLogWarningScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.WARNING,
 		textColor = "Intermediate text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 41, Constants.SCREEN.MARGIN + 60, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 41*Constants.SCALE, Constants.SCREEN.MARGIN + 60*Constants.SCALE, 10, 10 },
 	},
 	WarningIcon2 = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.WARNING,
 		textColor = "Intermediate text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 65, Constants.SCREEN.MARGIN + 60, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 65*Constants.SCALE, Constants.SCREEN.MARGIN + 60*Constants.SCALE, 10, 10 },
 	},
 	WarningIcon3 = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.WARNING,
 		textColor = "Intermediate text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 89, Constants.SCREEN.MARGIN + 60, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 89*Constants.SCALE, Constants.SCREEN.MARGIN + 60*Constants.SCALE, 10, 10 },
 	},
 	Back = Drawing.createUIElementBackButton(function() Program.changeScreenView(ExtrasScreen) end),
 }
@@ -70,9 +70,9 @@ function ViewLogWarningScreen.drawScreen()
 	gui.defaultTextBackground(Theme.COLORS[ViewLogWarningScreen.Colors.boxFill])
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[ViewLogWarningScreen.Colors.text],
 		border = Theme.COLORS[ViewLogWarningScreen.Colors.border],
 		fill = Theme.COLORS[ViewLogWarningScreen.Colors.boxFill],
@@ -94,7 +94,7 @@ function ViewLogWarningScreen.drawScreen()
 		Drawing.drawText(topBox.x + 4, textLineY, line, topBox.text, topBox.shadow)
 		textLineY = textLineY + Constants.SCREEN.LINESPACING
 	end
-	textLineY = textLineY + Constants.SCREEN.LINESPACING * 2 + 14 -- Skip over the view log buttons
+	textLineY = textLineY + Constants.SCREEN.LINESPACING * 2 + 14*Constants.SCALE -- Skip over the view log buttons
 
 	wrappedDesc = Utils.getWordWrapLines(Resources.ViewLogWarningScreen.WarningSpiritOfIronmon, 35)
 	for _, line in pairs(wrappedDesc) do

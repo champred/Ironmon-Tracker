@@ -30,7 +30,7 @@ TrackerScreen.Buttons = {
 		image = Constants.PixelImages.SPARKLES,
 		iconColors = { "Intermediate text" },
 		isHighlighted = true,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 84, Constants.SCREEN.MARGIN + 10, 12, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 84*Constants.SCALE, Constants.SCREEN.MARGIN + 10*Constants.SCALE, 12, 12 },
 		isVisible = function(self)
 			local pokemon = Tracker.getViewedPokemon() or {}
 			return pokemon.isShiny or (pokemon.hasPokerus and Battle.isViewingOwn)
@@ -66,7 +66,7 @@ TrackerScreen.Buttons = {
 	TypeDefenses = {
 		-- Invisible button area for the type defenses boxes
 		type = Constants.ButtonTypes.NO_BORDER,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, Constants.SCREEN.MARGIN + 27, 30, 24, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, Constants.SCREEN.MARGIN + 27*Constants.SCALE, 30, 24, },
 		isVisible = function()
 			local pokemon = Tracker.getViewedPokemon() or {}
 			return PokemonData.isValid(pokemon.pokemonID)
@@ -81,7 +81,7 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.GEAR,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 92, 7, 7, 7 },
+		box = { Constants.SCREEN.WIDTH + 92*Constants.SCALE-6, 7, 7, 7 },
 		isVisible = function() return true end,
 		onClick = function(self)
 			Program.changeScreenView(NavigationMenu)
@@ -91,7 +91,7 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.DICE,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 81, Constants.SCREEN.MARGIN + 36, 13, 14 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 81*Constants.SCALE, Constants.SCREEN.MARGIN + 36*Constants.SCALE, 13, 14 },
 		isVisible = function() return TrackerScreen.canShowBallPicker() end,
 		onClick = function(self)
 			TrackerScreen.PokeBalls.chosenBall = -1
@@ -104,7 +104,7 @@ TrackerScreen.Buttons = {
 		image = Constants.PixelImages.HEART,
 		textColor = "Default text",
 		iconColors = { "Default text", "Upper box background", "Upper box background" },
-		box = { Constants.SCREEN.WIDTH + 87, 59, 10, 8 },
+		box = { Constants.SCREEN.WIDTH + 87*Constants.SCALE, 59*Constants.SCALE, 10, 8 },
 		isVisible = function() return Battle.isViewingOwn and Options["Track PC Heals"] end,
 		toggleState = false,
 		onClick = function(self)
@@ -122,7 +122,7 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return "+" end,
 		textColor = "Positive text",
-		box = { Constants.SCREEN.WIDTH + 83, 69, 5, 5 },
+		box = { Constants.SCREEN.WIDTH + 83*Constants.SCALE, 69*Constants.SCALE, 5, 5 },
 		isVisible = function() return Battle.isViewingOwn and Options["Track PC Heals"] end,
 		onClick = function(self)
 			Tracker.Data.centerHeals = Tracker.Data.centerHeals + 1
@@ -135,7 +135,7 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return Constants.BLANKLINE end,
 		textColor = "Negative text",
-		box = { Constants.SCREEN.WIDTH + 83, 73, 5, 5 },
+		box = { Constants.SCREEN.WIDTH + 83*Constants.SCALE, 73*Constants.SCALE, 5, 5 },
 		isVisible = function() return Battle.isViewingOwn and Options["Track PC Heals"] end,
 		onClick = function(self)
 			Tracker.Data.centerHeals = Tracker.Data.centerHeals - 1
@@ -148,7 +148,7 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		textColor = "Intermediate text",
-		box = { Constants.SCREEN.WIDTH + 84, 64, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + 84*Constants.SCALE, 64*Constants.SCALE, 10, 10 },
 		isVisible = function() return Battle.isViewingOwn and Options["Open Book Play Mode"] and not Options["Track PC Heals"] end,
 		onClick = function(self)
 			-- Default to pulling up the Routes info screen
@@ -165,7 +165,7 @@ TrackerScreen.Buttons = {
 	},
 	InvisibleStatsArea = {
 		type = Constants.ButtonTypes.NO_BORDER,
-		box = { Constants.SCREEN.WIDTH + 103, Constants.SCREEN.MARGIN, 44, 75 },
+		box = { Constants.SCREEN.WIDTH + 103*Constants.SCALE, Constants.SCREEN.MARGIN, 44, 75 },
 		isVisible = function() return Options["Open Book Play Mode"] and not Battle.isViewingOwn end,
 		onClick = function(self)
 			local pokemon = Tracker.getViewedPokemon() or {}
@@ -181,8 +181,8 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAP_PINDROP,
 		textColor = "Default text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 57, 96, 23 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, 63, 8, 12 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 57*Constants.SCALE, 96, 23 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, 63*Constants.SCALE, 8, 12 },
 		isVisible = function() return not Battle.isViewingOwn end,
 		onClick = function(self)
 			-- Only activate for wild encounter battles
@@ -202,8 +202,8 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.BATTLE_BALLS,
 		iconColors = Constants.PixelImages.BATTLE_BALLS.iconColors,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 57, 96, 23 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 78, 61, 16, 16 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 57*Constants.SCALE, 96, 23 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 78*Constants.SCALE, 61*Constants.SCALE, 16, 16 },
 		isVisible = function() return not Battle.isViewingOwn end,
 		onClick = function(self)
 			-- Only activate for trainer battles
@@ -220,8 +220,8 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.NOTEPAD,
 		textColor = "Default text",
-		clickableArea = { Constants.SCREEN.WIDTH + 37, 35, 63, 11},
-		box = { Constants.SCREEN.WIDTH + 88, 43, 11, 11 },
+		clickableArea = { Constants.SCREEN.WIDTH + 37*Constants.SCALE, 35*Constants.SCALE, 63, 11},
+		box = { Constants.SCREEN.WIDTH + 88*Constants.SCALE, 43*Constants.SCALE, 11, 11 },
 		isVisible = function() return not Battle.isViewingOwn end,
 		onClick = function(self)
 			local pokemon = Tracker.getViewedPokemon() or {}
@@ -246,8 +246,8 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.NOTEPAD,
 		textColor = "Default text",
-		clickableArea = { Constants.SCREEN.WIDTH + 37, 46, 63, 11},
-		box = { Constants.SCREEN.WIDTH + 88, 43, 11, 11 },
+		clickableArea = { Constants.SCREEN.WIDTH + 37*Constants.SCALE, 46*Constants.SCALE, 63, 11},
+		box = { Constants.SCREEN.WIDTH + 88*Constants.SCALE, 43*Constants.SCALE, 11, 11 },
 		isVisible = function() return true end,
 		onClick = function(self)
 			local pokemon = Tracker.getViewedPokemon() or {}
@@ -273,7 +273,7 @@ TrackerScreen.Buttons = {
 	HealsInBag = {
 		-- Invisible clickable button
 		type = Constants.ButtonTypes.NO_BORDER,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, Constants.SCREEN.MARGIN + 54, 55, 21 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, Constants.SCREEN.MARGIN + 54*Constants.SCALE, 55, 21 },
 		isVisible = function() return Battle.isViewingOwn end,
 		onClick = function(self)
 			HealsInBagScreen.changeTab(HealsInBagScreen.Tabs.All)
@@ -284,8 +284,8 @@ TrackerScreen.Buttons = {
 		-- Invisible clickable button
 		type = Constants.ButtonTypes.NO_BORDER,
 		textColor = "Intermediate text", -- set later after highlight color is calculated
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 81, 77, 10 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 69, 81, 10, 10 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 81*Constants.SCALE, 77, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 69*Constants.SCALE, 81*Constants.SCALE, 10, 10 },
 		boxColors = { "Header text", "Main background" },
 		isVisible = function()
 			local pokemon = Tracker.getViewedPokemon() or {}
@@ -307,8 +307,8 @@ TrackerScreen.Buttons = {
 		image = Constants.PixelImages.NOTEPAD,
 		getText = function(self) return string.format("(%s)", Resources.TrackerScreen.LeaveANote) end,
 		textColor = "Lower box text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140, 138, 12 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 140, 11, 11 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140*Constants.SCALE, 138, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 140*Constants.SCALE, 11, 11 },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.NOTES and not Battle.isViewingOwn end,
 		onClick = function(self)
 			local pokemon = Tracker.getViewedPokemon() or {}
@@ -324,8 +324,8 @@ TrackerScreen.Buttons = {
 		getText = function(self) return self.updatedText or "" end,
 		textColor = "Lower box text",
 		iconColors = { "Lower box text" },
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140, 138, 12 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, 140, 13, 13 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140*Constants.SCALE, 138, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, 140*Constants.SCALE, 13, 13 },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.LAST_ATTACK end,
 		onClick = function(self)
 			-- Eventually clicking this will show a Move History screen
@@ -336,8 +336,8 @@ TrackerScreen.Buttons = {
 		image = Constants.PixelImages.MAP_PINDROP,
 		getText = function(self) return self.updatedText or "" end,
 		textColor = "Lower box text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140, 138, 12 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 140, 8, 12 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140*Constants.SCALE, 138, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 140*Constants.SCALE, 8, 12 },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.ROUTE_INFO end,
 		onClick = function(self)
 			local routeInfo = {
@@ -356,7 +356,7 @@ TrackerScreen.Buttons = {
 			return string.format("%s: %s", Resources.TrackerScreen.PedometerSteps, formattedStepCount)
 		end,
 		textColor = "Lower box text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, 141, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, 141*Constants.SCALE, 10, 10 },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.PEDOMETER end,
 		updateSelf = function(self)
 			local stepCount = Program.Pedometer:getCurrentStepcount()
@@ -374,8 +374,8 @@ TrackerScreen.Buttons = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.TrackerScreen.PedometerGoal end,
 		textColor = "Lower box text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 81, 140, 23, 11 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 81, 140, 23, 11 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 81*Constants.SCALE, 140*Constants.SCALE, 23, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 81*Constants.SCALE, 140*Constants.SCALE, 23, 11 },
 		boxColors = { "Lower box border", "Lower box background" },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.PEDOMETER end,
 		updateSelf = function(self)
@@ -398,8 +398,8 @@ TrackerScreen.Buttons = {
 			end
 		end,
 		textColor = "Lower box text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108, 140, 28, 11 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108, 140, 28, 11 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108*Constants.SCALE, 140*Constants.SCALE, 28, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108*Constants.SCALE, 140*Constants.SCALE, 28, 11 },
 		boxColors = { "Lower box border", "Lower box background" },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.PEDOMETER end,
 		onClick = function(self)
@@ -417,8 +417,8 @@ TrackerScreen.Buttons = {
 		getText = function(self) return self.updatedText or "" end,
 		textColor = "Lower box text",
 		iconColors = { "Positive text" },
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140, 138, 12 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 140, 13, 13 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140*Constants.SCALE, 138, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 140*Constants.SCALE, 13, 13 },
 		isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.TRAINERS end,
 		onClick = function(self)
 			if TrainersOnRouteScreen.buildScreen(TrackerAPI.getMapId()) then
@@ -460,16 +460,16 @@ TrackerScreen.PokeBalls = {
 		end
 	end,
 	Left = {
-		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 17,
-		y = Constants.SCREEN.MARGIN + 18,
+		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 17*Constants.SCALE,
+		y = Constants.SCREEN.MARGIN + 18*Constants.SCALE,
 	},
 	Middle = {
-		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 40,
-		y = Constants.SCREEN.MARGIN + 26,
+		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 40*Constants.SCALE,
+		y = Constants.SCREEN.MARGIN + 26*Constants.SCALE,
 	},
 	Right = {
-		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 63,
-		y = Constants.SCREEN.MARGIN + 18,
+		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 63*Constants.SCALE,
+		y = Constants.SCREEN.MARGIN + 18*Constants.SCALE,
 	},
 }
 
@@ -481,7 +481,7 @@ function TrackerScreen.initialize()
 			type = Constants.ButtonTypes.STAT_STAGE,
 			getText = function(self) return Constants.STAT_STATES[self.statState].text end,
 			textColor = "Default text",
-			box = { Constants.SCREEN.WIDTH + 129, heightOffset, 8, 8 },
+			box = { Constants.SCREEN.WIDTH + 129*Constants.SCALE, heightOffset, 8, 8 },
 			boxColors = { "Upper box border", "Upper box background" },
 			statStage = statKey,
 			statState = 0,
@@ -498,19 +498,19 @@ function TrackerScreen.initialize()
 			end
 		}
 
-		heightOffset = heightOffset + 10
+		heightOffset = heightOffset + 10*Constants.SCALE
 	end
 
 	-- Buttons for each badge
 	local badgeWidth = 16
 	for index = 1, 8, 1 do
 		local badgeName = "badge" .. index
-		local xOffset = Constants.SCREEN.WIDTH + 7 + ((index-1) * (badgeWidth + 1)) + GameSettings.badgeXOffsets[index]
+		local xOffset = Constants.SCREEN.WIDTH + 7 + ((index-1) * (badgeWidth*Constants.SCALE)) + GameSettings.badgeXOffsets[index]
 
 		TrackerScreen.Buttons[badgeName] = {
 			type = Constants.ButtonTypes.IMAGE,
 			image = FileManager.buildImagePath(FileManager.Folders.Badges, GameSettings.badgePrefix .. "_" .. badgeName .. "_OFF", FileManager.Extensions.BADGE),
-			box = { xOffset, 138, badgeWidth, badgeWidth },
+			box = { xOffset, 138*Constants.SCALE, badgeWidth, badgeWidth },
 			badgeIndex = index,
 			badgeState = 0,
 			isVisible = function() return TrackerScreen.carouselIndex == TrackerScreen.CarouselTypes.BADGES end,
@@ -972,11 +972,11 @@ function TrackerScreen.drawPokemonInfoArea(data)
 	-- POKEMON TYPES
 	if not Options["Reveal info if randomized"] and not Battle.isViewingOwn and PokemonData.IsRand.types then
 		-- Don't reveal randomized Pokemon types for enemies
-		Drawing.drawTypeIcon(PokemonData.Types.UNKNOWN, Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 33)
+		Drawing.drawTypeIcon(PokemonData.Types.UNKNOWN, Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 33*Constants.SCALE)
 	elseif data.p.types[1] ~= PokemonData.Types.UNKNOWN then
-		Drawing.drawTypeIcon(data.p.types[1], Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 33)
+		Drawing.drawTypeIcon(data.p.types[1], Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 33*Constants.SCALE)
 		if data.p.types[2] ~= data.p.types[1] then
-			Drawing.drawTypeIcon(data.p.types[2], Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 45)
+			Drawing.drawTypeIcon(data.p.types[2], Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 45*Constants.SCALE)
 		end
 	end
 
@@ -984,7 +984,7 @@ function TrackerScreen.drawPokemonInfoArea(data)
 	Drawing.drawButton(TrackerScreen.Buttons.SettingsGear, shadowcolor)
 
 	-- POKEMON INFORMATION
-	local offsetX = 36
+	local offsetX = 36*Constants.SCALE
 	local offsetY = 5
 	local linespacing = Constants.SCREEN.LINESPACING - 1
 
@@ -1043,7 +1043,7 @@ function TrackerScreen.drawPokemonInfoArea(data)
 	if Battle.isViewingOwn then
 		local hpText = string.format("%s:", Resources.TrackerScreen.HPAbbreviation)
 		Drawing.drawText(Constants.SCREEN.WIDTH + offsetX, offsetY, hpText, Theme.COLORS["Default text"], shadowcolor)
-		Drawing.drawText(Constants.SCREEN.WIDTH + offsetX + 16, offsetY, extraInfoText, extraInfoColor, shadowcolor)
+		Drawing.drawText(Constants.SCREEN.WIDTH + offsetX + 16*Constants.SCALE, offsetY, extraInfoText, extraInfoColor, shadowcolor)
 		offsetY = offsetY + linespacing
 
 		Drawing.drawText(Constants.SCREEN.WIDTH + offsetX, offsetY, levelEvoText, Theme.COLORS["Default text"], shadowcolor)
@@ -1096,7 +1096,7 @@ function TrackerScreen.drawPokemonInfoArea(data)
 
 	-- HEALS INFO / ENCOUNTER INFO
 	local infoBoxHeight = 23
-	gui.drawRectangle(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, Constants.SCREEN.MARGIN + 52, 96, infoBoxHeight, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box background"])
+	gui.drawRectangle(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, Constants.SCREEN.MARGIN + 52*Constants.SCALE, 96, infoBoxHeight, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box background"])
 
 	if Battle.isViewingOwn and data.p.id ~= 0 then
 		local healsInBagText = string.format("%s:", Resources.TrackerScreen.HealsInBag)
@@ -1106,16 +1106,16 @@ function TrackerScreen.drawPokemonInfoArea(data)
 		else
 			healsValueText = string.format("%.0f%% %s (%s)", data.x.healperc, Resources.TrackerScreen.HPAbbreviation, data.x.healnum)
 		end
-		Drawing.drawText(Constants.SCREEN.WIDTH + 6, 57, healsInBagText, Theme.COLORS["Default text"], shadowcolor)
-		Drawing.drawText(Constants.SCREEN.WIDTH + 6, 68, healsValueText, Theme.COLORS["Default text"], shadowcolor)
+		Drawing.drawText(Constants.SCREEN.WIDTH + 6, 57*Constants.SCALE-10, healsInBagText, Theme.COLORS["Default text"], shadowcolor)
+		Drawing.drawText(Constants.SCREEN.WIDTH + 6, 68*Constants.SCALE-10, healsValueText, Theme.COLORS["Default text"], shadowcolor)
 
 		if Options["Track PC Heals"] then
 			-- Auto-tracking PC Heals button
 			Drawing.drawButton(TrackerScreen.Buttons.PCHealAutoTracking, shadowcolor)
 
 			-- Right-align the PC Heals number
-			local healNumberSpacing = (2 - string.len(tostring(data.x.pcheals))) * 5 + 87
-			Drawing.drawText(Constants.SCREEN.WIDTH + healNumberSpacing, 68, data.x.pcheals, Utils.getCenterHealColor(), shadowcolor)
+			local healNumberSpacing = (2 - string.len(tostring(data.x.pcheals))) * 5 + 87*Constants.SCALE
+			Drawing.drawText(Constants.SCREEN.WIDTH + healNumberSpacing, 68*Constants.SCALE, data.x.pcheals, Utils.getCenterHealColor(), shadowcolor)
 
 			-- Draw the '+' and '-' for incrementing/decrementing heal count
 			local incBtn = TrackerScreen.Buttons.PCHealIncrement
@@ -1134,18 +1134,18 @@ function TrackerScreen.drawPokemonInfoArea(data)
 		if Battle.isWildEncounter then
 			encounterText = string.format("%s: %s", Resources.TrackerScreen.BattleSeenInTheWild, data.x.encounters)
 			routeText = data.x.route
-			routeInfoX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 11
+			routeInfoX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 11*Constants.SCALE
 			Drawing.drawButton(TrackerScreen.Buttons.RouteDetails, shadowcolor)
 		else
 			encounterText = string.format("%s: %s", Resources.TrackerScreen.BattleSeenOnTrainers, data.x.encounters)
 			routeText = "" -- string.format("%s:", Resources.TrackerScreen.BattleTeam) -- Remove word "Team" as there's no space
 			routeInfoX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1
 			Drawing.drawButton(TrackerScreen.Buttons.TrainerDetails, shadowcolor)
-			Drawing.drawTrainerTeamPokeballs(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 65, shadowcolor)
+			Drawing.drawTrainerTeamPokeballs(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 65*Constants.SCALE, shadowcolor)
 		end
 
-		Drawing.drawText(routeInfoX, Constants.SCREEN.MARGIN + 53, encounterText, Theme.COLORS["Default text"], shadowcolor)
-		Drawing.drawText(routeInfoX, Constants.SCREEN.MARGIN + 63, routeText, Theme.COLORS["Default text"], shadowcolor)
+		Drawing.drawText(routeInfoX, Constants.SCREEN.MARGIN + 53*Constants.SCALE, encounterText, Theme.COLORS["Default text"], shadowcolor)
+		Drawing.drawText(routeInfoX, Constants.SCREEN.MARGIN + 63*Constants.SCALE, routeText, Theme.COLORS["Default text"], shadowcolor)
 	end
 
 	-- POKEMON ICON (draw last to overlap anything else, if necessary)
@@ -1161,7 +1161,7 @@ function TrackerScreen.drawPokemonInfoArea(data)
 
 	-- STATUS ICON
 	if data.p.status ~= MiscData.StatusCodeMap[MiscData.StatusType.None] then
-		Drawing.drawStatusIcon(data.p.status, Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 30 - 16 + 1, Constants.SCREEN.MARGIN + 1)
+		Drawing.drawStatusIcon(data.p.status, Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + (30 - 16 + 1)*Constants.SCALE, Constants.SCREEN.MARGIN + 1)
 	end
 
 	-- GENDER ICON
@@ -1196,7 +1196,7 @@ function TrackerScreen.drawStatsArea(data)
 	local borderColor = Theme.COLORS["Upper box border"]
 	local bgColor = Theme.COLORS["Upper box background"]
 	local shadowcolor = Utils.calcShadowColor(bgColor)
-	local mainBoxWidth = 101
+	local mainBoxWidth = 101*Constants.SCALE
 	local statOffsetX = Constants.SCREEN.WIDTH + mainBoxWidth + 1
 	local statOffsetY = 7
 
@@ -1241,12 +1241,12 @@ function TrackerScreen.drawStatsArea(data)
 
 		-- Draw stat label and nature symbol next to it
 		Drawing.drawText(statOffsetX, statOffsetY, statLabels[statKey:upper()], textColor, shadowcolor)
-		Drawing.drawText(statOffsetX + 16 + langOffset, statOffsetY - 1, natureSymbol, textColor, nil, 5, Constants.Font.FAMILY)
+		Drawing.drawText(statOffsetX + 16*Constants.SCALE + langOffset, statOffsetY - 1, natureSymbol, textColor, nil, 5, Constants.Font.FAMILY)
 
 		-- Draw stat battle increases/decreases, stages range from -6 to +6
 		if Battle.inActiveBattle() then
 			local statStageIntensity = data.p.stages[statKey] - 6 -- between [0 and 12], convert to [-6 and 6]
-			Drawing.drawChevronsVerticalIntensity(statOffsetX + 20, statOffsetY + 4, statStageIntensity, 3,4,2,1,2)
+			Drawing.drawChevronsVerticalIntensity(statOffsetX + 20*Constants.SCALE, statOffsetY + 4*Constants.SCALE, statStageIntensity, 3,4,2,1,2)
 		end
 
 		-- Draw stat value, or the stat tracking box if enemy Pokemon
@@ -1255,16 +1255,16 @@ function TrackerScreen.drawStatsArea(data)
 			if not Options["Color stat numbers by nature"] then
 				textColor = Theme.COLORS["Default text"]
 			end
-			Drawing.drawNumber(statOffsetX + 25, statOffsetY, statValueText, 3, textColor, shadowcolor)
+			Drawing.drawNumber(statOffsetX + 25*Constants.SCALE, statOffsetY, statValueText, 3, textColor, shadowcolor)
 		else
 			if Options["Open Book Play Mode"] then
 				local bstSpread = Utils.inlineIf(data.p[statKey] == 0, Constants.BLANKLINE, data.p[statKey])
-				Drawing.drawNumber(statOffsetX + 25, statOffsetY, bstSpread, 3, Theme.COLORS["Intermediate text"], shadowcolor)
+				Drawing.drawNumber(statOffsetX + 25*Constants.SCALE, statOffsetY, bstSpread, 3, Theme.COLORS["Intermediate text"], shadowcolor)
 			else
 				Drawing.drawButton(TrackerScreen.Buttons[statKey], shadowcolor)
 			end
 		end
-		statOffsetY = statOffsetY + 10
+		statOffsetY = statOffsetY + 10*Constants.SCALE
 	end
 
 	-- Draw BST or ACC/EVA
@@ -1272,14 +1272,14 @@ function TrackerScreen.drawStatsArea(data)
 	local useAccEvaInstead = Battle.inActiveBattle() and (data.p.stages.acc ~= 6 or data.p.stages.eva ~= 6)
 	if useAccEvaInstead then
 		Drawing.drawText(statOffsetX - 1, statOffsetY + 1, Resources.TrackerScreen.StatAccuracy, Theme.COLORS["Default text"], shadowcolor)
-		Drawing.drawText(statOffsetX + 27, statOffsetY + 1, Resources.TrackerScreen.StatEvasion, Theme.COLORS["Default text"], shadowcolor)
+		Drawing.drawText(statOffsetX + 27*Constants.SCALE, statOffsetY + 1, Resources.TrackerScreen.StatEvasion, Theme.COLORS["Default text"], shadowcolor)
 		local accIntensity = data.p.stages.acc - 6
 		local evaIntensity = data.p.stages.eva - 6
-		Drawing.drawChevronsVerticalIntensity(statOffsetX + 15, statOffsetY + 5, accIntensity, 3,4,2,1,2)
-		Drawing.drawChevronsVerticalIntensity(statOffsetX + 22, statOffsetY + 5, evaIntensity, 3,4,2,1,2)
+		Drawing.drawChevronsVerticalIntensity(statOffsetX + 15*Constants.SCALE, statOffsetY + 5, accIntensity, 3,4,2,1,2)
+		Drawing.drawChevronsVerticalIntensity(statOffsetX + 22*Constants.SCALE, statOffsetY + 5, evaIntensity, 3,4,2,1,2)
 	else
 		Drawing.drawText(statOffsetX, statOffsetY, Resources.TrackerScreen.StatBST, Theme.COLORS["Default text"], shadowcolor)
-		Drawing.drawNumber(statOffsetX + 25, statOffsetY, data.p.bst, 3, Theme.COLORS["Default text"], shadowcolor)
+		Drawing.drawNumber(statOffsetX + 25*Constants.SCALE, statOffsetY, data.p.bst, 3, Theme.COLORS["Default text"], shadowcolor)
 	end
 
 	-- If controller is in use and highlighting any stats, draw that
@@ -1291,13 +1291,13 @@ function TrackerScreen.drawMovesArea(data)
 	local shadowcolor = Utils.calcShadowColor(Theme.COLORS["Lower box background"])
 	local bgHeaderShadow = Utils.calcShadowColor(Theme.COLORS["Main background"])
 
-	local moveTableHeaderHeightDiff = 13
-	local moveOffsetY = 94
-	local moveCatOffset = 7
-	local moveNameOffset = 6 -- Move names (longest name is 12 characters?)
-	local movePPOffset = 82
-	local movePowerOffset = 102
-	local moveAccOffset = 126
+	local moveTableHeaderHeightDiff = 13*Constants.SCALE
+	local moveOffsetY = 94*Constants.SCALE
+	local moveCatOffset = 7*Constants.SCALE
+	local moveNameOffset = 12*Constants.SCALE -- Move names (longest name is 12 characters?)
+	local movePPOffset = 82*Constants.SCALE
+	local movePowerOffset = 102*Constants.SCALE
+	local moveAccOffset = 126*Constants.SCALE
 
 	-- Used to determine if the information about the move should be revealed to the player,
 	-- or not, possibly because its randomized further and its requested to remain hidden
@@ -1355,15 +1355,15 @@ function TrackerScreen.drawMovesArea(data)
 		-- MOVE CATEGORY
 		if Options["Show physical special icons"] and allowHiddenMoveInfo then
 			if move.category == MoveData.Categories.PHYSICAL then
-				Drawing.drawImageAsPixels(Constants.PixelImages.PHYSICAL, Constants.SCREEN.WIDTH + moveCatOffset, moveOffsetY + 2, { Theme.COLORS["Lower box text"] }, shadowcolor)
+				Drawing.drawImageAsPixels(Constants.PixelImages.PHYSICAL, Constants.SCREEN.WIDTH + moveCatOffset, moveOffsetY + 2*Constants.SCALE, { Theme.COLORS["Lower box text"] }, shadowcolor)
 			elseif move.category == MoveData.Categories.SPECIAL then
-				Drawing.drawImageAsPixels(Constants.PixelImages.SPECIAL, Constants.SCREEN.WIDTH + moveCatOffset, moveOffsetY + 2, { Theme.COLORS["Lower box text"] }, shadowcolor)
+				Drawing.drawImageAsPixels(Constants.PixelImages.SPECIAL, Constants.SCREEN.WIDTH + moveCatOffset, moveOffsetY + 2*Constants.SCALE, { Theme.COLORS["Lower box text"] }, shadowcolor)
 			end
 		end
 
 		-- MOVE TYPE COLORED RECTANGLE
 		if not Theme.MOVE_TYPES_ENABLED and move.name ~= Constants.BLANKLINE and allowHiddenMoveInfo then
-			gui.drawRectangle(Constants.SCREEN.WIDTH + moveNameOffset - 3, moveOffsetY + 2, 2, 7, moveTypeColor, moveTypeColor)
+			gui.drawRectangle(Constants.SCREEN.WIDTH + moveNameOffset - 3, moveOffsetY + 2*Constants.SCALE, 2, 7, moveTypeColor, moveTypeColor)
 			moveTypeColor = Theme.COLORS["Lower box text"]
 		end
 
@@ -1393,7 +1393,7 @@ function TrackerScreen.drawMovesArea(data)
 		Drawing.drawNumber(Constants.SCREEN.WIDTH + movePowerOffset, moveOffsetY, move.power, 3, movePowerColor, shadowcolor)
 		Drawing.drawNumber(Constants.SCREEN.WIDTH + moveAccOffset, moveOffsetY, move.accuracy, 3, Theme.COLORS["Lower box text"], shadowcolor)
 
-		moveOffsetY = moveOffsetY + 10 -- linespacing
+		moveOffsetY = moveOffsetY + 10*Constants.SCALE -- linespacing
 	end
 end
 
@@ -1401,7 +1401,7 @@ function TrackerScreen.drawCarouselArea(data)
 	local shadowcolor = Utils.calcShadowColor(Theme.COLORS["Lower box background"])
 
 	-- Draw the border box for the Stats area
-	gui.drawRectangle(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 136, Constants.SCREEN.RIGHT_GAP - (2 * Constants.SCREEN.MARGIN), 19, Theme.COLORS["Lower box border"], Theme.COLORS["Lower box background"])
+	gui.drawRectangle(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 136*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - (2 * Constants.SCREEN.MARGIN), 19, Theme.COLORS["Lower box border"], Theme.COLORS["Lower box background"])
 
 	local carousel = TrackerScreen.getCurrentCarouselItem()
 	for _, content in pairs(carousel:getContentList(data.p.id)) do
@@ -1410,10 +1410,10 @@ function TrackerScreen.drawCarouselArea(data)
 		elseif type(content) == "string" then
 			local wrappedText = Utils.getWordWrapLines(content, 34)
 			if #wrappedText == 1 then
-				Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140, wrappedText[1], Theme.COLORS["Lower box text"], shadowcolor)
+				Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 140*Constants.SCALE, wrappedText[1], Theme.COLORS["Lower box text"], shadowcolor)
 			elseif #wrappedText >= 2 then
-				Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 136, wrappedText[1], Theme.COLORS["Lower box text"], shadowcolor)
-				Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 145, wrappedText[2], Theme.COLORS["Lower box text"], shadowcolor)
+				Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 136*Constants.SCALE, wrappedText[1], Theme.COLORS["Lower box text"], shadowcolor)
+				Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 145*Constants.SCALE, wrappedText[2], Theme.COLORS["Lower box text"], shadowcolor)
 				gui.drawLine(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 155, Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN, 155, Theme.COLORS["Lower box border"])
 				gui.drawLine(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 156, Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN, 156, Theme.COLORS["Main background"])
 			end
@@ -1422,7 +1422,7 @@ function TrackerScreen.drawCarouselArea(data)
 
 	--work around limitation of drawText not having width limit: paint over any spillover
 	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-	local y = 137
+	local y = 137*Constants.SCALE
 	gui.drawLine(x, y, x, y + 14, Theme.COLORS["Lower box border"])
 	gui.drawRectangle(x + 1, y, 12, 14, Theme.COLORS["Main background"], Theme.COLORS["Main background"])
 end
@@ -1431,7 +1431,7 @@ function TrackerScreen.drawBallPicker()
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
 		y1 = Constants.SCREEN.MARGIN,
-		y2 = Constants.SCREEN.MARGIN + 52,
+		y2 = Constants.SCREEN.MARGIN + 52*Constants.SCALE,
 		w = 96,
 		h1 = 52,
 		h2 = 23,
@@ -1450,7 +1450,7 @@ function TrackerScreen.drawBallPicker()
 	for index, pokeball in ipairs(ballsToDraw) do
 		local colorList = TrackerScreen.PokeBalls.ColorList
 		if index == TrackerScreen.PokeBalls.chosenBall then
-			Drawing.drawImageAsPixels(Constants.PixelImages.DOWN_ARROW, pokeball.x + 1, pokeball.y - 13, { canvas.text }, canvas.shadow)
+			Drawing.drawImageAsPixels(Constants.PixelImages.DOWN_ARROW, pokeball.x + 1, pokeball.y - 13*Constants.SCALE, { canvas.text }, canvas.shadow)
 		elseif TrackerScreen.PokeBalls.chosenBall ~= -1 then
 			-- If not the chosen ball and not in the process of re-rolling
 			colorList = TrackerScreen.PokeBalls.ColorListGray
@@ -1496,14 +1496,14 @@ function TrackerScreen.drawFavorites()
 	-- Draw header
 	gui.defaultTextBackground(Theme.COLORS["Main background"])
 	local headerX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local headerY = Constants.SCREEN.MARGIN + 76
+	local headerY = Constants.SCREEN.MARGIN + 76*Constants.SCALE
 	local bgShadow = Utils.calcShadowColor(Theme.COLORS["Main background"])
 	Drawing.drawText(headerX, headerY, Resources.StartupScreen.HeaderFavorites, Theme.COLORS["Header text"], bgShadow)
 
 	-- Draw lower box & favorites
 	gui.defaultTextBackground(Theme.COLORS["Lower box background"])
 	local boxX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local boxY = 92
+	local boxY = 92*Constants.SCALE
 	local width = Constants.SCREEN.RIGHT_GAP - (2 * Constants.SCREEN.MARGIN)
 	local height = 44
 	gui.drawRectangle(boxX, boxY, width, height, Theme.COLORS["Lower box border"], Theme.COLORS["Lower box background"])

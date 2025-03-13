@@ -11,13 +11,13 @@ TypeDefensesScreen.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return TypeDefensesScreen.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return TypeDefensesScreen.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return TypeDefensesScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			TypeDefensesScreen.Pager:prevPage()
@@ -26,7 +26,7 @@ TypeDefensesScreen.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 91, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 91*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return TypeDefensesScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			TypeDefensesScreen.Pager:nextPage()
@@ -50,7 +50,7 @@ TypeDefensesScreen.Pager = {
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer)
 		table.sort(self.Buttons, self.defaultSort)
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffY = Constants.SCREEN.HEIGHT - 20*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -117,14 +117,14 @@ function TypeDefensesScreen.buildOutPagedButtons(pokemonID)
 
 	for i, defenseInfo in pairs(defenseLayout) do
 		if #defenseInfo.types > 0 then
-			local btnHeight = Constants.SCREEN.LINESPACING + 2 + math.ceil(#defenseInfo.types / typesPerLine) * 13
+			local btnHeight = Constants.SCREEN.LINESPACING + 2 + math.ceil(#defenseInfo.types / typesPerLine) * 13*Constants.SCALE
 			local button = {
 				type = Constants.ButtonTypes.NO_BORDER,
 				getText = function(self)
 					return string.format("%s %s", defenseInfo.prefix, Resources.TypeDefensesScreen[defenseInfo.labelKey])
 				end,
 				textColor = TypeDefensesScreen.Colors.text,
-				dimensions = { width = 130, height = btnHeight, },
+				dimensions = { width = 130*Constants.SCALE, height = btnHeight, },
 				ordinal = i,
 				isVisible = function(self) return TypeDefensesScreen.Pager.currentPage == self.pageVisible end,
 				draw = function(self, shadowcolor)
@@ -197,11 +197,11 @@ function TypeDefensesScreen.drawTypeBoxes(x, y, types, borderColor, shadowcolor)
 
 	local paddingLeft = 8
 	local offsetX, offsetY = paddingLeft, 0
-	local boxW, boxH = 31, 13
+	local boxW, boxH = 31*Constants.SCALE, 13*Constants.SCALE
 
 	for i, defType in ipairs(types) do
-		gui.drawRectangle(x + offsetX, y + offsetY, boxW, boxH, shadowcolor)
-		gui.drawRectangle(x + offsetX - 1, y + offsetY - 1, boxW, boxH, borderColor)
+		--gui.drawRectangle(x + offsetX, y + offsetY, boxW, boxH, shadowcolor)
+		--gui.drawRectangle(x + offsetX - 1, y + offsetY - 1, boxW, boxH, borderColor)
 		Drawing.drawTypeIcon(defType, x + offsetX, y + offsetY)
 
 		-- Begin a new line of boxes

@@ -13,7 +13,7 @@ RandomEvosScreen.Buttons = {
 	PreviousEvoOption = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 18, Constants.SCREEN.MARGIN + 4, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 18*Constants.SCALE, Constants.SCREEN.MARGIN + 4, 10, 10, },
 		isVisible = function() return #(RandomEvosScreen.evoOptions or {}) > 0 end,
 		onClick = function(self)
 			local total = #RandomEvosScreen.evoOptions
@@ -25,7 +25,7 @@ RandomEvosScreen.Buttons = {
 	NextEvoOption = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 115, Constants.SCREEN.MARGIN + 4, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 115*Constants.SCALE, Constants.SCREEN.MARGIN + 4, 10, 10, },
 		isVisible = function() return #(RandomEvosScreen.evoOptions or {}) > 0 end,
 		onClick = function(self)
 			local total = #RandomEvosScreen.evoOptions
@@ -37,13 +37,13 @@ RandomEvosScreen.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return RandomEvosScreen.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46, Constants.SCREEN.MARGIN + 136, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 50, 10, },
 		isVisible = function() return RandomEvosScreen.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32, Constants.SCREEN.MARGIN + 137, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10, },
 		isVisible = function() return RandomEvosScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			RandomEvosScreen.Pager:prevPage()
@@ -52,7 +52,7 @@ RandomEvosScreen.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 91, Constants.SCREEN.MARGIN + 137, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 91*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10, },
 		isVisible = function() return RandomEvosScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			RandomEvosScreen.Pager:nextPage()
@@ -75,8 +75,8 @@ RandomEvosScreen.Pager = {
 	defaultSort = function(a, b) return a.ordinal < b.ordinal end,
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer)
 		table.sort(self.Buttons, self.defaultSort)
-		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - 20*Constants.SCALE
+		local cutoffY = Constants.SCREEN.HEIGHT - 40*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, false, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -148,6 +148,7 @@ function RandomEvosScreen.buildPagedButtons(pokemonID, evoOptionIndex)
 		local centeredOffsetX = Utils.getCenteredTextX(evoPercent, 32)
 		local button = {
 			type = Constants.ButtonTypes.POKEMON_ICON,
+			moveType=PokemonData.Types.EMPTY,
 			textColor = revoInfo.perc < 0.1 and "Negative text" or RandomEvosScreen.Colors.text,
 			id = evoId,
 			ordinal = i,
@@ -164,13 +165,13 @@ function RandomEvosScreen.buildPagedButtons(pokemonID, evoOptionIndex)
 				local textColor = Theme.COLORS[self.textColor]
 				local bgColor = Theme.COLORS[self.boxColors[2]]
 				-- Draw the evo percentage below the icon
-				Drawing.drawTransparentTextbox(x + centeredOffsetX - 1, y + 33, evoPercent, textColor, bgColor, shadowcolor)
+				Drawing.drawTransparentTextbox(x + centeredOffsetX - 1, y + 33*Constants.SCALE, evoPercent, textColor, bgColor, shadowcolor)
 			end,
 		}
 		table.insert(RandomEvosScreen.Pager.Buttons, button)
 	end
 
-	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2
+	local x = Constants.SCREEN.WIDTH + (Constants.SCREEN.MARGIN + 2)*Constants.SCALE
 	local y = Constants.SCREEN.MARGIN + Constants.SCREEN.LINESPACING + 2
 	local colSpacer = 3
 	local rowSpacer = 7

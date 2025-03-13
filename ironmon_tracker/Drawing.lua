@@ -77,7 +77,34 @@ Drawing.ImagePaths = {
 function Drawing.initialize()
 	Drawing.allowCachedImages = true
 	if Main.IsOnBizhawk() then
-		client.SetGameExtraPadding(0, Constants.SCREEN.UP_GAP, Constants.SCREEN.RIGHT_GAP, Constants.SCREEN.DOWN_GAP)
+		--client.SetGameExtraPadding(0, Constants.SCREEN.UP_GAP, Constants.SCREEN.RIGHT_GAP, Constants.SCREEN.DOWN_GAP)
+		gui=gui.createcanvas(Constants.SCREEN.RIGHT_GAP,Constants.SCREEN.HEIGHT)
+		local mt={
+			__index={
+				clearImageCache=gui.ClearImageCache,
+				drawEllipse=gui.DrawEllipse,
+				drawImage=function(...)
+					local args={...}
+					if #args>3 then
+						args[5]=args[5]*Constants.SCALE
+						args[4]=args[4]*Constants.SCALE
+					end
+					return gui.DrawImage(table.unpack(args))
+				end,
+				drawImageRegion=gui.DrawImageRegion,
+				drawLine=gui.DrawLine,
+				drawPixel=gui.DrawPixel,
+				drawRectangle=function(...)
+						local args={...}
+						args[3]=args[3]*Constants.SCALE
+						args[4]=args[4]*Constants.SCALE
+						return gui.DrawRectangle(table.unpack(args))
+				end,
+				drawText=gui.DrawText,
+				defaultTextBackground=gui.SetDefaultTextBackground,
+			}
+		}
+		setmetatable(gui,mt)
 		gui.defaultTextBackground(0)
 	end
 end
@@ -192,7 +219,7 @@ function Drawing.drawText(x, y, text, color, shadowcolor, size, family, style)
 	-- For some reason on Linux the text is offset by 1 pixel (tested on Bizhawk 2.9)
 	if Main.OS == "Linux" then
 		x = x + 1
-		y = y - 1
+		y = y + 1
 	end
 
 	-- Need a bit more space when drawing larger characters
@@ -240,8 +267,8 @@ end
 ---@return nil
 function Drawing.drawChevron(x, y, width, height, thickness, direction, color)
 	-- Set default values for width, height, and thickness
-	width = width or 4
-	height = height or 3
+	width = (width or 4)*Constants.SCALE
+	height = (height or 3)*Constants.SCALE
 	thickness = thickness or 1
 	-- Use the default text color if no color is specified
 	color = color or Theme.COLORS["Default text"]
@@ -306,7 +333,7 @@ function Drawing.drawChevronsVerticalIntensity(x, y, intensity, max, width, heig
 				color = Utils.inlineIf(intensity > 0, Theme.COLORS["Positive text"], Theme.COLORS["Negative text"])
 			end
 			Drawing.drawChevron(x, y, width, height, thickness, direction, color)
-			y = y - spacing
+			y = y - spacing*Constants.SCALE
 		end
 	end
 end
@@ -320,7 +347,7 @@ function Drawing.drawTransparentTextbox(x, y, text, textColor, bgColor, shadowco
 
 	local rectWidth = 1 + Utils.calcWordPixelLength(text)
 	bgColor = math.max(bgColor - 0x40000000, 0x00000000) -- minimum 0
-	gui.drawRectangle(x + 1, y + 1, rectWidth, Constants.Font.SIZE - 1, bgColor, bgColor)
+	gui.drawRectangle(x + 1, y + 1, rectWidth/Constants.SCALE, Constants.Font.SIZE/Constants.SCALE, bgColor, bgColor)
 	Drawing.drawText(x, y, text, textColor, shadowcolor)
 end
 
@@ -423,13 +450,13 @@ function Drawing.drawButton(button, shadowcolor)
 		if button.disabled then
 			textColor = Theme.COLORS["Negative text"]
 		end
-		Drawing.drawText(x + width + 1, y - 2, text, textColor, shadowcolor)
+		Drawing.drawText(x + width*Constants.SCALE + 1, y - 2, text, textColor, shadowcolor)
 
 		-- Draw a mark if the checkbox button is toggled on
 		if button.toggleState then
 			local toggleColor = (button.disabled and "Negative text") or button.toggleColor or "Positive text"
-			gui.drawLine(x + 1, y + 1, x + width - 1, y + height - 1, Theme.COLORS[toggleColor])
-			gui.drawLine(x + 1, y + height - 1, x + width - 1, y + 1, Theme.COLORS[toggleColor])
+			gui.drawLine(x + 1, y + 1, x + width*Constants.SCALE - 1, y + height*Constants.SCALE - 1, Theme.COLORS[toggleColor])
+			gui.drawLine(x + 1, y + height*Constants.SCALE - 1, x + width*Constants.SCALE - 1, y + 1, Theme.COLORS[toggleColor])
 		end
 	elseif button.type == Constants.ButtonTypes.COLORPICKER then
 		if button.themeColor ~= nil then
@@ -442,9 +469,10 @@ function Drawing.drawButton(button, shadowcolor)
 		end
 	elseif button.type == Constants.ButtonTypes.IMAGE then
 		if button.image ~= nil then
-			Drawing.drawImage(button.image, x, y)
+			Drawing.drawImage(button.image, x, y,width,height)
 		end
 	elseif button.type == Constants.ButtonTypes.PIXELIMAGE then
+		width=width*Constants.SCALE
 		Drawing.drawImageAsPixels(button.image, x, y, iconColors, shadowcolor)
 		Drawing.drawText(x + width + 1, y, text, textColor, shadowcolor)
 	elseif button.type == Constants.ButtonTypes.POKEMON_ICON then
@@ -456,15 +484,19 @@ function Drawing.drawButton(button, shadowcolor)
 			else
 				local imagePath = Drawing.getImagePath("PokemonIcon", tostring(pokemonID))
 				if imagePath then
+					if button.bst then
+						width=width/Constants.SCALE
+						height=height/Constants.SCALE
+					end
 					Drawing.drawImage(imagePath, x + (iconset.xOffset or 0), y + (iconset.yOffset or 0), width, height)
 				end
 			end
 		end
 	elseif button.type == Constants.ButtonTypes.STAT_STAGE then
-		if text == Constants.STAT_STATES[2].text or text == Constants.STAT_STATES[3].text then
-			y = y - 1 -- Move up the negative/neutral stat mark 1px
-		end
-		Drawing.drawText(x, y - 1, text, textColor, shadowcolor)
+		-- if text == Constants.STAT_STATES[2].text or text == Constants.STAT_STATES[3].text then
+		-- 	y = y - 1 -- Move up the negative/neutral stat mark 1px
+		-- end
+		Drawing.drawText(x+2*Constants.SCALE, y, text, textColor, shadowcolor,Constants.Font.SIZE-3*Constants.SCALE)
 	elseif button.type == Constants.ButtonTypes.CIRCLE then
 		-- Draw the circle's shadow and the circle border
 		if shadowcolor ~= nil then
@@ -477,7 +509,7 @@ function Drawing.drawButton(button, shadowcolor)
 		end
 		Drawing.drawText(x + 1, y, text, textColor, shadowcolor)
 	elseif button.type == Constants.ButtonTypes.ICON_BORDER then
-		local offsetX = 17
+		local offsetX = 17*Constants.SCALE
 		local offsetY = math.max(math.floor((height - Constants.SCREEN.LINESPACING) / 2), 0)
 		Drawing.drawText(x + offsetX, y + offsetY, text, textColor, shadowcolor)
 		if button.image ~= nil then
@@ -504,9 +536,33 @@ function Drawing.drawImageAsPixels(imageMatrix, x, y, colorList, shadowcolor)
 		colorList = { colorList }
 	end
 
-	for rowIndex = 1, #imageMatrix, 1 do
-		for colIndex = 1, #(imageMatrix[rowIndex]) do
-			local colorIndex = imageMatrix[rowIndex][colIndex]
+	local factor = Constants.SCALE
+    local original_height = #imageMatrix
+    local original_width = #imageMatrix[1]
+    local new_height = original_height * factor
+    local new_width = original_width * factor
+
+    -- Create an empty matrix for the upscaled image
+    local upscaled_image = {}
+    for i = 1, new_height do
+        upscaled_image[i] = {}
+    end
+
+    -- Populate the upscaled image
+    for i = 1, original_height do
+        for j = 1, original_width do
+            local pixel = imageMatrix[i][j]
+            for k = 0, factor - 1 do
+                for l = 0, factor - 1 do
+                    upscaled_image[(i - 1) * factor + k + 1][(j - 1) * factor + l + 1] = pixel
+                end
+            end
+        end
+    end
+
+	for rowIndex = 1, #upscaled_image, 1 do
+		for colIndex = 1, #(upscaled_image[rowIndex]) do
+			local colorIndex = upscaled_image[rowIndex][colIndex]
 			if colorList[colorIndex] then
 				local offsetX = colIndex - 1
 				local offsetY = rowIndex - 1
@@ -572,7 +628,7 @@ function Drawing.drawTrainerTeamPokeballs(x, y, shadowcolor)
 		-- Used to left-align the pokeballs, but allows for leaving spaces for doubles battles
 		-- In-game it's displayed as "_00_00" but this will now show "00_00" instead of "0000"
 		if drawnFirstBall then
-			offsetX = offsetX + 9
+			offsetX = offsetX + 9*Constants.SCALE
 		end
 	end
 end
@@ -922,8 +978,8 @@ end
 
 -- WIP: Beginning of some UI element creation util functions. Likely want to use this system for creating most UI elements in the future
 function Drawing.createUIElementBackButton(clickFunc, colorKey)
-	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 124
-	local y = Constants.SCREEN.MARGIN + 137
+	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 124*Constants.SCALE
+	local y = Constants.SCREEN.MARGIN + 137*Constants.SCALE
 	local width = 12
 	local height = 12
 	return {

@@ -18,7 +18,7 @@ CrashRecoveryScreen.Buttons = {
 		textColor = CrashRecoveryScreen.Colors.header,
 		iconColors = { "Negative text" },
 		getText = function(self) return Resources.CrashRecoveryScreen.StatusMessageCrash end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32, Constants.SCREEN.MARGIN + 15, 11, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32*Constants.SCALE, Constants.SCREEN.MARGIN + 15*Constants.SCALE, 11, 12 },
 		isVisible = function(self) return Main.CrashReport.crashedOccurred end,
 	},
 	StatusNoCrash = {
@@ -26,14 +26,14 @@ CrashRecoveryScreen.Buttons = {
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		textColor = CrashRecoveryScreen.Colors.header,
 		getText = function(self) return Resources.CrashRecoveryScreen.StatusMessageNoCrash end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 24, Constants.SCREEN.MARGIN + 15, 13, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 24*Constants.SCALE, Constants.SCREEN.MARGIN + 15*Constants.SCALE, 13, 12 },
 		isVisible = function(self) return not Main.CrashReport.crashedOccurred end,
 	},
 	RecoverSave = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.SPARKLES,
 		getText = function(self) return Resources.CrashRecoveryScreen.ButtonRecoverSave end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25, Constants.SCREEN.MARGIN + 80, 90, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25*Constants.SCALE, Constants.SCREEN.MARGIN + 80*Constants.SCALE, 90, 16 },
 		isVisible = function(self) return CrashRecoveryScreen.undoSaveRestorePoint == nil end,
 		updateSelf = function(self)
 			self.disabled = not CrashRecoveryScreen.isEnabled()
@@ -59,7 +59,7 @@ CrashRecoveryScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.CLOSE,
 		getText = function(self) return Resources.CrashRecoveryScreen.ButtonDismiss end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25, Constants.SCREEN.MARGIN + 101, 90, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25*Constants.SCALE, Constants.SCREEN.MARGIN + 101*Constants.SCALE, 90, 16 },
 		updateSelf = function(self)
 			self.disabled = not CrashRecoveryScreen.isEnabled()
 			self.textColor = Utils.inlineIf(self.disabled, "Negative text", CrashRecoveryScreen.Colors.text)
@@ -73,8 +73,8 @@ CrashRecoveryScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Enable crash recovery",
 		getText = function() return " " .. Resources.CrashRecoveryScreen.OptionEnableCrashRecovery end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 124, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 124, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 124*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 124*Constants.SCALE, 8, 8 },
 		toggleState = true, -- update later in initialize
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -244,9 +244,9 @@ function CrashRecoveryScreen.drawScreen()
 	gui.defaultTextBackground(Theme.COLORS[CrashRecoveryScreen.Colors.boxFill])
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[CrashRecoveryScreen.Colors.text],
 		border = Theme.COLORS[CrashRecoveryScreen.Colors.border],
 		fill = Theme.COLORS[CrashRecoveryScreen.Colors.boxFill],
@@ -276,7 +276,7 @@ function CrashRecoveryScreen.drawScreen()
 	textLineY = textLineY + Constants.SCREEN.LINESPACING + 1
 
 	-- Games Match Info
-	local columnOffsetX = 122
+	local columnOffsetX = 122*Constants.SCALE
 	local gamesMatch = Main.CrashReport.gameName ~= nil and Main.CrashReport.gameName == GameSettings.fullVersionName
 	local gameMatchIcon, gameMatchIconColor
 	if gamesMatch then

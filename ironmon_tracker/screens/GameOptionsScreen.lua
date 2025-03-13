@@ -31,14 +31,14 @@ SCREEN.Buttons = {
 	GameStats = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.GameOptionsScreen.ButtonGameStats end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 52, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 52, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Battle end,
 		onClick = function() Program.changeScreenView(StatsScreen) end,
 	},
 	GameOverLabel = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.GameOptionsScreen.LabelGameOverCondition) end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 24, 120, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 24*Constants.SCALE, 120, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.GameOver end,
 	},
 	Back = Drawing.createUIElementBackButton(function()
@@ -65,13 +65,13 @@ end
 
 function GameOptionsScreen.createTabs()
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local startY = Constants.SCREEN.MARGIN + 10
+	local startY = Constants.SCREEN.MARGIN + 10*Constants.SCALE
 	local tabPadding = 5
 
 	-- TABS
 	for _, tab in ipairs(Utils.getSortedList(SCREEN.Tabs)) do
 		local tabText = Resources.GameOptionsScreen[tab.resourceKey]
-		local tabWidth = (tabPadding * 2) + Utils.calcWordPixelLength(tabText)
+		local tabWidth = (tabPadding / 2) + Utils.calcWordPixelLength(tabText)/Constants.SCALE
 		SCREEN.Buttons["Tab" .. tab.tabKey] = {
 			type = Constants.ButtonTypes.NO_BORDER,
 			getCustomText = function(self) return tabText end,
@@ -106,14 +106,14 @@ function GameOptionsScreen.createTabs()
 				Program.redraw(true)
 			end,
 		}
-		startX = startX + tabWidth
+		startX = startX + tabWidth*Constants.SCALE
 	end
 end
 
 function GameOptionsScreen.createButtons()
 	-- BATTLE TAB
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	local startY = Constants.SCREEN.MARGIN + TAB_HEIGHT + 14
+	local startY = Constants.SCREEN.MARGIN + TAB_HEIGHT + 18*Constants.SCALE
 	local optionKeyMapBattle = {
 		{ "Auto swap to enemy", "OptionAutoSwapEnemy", },
 		{ "Show physical special icons", "OptionShowPhysicalSpecial", },
@@ -176,7 +176,7 @@ function GameOptionsScreen.createButtons()
 
 	-- OTHER TAB
 	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	startY = Constants.SCREEN.MARGIN + TAB_HEIGHT + 14
+	startY = Constants.SCREEN.MARGIN + TAB_HEIGHT + 18*Constants.SCALE
 	local optionKeyMapOther = {
 		{ "Hide stats until summary shown", "OptionHideStatsUntilSummary", },
 		{ "Show nicknames", "OptionShowNicknames", },
@@ -220,11 +220,11 @@ function GameOptionsScreen.createButtons()
 		if not self.toggleState then
 			return
 		end
-		local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
+		local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]*Constants.SCALE
 		local color = Theme.COLORS[SCREEN.Colors.highlight]
 		local warningMsg = Resources.GameOptionsScreen.LabelExtraTimeWarning
 		Drawing.drawImageAsPixels(Constants.PixelImages.WARNING, x + 10, y + h + 3, color, shadowcolor)
-		Drawing.drawText(x + 20, y + h + 2, warningMsg, color, shadowcolor)
+		Drawing.drawText(x + 20*Constants.SCALE, y + h + 2, warningMsg, color, shadowcolor)
 	end
 end
 
@@ -248,9 +248,9 @@ function GameOptionsScreen.drawScreen()
 
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10 + TAB_HEIGHT,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE + TAB_HEIGHT,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10 - TAB_HEIGHT,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE - TAB_HEIGHT,
 		text = Theme.COLORS[SCREEN.Colors.text],
 		border = Theme.COLORS[SCREEN.Colors.border],
 		fill = Theme.COLORS[SCREEN.Colors.boxFill],

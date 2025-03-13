@@ -14,12 +14,12 @@ UpdateScreen = {
 	},
 }
 
-local columnOffsetX = 73
+local columnOffsetX = 73*Constants.SCALE
 UpdateScreen.Buttons = {
 	CurrentVersion = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return Resources.UpdateScreen.VersionCurrent .. ":" end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 13, 50, 11 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 13*Constants.SCALE, 50, 11 },
 		draw = function(self, shadowcolor)
 			local offsetX = self.box[1] + columnOffsetX
 			Drawing.drawText(offsetX, self.box[2], Main.TrackerVersion, Theme.COLORS[self.textColor], shadowcolor)
@@ -28,130 +28,130 @@ UpdateScreen.Buttons = {
 	LatestVersion = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return Resources.UpdateScreen.VersionLatest .. ":" end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 25, 50, 11 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 25*Constants.SCALE, 50, 11 },
 		draw = function(self, shadowcolor)
 			local offsetX = self.box[1] + columnOffsetX
 			Drawing.drawText(offsetX, self.box[2], Main.Version.latestAvailable, Theme.COLORS[self.textColor], shadowcolor)
 
 			if not Main.isOnLatestVersion() then
 				local newText = string.format("(%s)", Resources.UpdateScreen.VersionNew)
-				Drawing.drawText(offsetX + 30, self.box[2], newText, Theme.COLORS["Positive text"], shadowcolor)
+				Drawing.drawText(offsetX + 30*Constants.SCALE, self.box[2], newText, Theme.COLORS["Positive text"], shadowcolor)
 			end
 		end,
 	},
 	ReleaseNotesLabel = {
 		type = Constants.ButtonTypes.NO_BORDER,
-		getText = function(self) return Resources.UpdateScreen.LabelRelease .. ":" end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 39, 50, 11 },
+		getText = function(self) return "This tracker cannot be updated." end,
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 39*Constants.SCALE, 50, 11 },
 	},
-	ShowHideReleaseNotes = {
-		type = Constants.ButtonTypes.FULL_BORDER,
-		getText = function(self)
-			if UpdateScreen.showNotes then
-				return Resources.UpdateScreen.ButtonHide
-			else
-				return Resources.UpdateScreen.ButtonShow
-			end
-		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + columnOffsetX + 2, Constants.SCREEN.MARGIN + 39, 28, 11 },
-		onClick = function(self)
-			UpdateScreen.showNotes = not UpdateScreen.showNotes
-			if UpdateScreen.showNotes and #UpdateScreen.Pager.Notes == 0 then
-				UpdateScreen.buildOutPagedButtons()
-			end
-			Program.redraw(true)
-		end
-	},
-	CheckForUpdates = {
-		type = Constants.ButtonTypes.ICON_BORDER,
-		image = Constants.PixelImages.MAGNIFYING_GLASS,
-		getText = function(self)
-			if self.updateStatus == "Unchecked" then
-				return Resources.UpdateScreen.ButtonCheckForUpdates
-			else
-				return Resources.UpdateScreen.ButtonNoUpdates
-			end
-		end,
-		updateStatus = "Unchecked", -- checked later when clicked
-		reset = function(self)
-			self.updateStatus = "Unchecked"
-			self.textColor = UpdateScreen.Colors.text
-			self.image = Constants.PixelImages.TRIANGLE_DOWN
-		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 15, Constants.SCREEN.MARGIN + 60, 110, 16 },
-		isVisible = function(self) return UpdateScreen.currentState == UpdateScreen.States.NEEDS_CHECK end,
-		onClick = function(self)
-			-- Don't check for updates if they've already been checked while on this screen (resets after clicking Back)
-			if self.updateStatus == "Unchecked" then
-				Main.CheckForVersionUpdate(true)
-				StartupScreen.refreshButtons()
-			end
+	-- ShowHideReleaseNotes = {
+	-- 	type = Constants.ButtonTypes.FULL_BORDER,
+	-- 	getText = function(self)
+	-- 		if UpdateScreen.showNotes then
+	-- 			return Resources.UpdateScreen.ButtonHide
+	-- 		else
+	-- 			return Resources.UpdateScreen.ButtonShow
+	-- 		end
+	-- 	end,
+	-- 	box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + columnOffsetX + 2, Constants.SCREEN.MARGIN + 39, 28, 11 },
+	-- 	onClick = function(self)
+	-- 		UpdateScreen.showNotes = not UpdateScreen.showNotes
+	-- 		if UpdateScreen.showNotes and #UpdateScreen.Pager.Notes == 0 then
+	-- 			UpdateScreen.buildOutPagedButtons()
+	-- 		end
+	-- 		Program.redraw(true)
+	-- 	end
+	-- },
+	-- CheckForUpdates = {
+	-- 	type = Constants.ButtonTypes.ICON_BORDER,
+	-- 	image = Constants.PixelImages.MAGNIFYING_GLASS,
+	-- 	getText = function(self)
+	-- 		if self.updateStatus == "Unchecked" then
+	-- 			return Resources.UpdateScreen.ButtonCheckForUpdates
+	-- 		else
+	-- 			return Resources.UpdateScreen.ButtonNoUpdates
+	-- 		end
+	-- 	end,
+	-- 	updateStatus = "Unchecked", -- checked later when clicked
+	-- 	reset = function(self)
+	-- 		self.updateStatus = "Unchecked"
+	-- 		self.textColor = UpdateScreen.Colors.text
+	-- 		self.image = Constants.PixelImages.TRIANGLE_DOWN
+	-- 	end,
+	-- 	box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 15, Constants.SCREEN.MARGIN + 60, 110, 16 },
+	-- 	isVisible = function(self) return UpdateScreen.currentState == UpdateScreen.States.NEEDS_CHECK end,
+	-- 	onClick = function(self)
+	-- 		-- Don't check for updates if they've already been checked while on this screen (resets after clicking Back)
+	-- 		if self.updateStatus == "Unchecked" then
+	-- 			Main.CheckForVersionUpdate(true)
+	-- 			StartupScreen.refreshButtons()
+	-- 		end
 
-			if not Main.isOnLatestVersion() then
-				UpdateScreen.currentState = UpdateScreen.States.NOT_UPDATED
-			else
-				self.updateStatus = "Unavailable"
-				self.textColor = "Intermediate text"
-				self.image = Constants.PixelImages.CLOSE
-			end
-			Program.redraw(true)
-		end
-	},
-	InstallUpdate = {
-		type = Constants.ButtonTypes.ICON_BORDER,
-		image = Constants.PixelImages.INSTALL_BOX,
-		getText = function(self)
-			-- Auto-update not supported on Linux Bizhawk 2.8, Lua 5.1
-			if not UpdateScreen.isUpdateSupported() then
-				return Resources.UpdateScreen.ButtonOpenDownload
-			elseif Options["Dev branch updates"] then
-				return Resources.UpdateScreen.ButtonInstallFromDev
-			else
-				return Resources.UpdateScreen.ButtonInstallNow
-			end
-		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25, Constants.SCREEN.MARGIN + 73, 90, 16 },
-		isVisible = function() return UpdateScreen.currentState == UpdateScreen.States.NOT_UPDATED end,
-		onClick = function(self)
-			if not UpdateScreen.isUpdateSupported() then
-				-- In such a case, open a browser window with a link for manual download...
-				Utils.openBrowserWindow(FileManager.Urls.DOWNLOAD, Resources.UpdateScreen.MessageCheckConsole)
-				-- ... and swap back to main Tracker screen.
-				UpdateScreen.exitScreen()
-			else
-				UpdateScreen.beginAutoUpdate()
-			end
-		end
-	},
-	IgnoreUpdate = {
-		type = Constants.ButtonTypes.ICON_BORDER,
-		image = Constants.PixelImages.CLOSE,
-		getText = function(self) return Resources.UpdateScreen.ButtonIgnoreUpdate end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25, Constants.SCREEN.MARGIN + 95, 90, 16 },
-		isVisible = function() return UpdateScreen.currentState == UpdateScreen.States.NOT_UPDATED end,
-		onClick = function() UpdateScreen.exitScreen() end
-	},
-	DevOptIn = {
-		type = Constants.ButtonTypes.CHECKBOX,
-		optionKey = "Dev branch updates",
-		getText = function(self) return " " .. Resources.UpdateScreen.CheckboxDevBranch end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 137, 98, 10 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 137, 8, 8 },
-		toggleState = false, -- update later in initialize
-		isVisible = function(self) return UpdateScreen.currentState == UpdateScreen.States.NOT_UPDATED or UpdateScreen.currentState == UpdateScreen.States.NEEDS_CHECK end,
-		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
-		onClick = function(self)
-			self.toggleState = Options.toggleSetting(self.optionKey)
-			UpdateOrInstall.Dev.enabled = Options[self.optionKey]
-			-- If option changes from OFF to ON (always allow updates for dev) or an update is available
-			if self.toggleState or not Main.isOnLatestVersion() then
-				UpdateScreen.currentState = UpdateScreen.States.NOT_UPDATED
-			else
-				UpdateScreen.currentState = UpdateScreen.States.NEEDS_CHECK
-			end
-			Program.redraw(true)
-		end
-	},
+	-- 		if not Main.isOnLatestVersion() then
+	-- 			UpdateScreen.currentState = UpdateScreen.States.NOT_UPDATED
+	-- 		else
+	-- 			self.updateStatus = "Unavailable"
+	-- 			self.textColor = "Intermediate text"
+	-- 			self.image = Constants.PixelImages.CLOSE
+	-- 		end
+	-- 		Program.redraw(true)
+	-- 	end
+	-- },
+	-- InstallUpdate = {
+	-- 	type = Constants.ButtonTypes.ICON_BORDER,
+	-- 	image = Constants.PixelImages.INSTALL_BOX,
+	-- 	getText = function(self)
+	-- 		-- Auto-update not supported on Linux Bizhawk 2.8, Lua 5.1
+	-- 		if not UpdateScreen.isUpdateSupported() then
+	-- 			return Resources.UpdateScreen.ButtonOpenDownload
+	-- 		elseif Options["Dev branch updates"] then
+	-- 			return Resources.UpdateScreen.ButtonInstallFromDev
+	-- 		else
+	-- 			return Resources.UpdateScreen.ButtonInstallNow
+	-- 		end
+	-- 	end,
+	-- 	box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25, Constants.SCREEN.MARGIN + 73, 90, 16 },
+	-- 	isVisible = function() return UpdateScreen.currentState == UpdateScreen.States.NOT_UPDATED end,
+	-- 	onClick = function(self)
+	-- 		if not UpdateScreen.isUpdateSupported() then
+	-- 			-- In such a case, open a browser window with a link for manual download...
+	-- 			Utils.openBrowserWindow(FileManager.Urls.DOWNLOAD, Resources.UpdateScreen.MessageCheckConsole)
+	-- 			-- ... and swap back to main Tracker screen.
+	-- 			UpdateScreen.exitScreen()
+	-- 		else
+	-- 			UpdateScreen.beginAutoUpdate()
+	-- 		end
+	-- 	end
+	-- },
+	-- IgnoreUpdate = {
+	-- 	type = Constants.ButtonTypes.ICON_BORDER,
+	-- 	image = Constants.PixelImages.CLOSE,
+	-- 	getText = function(self) return Resources.UpdateScreen.ButtonIgnoreUpdate end,
+	-- 	box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 25, Constants.SCREEN.MARGIN + 95, 90, 16 },
+	-- 	isVisible = function() return UpdateScreen.currentState == UpdateScreen.States.NOT_UPDATED end,
+	-- 	onClick = function() UpdateScreen.exitScreen() end
+	-- },
+	-- DevOptIn = {
+	-- 	type = Constants.ButtonTypes.CHECKBOX,
+	-- 	optionKey = "Dev branch updates",
+	-- 	getText = function(self) return " " .. Resources.UpdateScreen.CheckboxDevBranch end,
+	-- 	clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 137, 98, 10 },
+	-- 	box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 137, 8, 8 },
+	-- 	toggleState = false, -- update later in initialize
+	-- 	isVisible = function(self) return UpdateScreen.currentState == UpdateScreen.States.NOT_UPDATED or UpdateScreen.currentState == UpdateScreen.States.NEEDS_CHECK end,
+	-- 	updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
+	-- 	onClick = function(self)
+	-- 		self.toggleState = Options.toggleSetting(self.optionKey)
+	-- 		UpdateOrInstall.Dev.enabled = Options[self.optionKey]
+	-- 		-- If option changes from OFF to ON (always allow updates for dev) or an update is available
+	-- 		if self.toggleState or not Main.isOnLatestVersion() then
+	-- 			UpdateScreen.currentState = UpdateScreen.States.NOT_UPDATED
+	-- 		else
+	-- 			UpdateScreen.currentState = UpdateScreen.States.NEEDS_CHECK
+	-- 		end
+	-- 		Program.redraw(true)
+	-- 	end
+	-- },
 	Back = Drawing.createUIElementBackButton(function()
 		-- Don't allow navigating off of this page if an update is in progress
 		if not Drawing.allowCachedImages then return end
@@ -256,13 +256,13 @@ end
 
 -- Auto-update not supported on Linux Bizhawk 2.8 (Lua 5.1)
 function UpdateScreen.isUpdateSupported()
-	return Main.OS == "Windows" or Main.emulator ~= Main.EMU.BIZHAWK28
+	return Main.OS == "Windows"
 end
 
 function UpdateScreen.exitScreen()
 	Main.Version.showUpdate = false
 	Main.SaveSettings(true)
-	UpdateScreen.Buttons.CheckForUpdates:reset()
+	--UpdateScreen.Buttons.CheckForUpdates:reset()
 	UpdateScreen.showNotes = false
 	UpdateScreen.Pager.currentPage = 1
 	Program.changeScreenView(NavigationMenu)
@@ -374,9 +374,9 @@ function UpdateScreen.drawScreen()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[UpdateScreen.Colors.text],
 		border = Theme.COLORS[UpdateScreen.Colors.border],
 		fill = Theme.COLORS[UpdateScreen.Colors.boxFill],

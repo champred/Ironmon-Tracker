@@ -4,7 +4,7 @@ SingleExtensionScreen = {
 		border = "Lower box border",
 		boxFill = "Lower box background",
 	},
-	column2offsetX = 50,
+	column2offsetX = 50*Constants.SCALE,
 	extension = nil,
 	extensionKey = nil,
 }
@@ -20,8 +20,8 @@ SingleExtensionScreen.Buttons = {
 			end
 		end,
 		toggleState = false,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + SingleExtensionScreen.column2offsetX, Constants.SCREEN.MARGIN + 39, 34, 10 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + SingleExtensionScreen.column2offsetX, Constants.SCREEN.MARGIN + 39, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + SingleExtensionScreen.column2offsetX, Constants.SCREEN.MARGIN + 39*Constants.SCALE, 34, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + SingleExtensionScreen.column2offsetX, Constants.SCREEN.MARGIN + 39*Constants.SCALE, 8, 8 },
 		updateSelf = function(self)
 			if SingleExtensionScreen.extension == nil then return end
 			if SingleExtensionScreen.extension.isEnabled == true then
@@ -59,7 +59,7 @@ SingleExtensionScreen.Buttons = {
 			end
 		end,
 		updateStatus = "Unchecked", -- checked later when clicked
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 120, 76, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 120*Constants.SCALE, 76, 11 },
 		isVisible = function(self)
 			return SingleExtensionScreen.extension ~= nil and SingleExtensionScreen.extension.selfObject.checkForUpdates ~= nil
 		end,
@@ -90,7 +90,7 @@ SingleExtensionScreen.Buttons = {
 	ViewOnline = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.SingleExtensionScreen.ButtonViewOnline end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 51, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 51, 11 },
 		isVisible = function(self)
 			return SingleExtensionScreen.extension ~= nil and SingleExtensionScreen.extension.selfObject.url ~= nil
 		end,
@@ -103,7 +103,7 @@ SingleExtensionScreen.Buttons = {
 	Options = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.SingleExtensionScreen.ButtonOptions end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 59, Constants.SCREEN.MARGIN + 135, 35, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 59*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 35, 11 },
 		isVisible = function(self)
 			return SingleExtensionScreen.extension ~= nil and type(SingleExtensionScreen.extension.selfObject.configureOptions) == "function"
 		end,

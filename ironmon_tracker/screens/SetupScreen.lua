@@ -38,7 +38,7 @@ SCREEN.Buttons = {
 			local iconset = Options.getIconSet()
 			return string.format("%s:  %s", Resources.SetupScreen.PokemonIconSetLabel, iconset.name)
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 24, 65, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 24*Constants.SCALE, 65, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.General end,
 	},
 	PortraitAuthor = {
@@ -47,12 +47,12 @@ SCREEN.Buttons = {
 			local iconset = Options.getIconSet()
 			return string.format("%s:  %s", Resources.SetupScreen.PokemonIconSetAuthor, iconset.author)
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 34, 65, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 34*Constants.SCALE, 65, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.General end,
 	},
 	PokemonIcon = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 52, Constants.SCREEN.MARGIN + 39, 32, 32 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 52*Constants.SCALE, Constants.SCREEN.MARGIN + 39*Constants.SCALE, 32, 32 },
 		pokemonID = 1,
 		getIconId = function(self)
 			local animType = Options["Allow sprites to walk"] and SpriteData.Types.Walk or SpriteData.Types.Idle
@@ -71,7 +71,7 @@ SCREEN.Buttons = {
 	CycleIconForward = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 94, Constants.SCREEN.MARGIN + 54, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 94*Constants.SCALE, Constants.SCREEN.MARGIN + 54*Constants.SCALE, 10, 10, },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.General end,
 		onClick = function(self)
 			local currIndex = tonumber(Options["Pokemon icon set"]) or 1
@@ -87,7 +87,7 @@ SCREEN.Buttons = {
 	CycleIconBackward = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 34, Constants.SCREEN.MARGIN + 54, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 34*Constants.SCALE, Constants.SCREEN.MARGIN + 54*Constants.SCALE, 10, 10, },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.General end,
 		onClick = function(self)
 			local currIndex = tonumber(Options["Pokemon icon set"]) or 1
@@ -105,7 +105,7 @@ SCREEN.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Allow sprites to walk",
 		getText = function(self) return Resources.SetupScreen.OptionAllowSpritesToWalk end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 67, 33, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 67*Constants.SCALE, 33, 8 },
 		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 67, 8, 8 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.General and Options.getIconSet().isAnimated end,
 		toggleState = true,
@@ -122,7 +122,7 @@ SCREEN.Buttons = {
 	ManageData = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.SetupScreen.ButtonManageData end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 60, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 60, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.General end,
 		onClick = function() Program.changeScreenView(TrackedDataScreen) end
 	},
@@ -132,8 +132,8 @@ SCREEN.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Allow carousel rotation",
 		getText = function(self) return " " .. Resources.SetupScreen.OptionAllowCarouselRotation end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26*Constants.SCALE, 8, 8 },
 		toggleState = true,
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Carousel end,
@@ -148,8 +148,8 @@ SCREEN.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Override Button Mode to LR",
 		getText = function(self) return " " .. Resources.SetupScreen.OptionOverrideButtonModeLR end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 26*Constants.SCALE, 8, 8 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and not SCREEN.inProcessOfBinding() end,
 		toggleState = true,
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
@@ -164,7 +164,7 @@ SCREEN.Buttons = {
 	ControlsEditAll = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.SetupScreen.ButtonEditAll end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 35, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 35, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and not SCREEN.inProcessOfBinding() end,
 		onClick = function() SCREEN.openEditControlsWindow() end,
 	},
@@ -177,7 +177,7 @@ SCREEN.Buttons = {
 				return "Restore Defaults" or Resources.TrackedDataScreen.ButtonClearData
 			end
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 43, Constants.SCREEN.MARGIN + 135, 72, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 43*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 72, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and not SCREEN.inProcessOfBinding() end,
 		confirmReset = false,
 		updateSelf = function(self)
@@ -207,7 +207,7 @@ SCREEN.Buttons = {
 	ControlBindingChosenButton = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.SetupScreen.LabelCurrentControllerBinding) end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 27, 11, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 27*Constants.SCALE, 11, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() end,
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
@@ -231,7 +231,7 @@ SCREEN.Buttons = {
 	ControlBindingNewButton = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.SetupScreen.LabelNewControllerBinding) end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 67, 11, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 67*Constants.SCALE, 11, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() end,
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
@@ -250,13 +250,13 @@ SCREEN.Buttons = {
 	ControlBindingInstructions = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return Resources.SetupScreen.LabelPressControllerButtons end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 106, 11, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 106*Constants.SCALE, 11, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() end,
 	},
 	ControlBindingNumAllowed = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s: %s", Resources.SetupScreen.LabelButtonsAllowed, SCREEN.currentButtonToBind.allowedInputs) end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 117, 11, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2, Constants.SCREEN.MARGIN + 117*Constants.SCALE, 11, 11 },
 		isVisible = function(self)
 			return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() and SCREEN.currentButtonToBind.allowedInputs < 999
 		end,
@@ -264,7 +264,7 @@ SCREEN.Buttons = {
 	ControlBindingUnbind = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return "Unbind" or Resources.AllScreens.Save end, -- TODO: Language
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 101, Constants.SCREEN.MARGIN + 93, 34, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 101*Constants.SCALE, Constants.SCREEN.MARGIN + 93*Constants.SCALE, 34, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() end,
 		onClick = function()
 			Options.CONTROLS[SCREEN.currentButtonToBind.optionKey] = Input.NO_KEY_MAPPING
@@ -277,7 +277,7 @@ SCREEN.Buttons = {
 	ControlBindingSave = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return " " .. Resources.AllScreens.Save end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 27, Constants.SCREEN.MARGIN + 135, 36, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 27*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 36, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() end,
 		onClick = function()
 			if #SCREEN.currentInputsPressed > 0 then
@@ -293,7 +293,7 @@ SCREEN.Buttons = {
 	ControlBindingCancel = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return " " .. Resources.AllScreens.Cancel end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 72, Constants.SCREEN.MARGIN + 135, 36, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 72*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 36, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Controls and SCREEN.inProcessOfBinding() end,
 		onClick = function()
 			SCREEN.currentButtonToBind = nil
@@ -360,7 +360,7 @@ end
 
 function SetupScreen.createTabs()
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local startY = Constants.SCREEN.MARGIN + 10
+	local startY = Constants.SCREEN.MARGIN + 10*Constants.SCALE
 	local tabPadding = 6
 
 	for _, tab in ipairs(Utils.getSortedList(SCREEN.Tabs)) do
@@ -372,7 +372,7 @@ function SetupScreen.createTabs()
 			box = {
 				startX,
 				startY,
-				(tabPadding * 2) + Utils.calcWordPixelLength(Resources.SetupScreen[tab.resourceKey]),
+				(tabPadding / 2) + Utils.calcWordPixelLength(Resources.SetupScreen[tab.resourceKey])/Constants.SCALE,
 				TAB_HEIGHT
 			},
 			updateSelf = function(self)
@@ -413,7 +413,7 @@ end
 function SetupScreen.createButtons()
 	-- TAB: GENERAL
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	local startY = Constants.SCREEN.MARGIN + 78
+	local startY = Constants.SCREEN.MARGIN + 78*Constants.SCALE
 
 	local optionKeyMap = {
 		{ "Show random ball picker", "OptionShowRandomBallPicker", },
@@ -452,7 +452,7 @@ function SetupScreen.createButtons()
 
 	-- TAB: CAROUSEL
 	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	startY = Constants.SCREEN.MARGIN + 38
+	startY = Constants.SCREEN.MARGIN + 38*Constants.SCALE
 
 	SCREEN.Buttons.CarouselSpeedHeader = {
 		type = Constants.ButtonTypes.NO_BORDER,
@@ -465,7 +465,7 @@ function SetupScreen.createButtons()
 		},
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Carousel end,
 	}
-	startX = startX + 32
+	startX = startX + 32*Constants.SCALE
 	for _, speedOption in ipairs(Utils.getSortedList(Options.CarouselSpeedMap)) do
 		local speedLabel = speedOption.optionKey .. "x"
 		local speedWidth = Utils.calcWordPixelLength(speedLabel) + 5
@@ -482,7 +482,7 @@ function SetupScreen.createButtons()
 			draw = function(self, shadowcolor)
 				if self.isSelected then
 					local color = Theme.COLORS[LogTabRouteDetails.Colors.highlight]
-					Drawing.drawSelectionIndicators(self.box[1], self.box[2], self.box[3], self.box[4], color, 1, 5, 1)
+					--Drawing.drawSelectionIndicators(self.box[1], self.box[2], self.box[3], self.box[4], color, 1, 5, 1)
 				end
 			end,
 			onClick = function(self)
@@ -561,8 +561,8 @@ function SetupScreen.createButtons()
 		{ "Previous page", "PromptEditControllerPreviousPage", },
 	}
 
-	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 13
-	startY = Constants.SCREEN.MARGIN + 40
+	startX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 13*Constants.SCALE
+	startY = Constants.SCREEN.MARGIN + 40*Constants.SCALE
 
 	SCREEN.Buttons["Control" .. "Load next seed"] = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
@@ -591,13 +591,13 @@ function SetupScreen.createButtons()
 			controlBinding = controlBinding:gsub(" ", ""):gsub(",", " + ") -- Format as "A + B + START"
 			local centerX = Utils.getCenteredTextX(controlBinding, Constants.SCREEN.RIGHT_GAP) - 2
 			Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, y - 2, controlLabel, Theme.COLORS[SCREEN.Colors.text], shadowcolor)
-			Drawing.drawText(Constants.SCREEN.WIDTH + centerX, y + 8, controlBinding, bindingColor, shadowcolor, nil, nil, "underline")
+			Drawing.drawText(Constants.SCREEN.WIDTH + centerX, y + 8*Constants.SCALE, controlBinding, bindingColor, shadowcolor, nil, nil, "underline")
 		end,
 	}
 
 	startY = startY + (Constants.SCREEN.LINESPACING * 2)
 
-	local COL2_X_OFFSET = 86
+	local COL2_X_OFFSET = 86*Constants.SCALE
 	for _, controlTuple in ipairs(controlKeyMap) do
 		SCREEN.Buttons["Control" .. controlTuple[1]] = {
 			type = Constants.ButtonTypes.PIXELIMAGE,
@@ -734,7 +734,7 @@ end
 function SetupScreen.drawScreen()
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
 		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
 		text = Theme.COLORS[SCREEN.Colors.text],

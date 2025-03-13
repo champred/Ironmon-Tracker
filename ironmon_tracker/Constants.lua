@@ -2,20 +2,21 @@ Constants = {}
 
 Constants.BLANKLINE = "---"
 Constants.HIDDEN_INFO = "?"
+Constants.SCALE = client.getwindowsize()
 
 Constants.SCREEN = {
-	HEIGHT = 160,
-	WIDTH = 240,
+	HEIGHT = 160*Constants.SCALE,
+	WIDTH = 0,
 	UP_GAP = 0,
 	DOWN_GAP = 0,
-	RIGHT_GAP = 150,
+	RIGHT_GAP = 150*Constants.SCALE,
 	BOTTOM_AREA = 70,
 	MARGIN = 5,
-	LINESPACING = 11,
+	LINESPACING = 11*Constants.SCALE,
 }
 
 Constants.Font = {
-	SIZE = 9,
+	SIZE = 9*Constants.SCALE,
 	HEADERSIZE = 15,
 	FAMILY = "Franklin Gothic Medium",
 	STYLE = "regular", -- Style options are: regular, bold, italic, strikethrough, underline

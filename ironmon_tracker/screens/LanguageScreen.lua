@@ -14,7 +14,7 @@ LanguageScreen.Buttons = {
 			local displayLang = (Resources.currentLanguage or {}).DisplayName or Constants.BLANKLINE
 			return string.format("%s:  %s", Resources.LanguageScreen.DisplayLanguage, displayLang)
 		end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 12, 70, 11 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 12*Constants.SCALE, 70, 11 },
 	},
 	AutodetectLanguageOption = {
 		type = Constants.ButtonTypes.CHECKBOX,
@@ -22,7 +22,7 @@ LanguageScreen.Buttons = {
 		getText = function(self) return Resources.LanguageScreen.AutodetectSetting end,
 		-- The y-position for this button is calculated later in createLanguageButtons()
 		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 120, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 120, 8, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 120*Constants.SCALE, 8, 8 },
 		toggleState = true,
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -39,7 +39,7 @@ LanguageScreen.Buttons = {
 	HelpContribute = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.LanguageScreen.ButtonHelpContribute end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 67, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 67, 11 },
 		onClick = function() Utils.openBrowserWindow(FileManager.Urls.DISCUSSIONS) end
 	},
 	Back = Drawing.createUIElementBackButton(function() Program.changeScreenView(NavigationMenu) end),
@@ -82,7 +82,7 @@ function LanguageScreen.createLanguageButtons()
 	local btnHeight = 16
 	local spacer = 6
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	local startY = Constants.SCREEN.MARGIN + 22 + spacer
+	local startY = Constants.SCREEN.MARGIN + 22*Constants.SCALE + spacer
 	for i, language in ipairs(availableLanguages) do
 		local button = {
 			type = Constants.ButtonTypes.ICON_BORDER,
@@ -109,16 +109,16 @@ function LanguageScreen.createLanguageButtons()
 		table.insert(LanguageScreen.Buttons, button)
 
 		if i % 2 == 1 then -- left column
-			startX = startX + btnWidth + spacer
+			startX = startX + btnWidth*Constants.SCALE + spacer
 		else -- right column
-			startY = startY + btnHeight + spacer
-			startX = startX - btnWidth - spacer
+			startY = startY + btnHeight*Constants.SCALE + spacer
+			startX = startX - btnWidth*Constants.SCALE - spacer
 		end
 	end
 
 	-- Shift the autodetect option below the last created box
 	local lastButton = LanguageScreen.Buttons[#LanguageScreen.Buttons]
-	startY = lastButton.box[2] + lastButton.box[4] + 7
+	startY = lastButton.box[2] + lastButton.box[4] + 7*Constants.SCALE
 	LanguageScreen.Buttons.AutodetectLanguageOption.box[2] = startY
 	LanguageScreen.Buttons.AutodetectLanguageOption.clickableArea[2] = startY
 end
@@ -134,9 +134,9 @@ function LanguageScreen.drawScreen()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[LanguageScreen.Colors.text],
 		border = Theme.COLORS[LanguageScreen.Colors.border],
 		fill = Theme.COLORS[LanguageScreen.Colors.boxFill],

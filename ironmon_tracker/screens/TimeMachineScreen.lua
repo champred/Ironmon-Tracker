@@ -20,7 +20,7 @@ TimeMachineScreen.Pager = {
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer)
 		table.sort(self.Buttons, self.defaultSort)
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffY = Constants.SCREEN.HEIGHT - 40*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -49,8 +49,8 @@ TimeMachineScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		optionKey = "Enable restore points",
 		getText = function() return " " .. Resources.TimeMachineScreen.OptionEnableRestorePoints end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14*Constants.SCALE, Constants.SCREEN.RIGHT_GAP - 12, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 8, 8 },
 		toggleState = true, -- update later in initialize
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -61,13 +61,13 @@ TimeMachineScreen.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function() return TimeMachineScreen.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return TimeMachineScreen.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 39, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 39*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return TimeMachineScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			TimeMachineScreen.Pager:prevPage()
@@ -76,7 +76,7 @@ TimeMachineScreen.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return TimeMachineScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			TimeMachineScreen.Pager:nextPage()
@@ -85,7 +85,7 @@ TimeMachineScreen.Buttons = {
 	CreateNewRestorePoint = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.TimeMachineScreen.ButtonCreate end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 30, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 30, 11 },
 		onClick = function(self)
 			TimeMachineScreen.createRestorePoint()
 			TimeMachineScreen.buildOutPagedButtons()
@@ -255,7 +255,7 @@ function TimeMachineScreen.buildOutPagedButtons()
 			restorePointId = restorePoint.id or 0,
 			timestamp = restorePoint.timestamp or os.time(),
 			confirmedRestore = false,
-			dimensions = { width = 124, height = 11, },
+			dimensions = { width = 124*Constants.SCALE, height = 24, },
 			isVisible = function(self) return TimeMachineScreen.Pager.currentPage == self.pageVisible end,
 			updateSelf = function(self)
 				if self.confirmedRestore then
@@ -293,7 +293,7 @@ function TimeMachineScreen.buildOutPagedButtons()
 	end
 
 	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8
-	local y = Constants.SCREEN.MARGIN + 48
+	local y = Constants.SCREEN.MARGIN + 48*Constants.SCALE
 	local colSpacer = 1
 	local rowSpacer = Constants.SCREEN.LINESPACING + 7
 	TimeMachineScreen.Pager:realignButtonsToGrid(x, y, colSpacer, rowSpacer)
@@ -314,9 +314,9 @@ function TimeMachineScreen.drawScreen()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[TimeMachineScreen.Colors.text],
 		border = Theme.COLORS[TimeMachineScreen.Colors.border],
 		fill = Theme.COLORS[TimeMachineScreen.Colors.boxFill],

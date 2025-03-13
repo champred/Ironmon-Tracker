@@ -4,13 +4,13 @@ StartupScreen.Buttons = {
 	SettingsGear = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.GEAR,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 130, 8, 7, 7 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 130*Constants.SCALE, 8, 7, 7 },
 		onClick = function(self) Program.changeScreenView(NavigationMenu) end
 	},
 	PokemonIcon = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 100, Constants.SCREEN.MARGIN + 14, 31, 28 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 100, Constants.SCREEN.MARGIN + 10, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 100*Constants.SCALE, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 31, 28 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 100*Constants.SCALE, Constants.SCREEN.MARGIN + 10*Constants.SCALE, 32, 32 },
 		pokemonID = 0,
 		getIconId = function(self) return self.pokemonID, SpriteData.Types.Walk end,
 		onClick = function(self) StartupScreen.openChoosePokemonWindow() end
@@ -20,8 +20,8 @@ StartupScreen.Buttons = {
 		getText = function(self) return Utils.inlineIf(self.newVersionAvailable, "*", "") end,
 		textColor = "Positive text",
 		newVersionAvailable = false,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54, Constants.SCREEN.MARGIN + 12, 30, 10 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54, Constants.SCREEN.MARGIN + 12, 10, 10 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54*Constants.SCALE, Constants.SCREEN.MARGIN + 12*Constants.SCALE, 30, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54*Constants.SCALE, Constants.SCREEN.MARGIN + 12*Constants.SCALE, 10, 10 },
 		isVisible = function(self) return self.newVersionAvailable end,
 		updateSelf = function(self)
 			self.newVersionAvailable = not Main.isOnLatestVersion()
@@ -35,8 +35,8 @@ StartupScreen.Buttons = {
 	AttemptsCount = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return tostring(Main.currentSeed) or Constants.BLANKLINE end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54, Constants.SCREEN.MARGIN + 37, 33, 11 },
-		isVisible = function() return Main.currentSeed > 1 end,
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54*Constants.SCALE, Constants.SCREEN.MARGIN + 37*Constants.SCALE, 33, 11 },
+		isVisible = function() return Main.currentSeed > 0 end,
 		onClick = function(self) StreamerScreen.openEditAttemptsWindow() end
 	},
 	NotesAreaEdit = {
@@ -44,30 +44,30 @@ StartupScreen.Buttons = {
 		image = Constants.PixelImages.NOTEPAD,
 		textColor = "Lower box text",
 		boxColors = { "Lower box border", "Lower box background" },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 128, Constants.SCREEN.MARGIN + 137, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 128*Constants.SCALE, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 10, 10 },
 		isVisible = function() return not Options["Show on new game screen"] and Utils.isNilOrEmpty(Options["Welcome message"]) end,
 		onClick = function(self) Program.changeScreenView(StreamerScreen) end
 	},
 	PokemonFavorite1 = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8, 90, 32, 44 },
-		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8, 86, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8*Constants.SCALE, 90*Constants.SCALE, 32, 44 },
+		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 8*Constants.SCALE, 86*Constants.SCALE, 32, 32 },
 		isVisible = function(self) return Options["Show on new game screen"] end,
 		getIconId = function(self) return StreamerScreen.Buttons.PokemonFavorite1:getIconId() end,
 		onClick = function(self) StreamerScreen.Buttons.PokemonFavorite1:onClick() end,
 	},
 	PokemonFavorite2 = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53, 90, 32, 44 },
-		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53, 86, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53*Constants.SCALE, 90*Constants.SCALE, 32, 44 },
+		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 53*Constants.SCALE, 86*Constants.SCALE, 32, 32 },
 		isVisible = function(self) return Options["Show on new game screen"] end,
 		getIconId = function(self) return StreamerScreen.Buttons.PokemonFavorite2:getIconId() end,
 		onClick = function(self) StreamerScreen.Buttons.PokemonFavorite2:onClick() end,
 	},
 	PokemonFavorite3 = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98, 90, 32, 44 },
-		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98, 86, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98*Constants.SCALE, 90*Constants.SCALE, 32, 44 },
+		box = 			{ Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 98*Constants.SCALE, 86*Constants.SCALE, 32, 32 },
 		isVisible = function(self) return Options["Show on new game screen"] end,
 		getIconId = function(self) return StreamerScreen.Buttons.PokemonFavorite3:getIconId() end,
 		onClick = function(self) StreamerScreen.Buttons.PokemonFavorite3:onClick() end,
@@ -200,7 +200,7 @@ function StartupScreen.drawScreen()
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
 		y = Constants.SCREEN.MARGIN,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = 72,
+		height = 30*Constants.SCALE,
 		text = Theme.COLORS["Default text"],
 		border = Theme.COLORS["Upper box border"],
 		fill = Theme.COLORS["Upper box background"],
@@ -208,15 +208,15 @@ function StartupScreen.drawScreen()
 	}
 	local botBox = {
 		x = topBox.x,
-		y = topBox.y + topBox.height + 12,
+		y = topBox.y + topBox.height*2+22*Constants.SCALE,
 		width = topBox.width,
-		height = Constants.SCREEN.HEIGHT - topBox.height - 22,
+		height = topBox.height*2 - 22,
 		text = Theme.COLORS["Lower box text"],
 		border = Theme.COLORS["Lower box border"],
 		fill = Theme.COLORS["Lower box background"],
 		shadow = Utils.calcShadowColor(Theme.COLORS["Lower box background"]),
 	}
-	local topcolX = topBox.x + 55
+	local topcolX = topBox.x + 55*Constants.SCALE
 	local textLineY = topBox.y + 1
 	local linespacing = Constants.SCREEN.LINESPACING + 1
 
@@ -264,11 +264,11 @@ function StartupScreen.drawScreen()
 	if showCustomWelcome then
 		if Options["Show on new game screen"] then
 			local bgShadow = Utils.calcShadowColor(Theme.COLORS["Main background"])
-			Drawing.drawText(botBox.x + 1, botBox.y - 11, Resources.StartupScreen.HeaderFavorites, Theme.COLORS["Header text"], bgShadow)
+			Drawing.drawText(botBox.x + 1, botBox.y - 11*Constants.SCALE, Resources.StartupScreen.HeaderFavorites, Theme.COLORS["Header text"], bgShadow)
 		end
 	else
 		local bgShadow = Utils.calcShadowColor(Theme.COLORS["Main background"])
-		Drawing.drawText(botBox.x + 1, botBox.y - 11, Resources.StartupScreen.HeaderControls, Theme.COLORS["Header text"], bgShadow)
+		Drawing.drawText(botBox.x + 1, botBox.y - 11*Constants.SCALE, Resources.StartupScreen.HeaderControls, Theme.COLORS["Header text"], bgShadow)
 	end
 
 	-- BOTTOM BORDER BOX
@@ -296,10 +296,10 @@ function StartupScreen.drawScreen()
 		gui.drawRectangle(botBox.x + botBox.width + 1, botBox.y, Constants.SCREEN.MARGIN, botBox.height, Theme.COLORS["Main background"], Theme.COLORS["Main background"])
 	else
 		-- Draw the GBA pixel image as a black icon against white background
-		local gbaX = botBox.x + 117
-		local gbaY = botBox.y + 2
-		gui.drawRectangle(gbaX - 2, gbaY - 2, 25, 16, botBox.border, Drawing.Colors.WHITE)
-		Drawing.drawImageAsPixels(Constants.PixelImages.GBA, gbaX, gbaY, { Drawing.Colors.BLACK, Drawing.Colors.WHITE })
+		-- local gbaX = botBox.x + 117
+		-- local gbaY = botBox.y + 2
+		-- gui.drawRectangle(gbaX - 2, gbaY - 2, 25, 16, botBox.border, Drawing.Colors.WHITE)
+		-- Drawing.drawImageAsPixels(Constants.PixelImages.GBA, gbaX, gbaY, { Drawing.Colors.BLACK, Drawing.Colors.WHITE })
 
 		local indentChars = "    "
 		local swapFormatted = indentChars .. Options.CONTROLS["Toggle view"]:upper()

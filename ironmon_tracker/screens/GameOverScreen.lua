@@ -43,8 +43,8 @@ GameOverScreen.LossConditions = {
 GameOverScreen.Buttons = {
 	PokemonIcon = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 106, 6, 31, 29 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 106, 2, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 106*Constants.SCALE, 6, 31, 29 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 106*Constants.SCALE, 2, 32, 32 },
 		teamIndex = 1,
 		getIconId = function(self)
 			local pokemon = Tracker.getPokemon(self.teamIndex or 1, true) or Tracker.getDefaultPokemon()
@@ -65,7 +65,7 @@ GameOverScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.RIGHT_ARROW,
 		getText = function(self) return Resources.GameOverScreen.ButtonContinuePlaying end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 60, 112, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 60*Constants.SCALE, 112, 16 },
 		onClick = function(self)
 			GameOverScreen.status = GameOverScreen.Statuses.STILL_PLAYING
 			LogOverlay.isGameOver = false
@@ -87,7 +87,7 @@ GameOverScreen.Buttons = {
 			end
 		end,
 		confirmAction = false,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 78, 112, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 78*Constants.SCALE, 112, 16 },
 		isVisible = function(self) return Main.IsOnBizhawk() and GameOverScreen.battleStartSaveState ~= nil and GameOverScreen.status ~= GameOverScreen.Statuses.WON end,
 		updateSelf = function(self)
 			self.textColor = "Lower box text"
@@ -123,7 +123,7 @@ GameOverScreen.Buttons = {
 			end
 		end,
 		clickedStatus = "Not Clicked", -- checked later when clicked
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 96, 112, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 96*Constants.SCALE, 112, 16 },
 		-- Only visible if the player is using the Tracker's Quickload feature
 		isVisible = function(self) return Options["Use premade ROMs"] or Options["Generate ROM each time"] end,
 		reset = function(self)
@@ -147,7 +147,7 @@ GameOverScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.NOTEPAD,
 		getText = function(self) return Resources.GameOverScreen.ButtonGradeMyNotes end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 114, 112, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 114*Constants.SCALE, 112, 16 },
 		onClick = function(self)
 			StatMarkingScoreSheet.previousScreen = GameOverScreen
 			StatMarkingScoreSheet.buildScreen()
@@ -164,9 +164,9 @@ GameOverScreen.Buttons = {
 				return Resources.GameOverScreen.ButtonOpenLogFile
 			end
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 132, 112, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 132*Constants.SCALE, 112, 16 },
 		onClick = function(self)
-			LogOverlay.viewLogFile(FileManager.PostFixes.AUTORANDOMIZED)
+			--LogOverlay.viewLogFile(FileManager.PostFixes.AUTORANDOMIZED)
 		end,
 	},
 }
@@ -380,7 +380,7 @@ function GameOverScreen.drawScreen()
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
 		y = Constants.SCREEN.MARGIN,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = 58,
+		height = 58*Constants.SCALE,
 		text = Theme.COLORS["Default text"],
 		border = Theme.COLORS["Upper box border"],
 		fill = Theme.COLORS["Upper box background"],
@@ -390,7 +390,7 @@ function GameOverScreen.drawScreen()
 		x = topBox.x,
 		y = topBox.y + topBox.height,
 		width = topBox.width,
-		height = Constants.SCREEN.HEIGHT - topBox.height - 10,
+		height = Constants.SCREEN.HEIGHT - topBox.height - 10*Constants.SCALE,
 		text = Theme.COLORS["Lower box text"],
 		border = Theme.COLORS["Lower box border"],
 		fill = Theme.COLORS["Lower box background"],
@@ -410,7 +410,7 @@ function GameOverScreen.drawScreen()
 	textLineY = textLineY + Constants.SCREEN.LINESPACING
 
 	-- Draw some game stats
-	local columnOffsetX = 57
+	local columnOffsetX = 57*Constants.SCALE
 	if Main.currentSeed and Main.currentSeed ~= 1 then
 		Drawing.drawText(topBox.x + 2, textLineY, Resources.GameOverScreen.LabelAttempt .. ":", topBox.text, topBox.shadow)
 		Drawing.drawText(topBox.x + columnOffsetX, textLineY, Utils.formatNumberWithCommas(Main.currentSeed), topBox.text, topBox.shadow)

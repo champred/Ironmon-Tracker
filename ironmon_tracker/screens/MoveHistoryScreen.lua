@@ -32,7 +32,7 @@ MoveHistoryScreen.Buttons = {
 	LookupPokemon = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 127, Constants.SCREEN.MARGIN + 4, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 127*Constants.SCALE, Constants.SCREEN.MARGIN + 4, 10, 10, },
 		onClick = function(self)
 			MoveHistoryScreen.openPokemonInfoWindow()
 		end
@@ -40,13 +40,13 @@ MoveHistoryScreen.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return MoveHistoryScreen.Pagination:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return MoveHistoryScreen.Pagination.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 32*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return MoveHistoryScreen.Pagination.totalPages > 1 end,
 		onClick = function(self)
 			MoveHistoryScreen.Pagination:prevPage()
@@ -55,7 +55,7 @@ MoveHistoryScreen.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 91, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 91*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return MoveHistoryScreen.Pagination.totalPages > 1 end,
 		onClick = function(self)
 			MoveHistoryScreen.Pagination:nextPage()
@@ -112,8 +112,8 @@ function MoveHistoryScreen.buildOutHistory(pokemonID, startingLevel)
 					-- Implied move text is drawn, then the levels off to the right-side
 					local minLvTxt = self.trackedMove.minLv or self.trackedMove.level
 					local maxLvTxt = self.trackedMove.maxLv or self.trackedMove.level
-					Drawing.drawNumber(self.box[1] + 74 + 3, self.box[2], minLvTxt, 2, Theme.COLORS[MoveHistoryScreen.Colors.text], shadowcolor) -- 74 from drawScreen()
-					Drawing.drawNumber(self.box[1] + 99 + 3, self.box[2], maxLvTxt, 2, Theme.COLORS[MoveHistoryScreen.Colors.text], shadowcolor) -- 99 from drawScreen()
+					Drawing.drawNumber(self.box[1] + 74*Constants.SCALE + 3, self.box[2], minLvTxt, 2, Theme.COLORS[MoveHistoryScreen.Colors.text], shadowcolor) -- 74 from drawScreen()
+					Drawing.drawNumber(self.box[1] + 99*Constants.SCALE + 3, self.box[2], maxLvTxt, 2, Theme.COLORS[MoveHistoryScreen.Colors.text], shadowcolor) -- 99 from drawScreen()
 				end,
 				onClick = function(self)
 					InfoScreen.previousScreenFinal = MoveHistoryScreen
@@ -137,8 +137,8 @@ function MoveHistoryScreen.buildOutHistory(pokemonID, startingLevel)
 	end
 
 	-- After sorting the moves, determine which are visible on which page, and where on the page vertically
-	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 12
-	local startY = Constants.SCREEN.MARGIN + 55
+	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 12*Constants.SCALE
+	local startY = Constants.SCREEN.MARGIN + 55*Constants.SCALE
 	local linespacing = Constants.SCREEN.LINESPACING + 0
 
 	for index, button in ipairs(MoveHistoryScreen.TemporaryButtons) do
@@ -212,11 +212,11 @@ function MoveHistoryScreen.drawScreen()
 	topboxY = topboxY + Constants.SCREEN.LINESPACING + 4
 
 	MoveHistoryScreen.drawMovesLearnedBoxes(topboxX + 1, topboxY + 1)
-	topboxY = topboxY + Constants.SCREEN.LINESPACING * 2 + 8
+	topboxY = topboxY + Constants.SCREEN.LINESPACING * 2 + 8*Constants.SCALE
 
 	-- Draw all moves in the tracked move history
-	local offsetX = topboxX + 13
-	local minColX, maxColX = 74, 99
+	local offsetX = topboxX + 13*Constants.SCALE
+	local minColX, maxColX = 74*Constants.SCALE, 99*Constants.SCALE
 	Drawing.drawText(offsetX - 8, topboxY, Resources.MoveHistoryScreen.HeaderMoves, Theme.COLORS[MoveHistoryScreen.Colors.headerMoves], shadowcolor)
 	Drawing.drawText(offsetX + minColX, topboxY, Resources.MoveHistoryScreen.HeaderMin, Theme.COLORS[MoveHistoryScreen.Colors.headerMoves], shadowcolor)
 	Drawing.drawText(offsetX + maxColX, topboxY, Resources.MoveHistoryScreen.HeaderMax, Theme.COLORS[MoveHistoryScreen.Colors.headerMoves], shadowcolor)
@@ -261,9 +261,9 @@ function MoveHistoryScreen.drawMovesLearnedBoxes(offsetX, offsetY)
 		Drawing.drawText(offsetX + 6, offsetY, Resources.MoveHistoryScreen.NoMovesLearned, Theme.COLORS[MoveHistoryScreen.Colors.text], shadowcolor)
 	end
 	for i, moveLvl in ipairs(movelvls) do
-		local nextBoxX = ((i - 1) % MOVES_PER_ROW) * boxWidth
-		local nextBoxY = Utils.inlineIf(i <= MOVES_PER_ROW, 0, 1) * boxHeight -- 2 possible rows
-		local lvlSpacing = (2 - string.len(tostring(moveLvl))) * 3
+		local nextBoxX = ((i - 1) % MOVES_PER_ROW) * boxWidth*Constants.SCALE
+		local nextBoxY = Utils.inlineIf(i <= MOVES_PER_ROW, 0, 1) * boxHeight*Constants.SCALE -- 2 possible rows
+		local lvlSpacing = (2 - string.len(tostring(moveLvl))) * 3*Constants.SCALE
 
 		-- Draw the level box
 		gui.drawRectangle(offsetX + nextBoxX + boxStart + 1, offsetY + nextBoxY + 2, boxWidth, boxHeight, shadowcolor, shadowcolor)

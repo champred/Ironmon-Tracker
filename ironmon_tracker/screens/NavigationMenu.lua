@@ -63,8 +63,8 @@ NavigationMenu.Buttons = {
 		index = 5,
 		isVisible = function() return not NavigationMenu.showCredits end,
 		onClick = function()
-			NotebookIndexScreen.buildScreen()
-			Program.changeScreenView(NotebookIndexScreen)
+			-- NotebookIndexScreen.buildScreen()
+			-- Program.changeScreenView(NotebookIndexScreen)
 		end
 	},
 	ThemeCustomization = {
@@ -152,7 +152,7 @@ NavigationMenu.Buttons = {
 	},
 	PokemonIcon = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 104, Constants.SCREEN.MARGIN + 10, 32, 32 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 104*Constants.SCALE, Constants.SCREEN.MARGIN + 10, 32, 32 },
 		isVisible = function() return NavigationMenu.showCredits end,
 		pokemonID = 196, -- Espeon
 		getIconId = function(self) return self.pokemonID, SpriteData.Types.Walk end,
@@ -160,7 +160,7 @@ NavigationMenu.Buttons = {
 	Credits = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.NavigationMenu.ButtonCredits end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 32, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 32, 11 },
 		isVisible = function() return not NavigationMenu.showCredits end,
 		onClick = function(self)
 			NavigationMenu.showCredits = true
@@ -170,7 +170,7 @@ NavigationMenu.Buttons = {
 	Help = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.NavigationMenu.ButtonHelp end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 41, Constants.SCREEN.MARGIN + 135, 23, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 41*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 23, 11 },
 		isVisible = function() return not NavigationMenu.showCredits end,
 		onClick = function(self)
 			Utils.openBrowserWindow(FileManager.Urls.WIKI, Resources.NavigationMenu.MessageCheckConsole)
@@ -206,16 +206,16 @@ function NavigationMenu.initialize()
 	local btnHeight = 16
 	local spacer = 6
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	local startY = Constants.SCREEN.MARGIN + 12 + spacer
+	local startY = Constants.SCREEN.MARGIN + 12*Constants.SCALE + spacer
 	for i, button in ipairs(Utils.getSortedList(NavigationMenu.Buttons)) do
 		button.type = Constants.ButtonTypes.ICON_BORDER
 		button.box = { startX, startY, btnWidth, btnHeight }
 
 		if i % 2 == 1 then -- left column
-			startX = startX + btnWidth + spacer
+			startX = startX + btnWidth*Constants.SCALE + spacer
 		else -- right column
-			startY = startY + btnHeight + spacer
-			startX = startX - btnWidth - spacer
+			startY = startY + btnHeight*Constants.SCALE + spacer
+			startX = startX - btnWidth*Constants.SCALE - spacer
 		end
 	end
 
@@ -255,7 +255,7 @@ end
 function NavigationMenu.drawScreen()
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		w = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
 		h = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
 		text = Theme.COLORS[NavigationMenu.Colors.text],

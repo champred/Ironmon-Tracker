@@ -17,7 +17,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 133, 60, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 133*Constants.SCALE, 60*Constants.SCALE, 10, 10, },
 		boxColors = { "Upper box border", "Upper box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.MOVE_INFO end,
 		onClick = function(self) InfoScreen.openMoveInfoWindow() end
@@ -26,7 +26,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 133, 60, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 133*Constants.SCALE, 60*Constants.SCALE, 10, 10, },
 		boxColors = { "Upper box border", "Upper box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.ABILITY_INFO end,
 		onClick = function(self) InfoScreen.openAbilityInfoWindow() end
@@ -35,7 +35,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 93, 21, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 93*Constants.SCALE, 21*Constants.SCALE, 10, 10, },
 		boxColors = { "Upper box border", "Upper box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		onClick = function(self) InfoScreen.openPokemonInfoWindow() end
@@ -44,7 +44,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 100, 31, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 100*Constants.SCALE, 31*Constants.SCALE, 10, 10, },
 		boxColors = { "Upper box border", "Upper box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		onClick = function(self) InfoScreen.showNextPokemon() end
@@ -53,7 +53,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 87, 31, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 87*Constants.SCALE, 31*Constants.SCALE, 10, 10, },
 		boxColors = { "Upper box border", "Upper box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		onClick = function(self) InfoScreen.showNextPokemon(-1) end
@@ -71,8 +71,8 @@ InfoScreen.Buttons = {
 			return pokemonID, self.animType or animType
 		end,
 		animType = SpriteData.Types.Idle,
-		clickableArea = { Constants.SCREEN.WIDTH + 112, 5, 32, 27 },
-		box = { Constants.SCREEN.WIDTH + 112, 0, 32, 32 },
+		clickableArea = { Constants.SCREEN.WIDTH + 112*Constants.SCALE, 5, 32, 27 },
+		box = { Constants.SCREEN.WIDTH + 112*Constants.SCALE, 0, 32, 32 },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		onClick = function(self)
 			if SpriteData.canDrawIcon(InfoScreen.infoLookup) and not LogOverlay.isDisplayed then
@@ -85,7 +85,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.InfoScreen.ButtonViewEvos end,
 		textColor = "Intermediate text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 46, 31, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 46*Constants.SCALE, 31, 11 },
 		boxColors = { "Upper box border", "Upper box background" },
 		shouldShow = false, -- for now, need to update this during the legacy drawScreen method
 		isVisible = function(self) return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO and self.shouldShow end,
@@ -99,12 +99,12 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return Resources.InfoScreen.ButtonHistory end,
 		textColor = "Lower box text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108, Constants.SCREEN.MARGIN + 70, 28, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108*Constants.SCALE, Constants.SCREEN.MARGIN + 70*Constants.SCALE, 28, 10, },
 		boxColors = { "Lower box border", "Lower box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		draw = function(self)
-			local x1, x2 = self.box[1] + 2, self.box[1] + self.box[3] + 1
-			local y1, y2 = self.box[2] + self.box[4], self.box[2] + self.box[4]
+			local x1, x2 = self.box[1] + 2, self.box[1] + self.box[3]*Constants.SCALE + 1
+			local y1, y2 = self.box[2] + self.box[4]*Constants.SCALE, self.box[2] + self.box[4]*Constants.SCALE
 			gui.drawLine(x1, y1, x2, y2, Theme.COLORS[self.textColor])
 		end,
 		onClick = function (self)
@@ -117,12 +117,12 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return Resources.InfoScreen.ButtonResistances end,
 		textColor = "Lower box text",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 68, Constants.SCREEN.MARGIN + 97, 68, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 68*Constants.SCALE, Constants.SCREEN.MARGIN + 97*Constants.SCALE, 68, 10, },
 		boxColors = { "Lower box border", "Lower box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		draw = function(self)
-			local x1, x2 = self.box[1] + 2, self.box[1] + self.box[3] + 1
-			local y1, y2 = self.box[2] + self.box[4], self.box[2] + self.box[4]
+			local x1, x2 = self.box[1] + 2, self.box[1] + self.box[3]*Constants.SCALE + 1
+			local y1, y2 = self.box[2] + self.box[4]*Constants.SCALE, self.box[2] + self.box[4]*Constants.SCALE
 			gui.drawLine(x1, y1, x2, y2, Theme.COLORS[self.textColor])
 		end,
 		onClick = function (self)
@@ -134,7 +134,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 132, 9, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 132*Constants.SCALE, 9, 10, 10, },
 		boxColors = { "Upper box border", "Upper box background" },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.ROUTE_INFO end,
 		onClick = function(self) InfoScreen.openRouteInfoWindow() end
@@ -143,8 +143,8 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		getText = function(self) return Resources.InfoScreen.CheckboxPercentages end,
 		textColor = "Default text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 15, Constants.SCREEN.MARGIN + 17, 61, 10 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 15, Constants.SCREEN.MARGIN + 18, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 15*Constants.SCALE, Constants.SCREEN.MARGIN + 17*Constants.SCALE, 61, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 15*Constants.SCALE, Constants.SCREEN.MARGIN + 18*Constants.SCALE, 8, 8 },
 		boxColors = { "Upper box border", "Upper box background" },
 		toggleState = false, -- When true, the original game percentage rates for the route are revealed
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.ROUTE_INFO end,
@@ -158,8 +158,8 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		getText = function(self) return Resources.InfoScreen.CheckboxLevels end,
 		textColor = "Default text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 88, Constants.SCREEN.MARGIN + 17, 36, 10 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 88, Constants.SCREEN.MARGIN + 18, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 88*Constants.SCALE, Constants.SCREEN.MARGIN + 17*Constants.SCALE, 36, 10 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 88*Constants.SCALE, Constants.SCREEN.MARGIN + 18*Constants.SCALE, 8, 8 },
 		boxColors = { "Upper box border", "Upper box background" },
 		toggleState = false, -- When true, the original game Pokemon levels for the route are revealed
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.ROUTE_INFO end,
@@ -173,7 +173,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
 		textColor = "Header text",
-		box = { Constants.SCREEN.WIDTH + 6, 37, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 6, 37*Constants.SCALE, 10, 10, },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.ROUTE_INFO end,
 		onClick = function(self)
 			local mapId = InfoScreen.infoLookup.mapId
@@ -186,7 +186,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
 		textColor = "Header text",
-		box = { Constants.SCREEN.WIDTH + 136, 37, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + 136*Constants.SCALE, 37*Constants.SCALE, 10, 10, },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.ROUTE_INFO end,
 		onClick = function(self)
 			local mapId = InfoScreen.infoLookup.mapId
@@ -219,7 +219,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 113, Constants.SCREEN.MARGIN + 40, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + 113*Constants.SCALE, Constants.SCREEN.MARGIN + 40*Constants.SCALE, 10, 10 },
 		isVisible = function()
 			if InfoScreen.viewScreen ~= InfoScreen.Screens.MOVE_INFO or InfoScreen.infoLookup ~= MoveData.Values.HiddenPowerId then return false end
 			-- Only reveal the HP set arrows if the player's active Pokemon has the move
@@ -252,7 +252,7 @@ InfoScreen.Buttons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
 		textColor = "Default text",
-		box = { Constants.SCREEN.WIDTH + 130, Constants.SCREEN.MARGIN + 40, 10, 10 },
+		box = { Constants.SCREEN.WIDTH + 130*Constants.SCALE, Constants.SCREEN.MARGIN + 40*Constants.SCALE, 10, 10 },
 		isVisible = function() return InfoScreen.Buttons.HiddenPowerPrev:isVisible() end,
 		onClick = function(self)
 			-- If the player's lead pokemon has Hidden Power, lookup that tracked typing
@@ -288,8 +288,8 @@ InfoScreen.Buttons = {
 			end
 		end,
 		textColor = "Lower box text",
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 142, 110, 12 },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 142, 11, 11 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, 142*Constants.SCALE, 110, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, 142*Constants.SCALE, 11, 11 },
 		isVisible = function() return InfoScreen.viewScreen == InfoScreen.Screens.POKEMON_INFO end,
 		onClick = function(self) TrackerScreen.openNotePadWindow(InfoScreen.infoLookup) end,
 	}
@@ -571,7 +571,7 @@ function InfoScreen.getPokemonButtonsForEncounterArea(mapId, encounterArea)
 	end
 
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3
-	local startY = Constants.SCREEN.MARGIN + 50
+	local startY = Constants.SCREEN.MARGIN + 50*Constants.SCALE
 	local offsetX = 0
 	local offsetY = 0
 	local iconWidth = 32
@@ -609,10 +609,10 @@ function InfoScreen.getPokemonButtonsForEncounterArea(mapId, encounterArea)
 			end
 		}
 
-		offsetX = offsetX + iconWidth + 2
-		if (startX + offsetX) > Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - iconWidth then
+		offsetX = offsetX + iconWidth*Constants.SCALE + 2
+		if (startX + offsetX) > Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - iconWidth*Constants.SCALE then
 			offsetX = 0
-			offsetY = offsetY + iconWidth + 2
+			offsetY = offsetY + iconWidth*Constants.SCALE + 2
 		end
 	end
 
@@ -680,8 +680,8 @@ function InfoScreen.drawPokemonInfoScreen(pokemonID)
 	local boxInfoTopShadow = Utils.calcShadowColor(Theme.COLORS["Upper box background"])
 	local boxInfoBotShadow = Utils.calcShadowColor(Theme.COLORS["Lower box background"])
 
-	local offsetX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2
-	local offsetColumnX = offsetX + 42
+	local offsetX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6*Constants.SCALE
+	local offsetColumnX = offsetX + 42*Constants.SCALE
 	local offsetY = 0 + Constants.SCREEN.MARGIN + 3
 	local linespacing = Constants.SCREEN.LINESPACING - 1
 	local botOffsetY = offsetY + (linespacing * 6) - 2 + 9
@@ -706,15 +706,15 @@ function InfoScreen.drawPokemonInfoScreen(pokemonID)
 		type2 = RandomizerLog.Data.Pokemon[pokemonID].Types[2] or PokemonData.Types.EMPTY
 	end
 	offsetY = offsetY - 7
-	gui.drawRectangle(offsetX + 106, offsetY + 37, 31, 13, boxInfoTopShadow, boxInfoTopShadow)
-	gui.drawRectangle(offsetX + 105, offsetY + 36, 31, 13, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box border"])
+	gui.drawRectangle(offsetX + 106*Constants.SCALE, offsetY + 37*Constants.SCALE, 31, 13, boxInfoTopShadow, boxInfoTopShadow)
+	gui.drawRectangle(offsetX + 105*Constants.SCALE, offsetY + 36*Constants.SCALE, 31, 13, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box border"])
 	if type2 ~= type1 and type2 ~= PokemonData.Types.EMPTY then
-		gui.drawRectangle(offsetX + 106, offsetY + 50, 31, 12, boxInfoTopShadow, boxInfoTopShadow)
-		gui.drawRectangle(offsetX + 105, offsetY + 49, 31, 12, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box border"])
+		gui.drawRectangle(offsetX + 106*Constants.SCALE, offsetY + 50*Constants.SCALE, 31, 12, boxInfoTopShadow, boxInfoTopShadow)
+		gui.drawRectangle(offsetX + 105*Constants.SCALE, offsetY + 49*Constants.SCALE, 31, 12, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box border"])
 	end
-	Drawing.drawTypeIcon(type1, offsetX + 106, offsetY + 37)
+	Drawing.drawTypeIcon(type1, offsetX + 106*Constants.SCALE, offsetY + 37*Constants.SCALE)
 	if type2 ~= type1 then
-		Drawing.drawTypeIcon(type2, offsetX + 106, offsetY + 49)
+		Drawing.drawTypeIcon(type2, offsetX + 106*Constants.SCALE, offsetY + 49*Constants.SCALE)
 	end
 	offsetY = offsetY + 12 + linespacing
 
@@ -749,7 +749,7 @@ function InfoScreen.drawPokemonInfoScreen(pokemonID)
 	-- Draw bottom view box and header
 	offsetX = offsetX - 1
 	gui.defaultTextBackground(Theme.COLORS["Lower box background"])
-	botOffsetY = offsetY + 3
+	botOffsetY = offsetY + 3*Constants.SCALE
 	gui.drawRectangle(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, botOffsetY, rightEdge, bottomEdge - botOffsetY + 5, Theme.COLORS["Lower box border"], Theme.COLORS["Lower box background"])
 	botOffsetY = botOffsetY + 1
 
@@ -768,9 +768,9 @@ function InfoScreen.drawPokemonInfoScreen(pokemonID)
 		Drawing.drawText(offsetX + 6, botOffsetY, Resources.InfoScreen.LabelNoMoves, Theme.COLORS["Lower box text"], boxInfoBotShadow)
 	end
 	for i, moveLvl in ipairs(data.p.movelvls) do
-		local nextBoxX = ((i - 1) % MOVES_PER_ROW) * boxWidth
-		local nextBoxY = Utils.inlineIf(i <= MOVES_PER_ROW, 0, 1) * boxHeight -- 2 possible rows
-		local lvlSpacing = (2 - string.len(tostring(moveLvl))) * 3
+		local nextBoxX = ((i - 1) % MOVES_PER_ROW) * boxWidth*Constants.SCALE
+		local nextBoxY = Utils.inlineIf(i <= MOVES_PER_ROW, 0, 1) * boxHeight*Constants.SCALE -- 2 possible rows
+		local lvlSpacing = (2 - string.len(tostring(moveLvl))) * 3*Constants.SCALE
 
 		gui.drawRectangle(offsetX + nextBoxX + boxStart + 1, botOffsetY + nextBoxY + 2, boxWidth, boxHeight, boxInfoBotShadow, boxInfoBotShadow)
 		gui.drawRectangle(offsetX + nextBoxX + boxStart, botOffsetY + nextBoxY + 1, boxWidth, boxHeight, Theme.COLORS["Lower box border"], Theme.COLORS["Lower box background"])
@@ -811,10 +811,10 @@ function InfoScreen.drawPokemonInfoScreen(pokemonID)
 	end
 
 	if #data.e[2] == 0 and #data.e[4] == 0 then -- If the Pokemon has no weakness, like Sableye
-		Drawing.drawText(offsetX + 6, botOffsetY, Resources.InfoScreen.LabelNoWeaknesses, Theme.COLORS["Lower box text"], boxInfoBotShadow)
+		Drawing.drawText(offsetX + 6*Constants.SCALE, botOffsetY, Resources.InfoScreen.LabelNoWeaknesses, Theme.COLORS["Lower box text"], boxInfoBotShadow)
 	end
 
-	local typeOffsetX = offsetX + 6
+	local typeOffsetX = offsetX + 6*Constants.SCALE
 	for weakType, effectiveness in pairs(weaknesses) do
 		gui.drawRectangle(typeOffsetX, botOffsetY, 31, 13, boxInfoBotShadow)
 		gui.drawRectangle(typeOffsetX - 1, botOffsetY - 1, 31, 13, Theme.COLORS["Lower box border"])
@@ -823,19 +823,19 @@ function InfoScreen.drawPokemonInfoScreen(pokemonID)
 		if effectiveness > 2 then
 			-- gui.drawRectangle(typeOffsetX - 1, botOffsetY - 1, 31, 13, Theme.COLORS["Negative text"])
 			local barColor = Drawing.Colors.WHITE
-			gui.drawLine(typeOffsetX, botOffsetY, typeOffsetX + 29, botOffsetY, barColor)
-			gui.drawLine(typeOffsetX, botOffsetY + 1, typeOffsetX + 29, botOffsetY + 1, barColor)
-			gui.drawLine(typeOffsetX, botOffsetY + 10, typeOffsetX + 29, botOffsetY + 10, barColor)
-			gui.drawLine(typeOffsetX, botOffsetY + 11, typeOffsetX + 29, botOffsetY + 11, barColor)
+			gui.drawLine(typeOffsetX, botOffsetY, typeOffsetX + 29*Constants.SCALE, botOffsetY, barColor)
+			gui.drawLine(typeOffsetX, botOffsetY + 1, typeOffsetX + 29*Constants.SCALE, botOffsetY + 1, barColor)
+			gui.drawLine(typeOffsetX, botOffsetY + 10*Constants.SCALE, typeOffsetX + 29*Constants.SCALE, botOffsetY + 10*Constants.SCALE, barColor)
+			gui.drawLine(typeOffsetX, botOffsetY + 11*Constants.SCALE, typeOffsetX + 29*Constants.SCALE, botOffsetY + 11*Constants.SCALE, barColor)
 
 			-- gui.drawRectangle(typeOffsetX, botOffsetY, 29, 1, Theme.COLORS["Negative text"])
 			-- gui.drawRectangle(typeOffsetX, botOffsetY + 10, 29, 1, Theme.COLORS["Negative text"])
 		end
 
-		typeOffsetX = typeOffsetX + 31
-		if typeOffsetX > Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - 30 then
-			typeOffsetX = offsetX + 6
-			botOffsetY = botOffsetY + 13
+		typeOffsetX = typeOffsetX + 31*Constants.SCALE
+		if typeOffsetX > Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - 30*Constants.SCALE then
+			typeOffsetX = offsetX + 6*Constants.SCALE
+			botOffsetY = botOffsetY + 13*Constants.SCALE
 		end
 	end
 
@@ -863,7 +863,7 @@ function InfoScreen.drawMoveInfoScreen(moveId)
 	local boxInfoBotShadow = Utils.calcShadowColor(Theme.COLORS["Lower box background"])
 
 	local offsetX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2
-	local offsetColumnX = offsetX + 44
+	local offsetColumnX = offsetX + 44*Constants.SCALE
 	local offsetY = 0 + Constants.SCREEN.MARGIN + 3
 	local linespacing = Constants.SCREEN.LINESPACING - 1
 	local botOffsetY = offsetY + (linespacing * 7) + 7
@@ -901,9 +901,9 @@ function InfoScreen.drawMoveInfoScreen(moveId)
 
 	-- TYPE ICON
 	offsetY = offsetY + linespacing + 4
-	gui.drawRectangle(offsetX + 106, offsetY + 1, 31, 13, boxInfoTopShadow, boxInfoTopShadow)
-	gui.drawRectangle(offsetX + 105, offsetY, 31, 13, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box border"])
-	Drawing.drawTypeIcon(moveType, offsetX + 106, offsetY + 1)
+	gui.drawRectangle(offsetX + 106*Constants.SCALE, offsetY + 1, 31, 13, boxInfoTopShadow, boxInfoTopShadow)
+	gui.drawRectangle(offsetX + 105*Constants.SCALE, offsetY, 31, 13, Theme.COLORS["Upper box border"], Theme.COLORS["Upper box border"])
+	Drawing.drawTypeIcon(moveType, offsetX + 106*Constants.SCALE, offsetY + 1)
 	offsetY = offsetY - 2
 
 	if data.x.ownHasHiddenPower then
@@ -991,7 +991,7 @@ function InfoScreen.drawAbilityInfoScreen(abilityId)
 	local boxInfoTopShadow = Utils.calcShadowColor(Theme.COLORS["Upper box background"])
 
 	local offsetX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2
-	local offsetColumnX = offsetX + 45
+	local offsetColumnX = offsetX + 45*Constants.SCALE
 	local offsetY = 0 + Constants.SCREEN.MARGIN + 3
 	local linespacing = Constants.SCREEN.LINESPACING - 1
 
@@ -1047,8 +1047,8 @@ function InfoScreen.drawRouteInfoScreen(mapId, encounterArea)
 	local boxX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
 	local boxWidth = Constants.SCREEN.RIGHT_GAP - (2 * Constants.SCREEN.MARGIN)
 	local boxTopY = Constants.SCREEN.MARGIN
-	local boxTopHeight = 30
-	local botBoxY = boxTopY + boxTopHeight + 13
+	local boxTopHeight = 30*Constants.SCALE
+	local botBoxY = boxTopY + boxTopHeight + 13*Constants.SCALE
 	local botBoxHeight = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - botBoxY
 
 	Drawing.drawBackgroundAndMargins()
@@ -1061,7 +1061,7 @@ function InfoScreen.drawRouteInfoScreen(mapId, encounterArea)
 	local routeName = RouteData.Info[mapId].name or Constants.BLANKLINE
 	routeName = Utils.formatSpecialCharacters(routeName)
 	Drawing.drawImageAsPixels(Constants.PixelImages.MAP_PINDROP, boxX + 3, boxTopY + 3, { Theme.COLORS["Default text"] }, boxTopShadow)
-	Drawing.drawText(boxX + 13, boxTopY + 2, routeName, Theme.COLORS["Default text"], boxTopShadow)
+	Drawing.drawText(boxX + 13*Constants.SCALE, boxTopY + 2, routeName, Theme.COLORS["Default text"], boxTopShadow)
 
 	Drawing.drawButton(InfoScreen.Buttons.ShowRoutePercentages, boxTopShadow)
 	Drawing.drawButton(InfoScreen.Buttons.ShowRouteLevels, boxTopShadow)
@@ -1074,7 +1074,7 @@ function InfoScreen.drawRouteInfoScreen(mapId, encounterArea)
 	else
 		encounterHeaderText = string.format("%s %s", Resources.InfoScreen.LabelSeenBy, encounterArea)
 	end
-	Drawing.drawText(boxX + 10, botBoxY - 11, encounterHeaderText, Theme.COLORS["Header text"], bgHeaderShadow)
+	Drawing.drawText(boxX + 10*Constants.SCALE, botBoxY - 11*Constants.SCALE, encounterHeaderText, Theme.COLORS["Header text"], bgHeaderShadow)
 	gui.drawRectangle(boxX, botBoxY, boxWidth, botBoxHeight, Theme.COLORS["Lower box border"], botBoxBGColor)
 
 	local showPercents = InfoScreen.Buttons.ShowRoutePercentages.toggleState
@@ -1108,7 +1108,7 @@ function InfoScreen.drawRouteInfoScreen(mapId, encounterArea)
 		end
 		if iconInfoText ~= nil then
 			local infoWidth = Utils.calcWordPixelLength(iconInfoText)
-			local offsetX = math.floor((32 - infoWidth) / 2) - 2 -- center the text
+			local offsetX = math.floor((32*Constants.SCALE - infoWidth) / 2) - 2 -- center the text
 			Drawing.drawTransparentTextbox(x + offsetX, y - 1, iconInfoText, botBoxTextColor, botBoxBGColor, boxBotShadow)
 		end
 	end
@@ -1127,17 +1127,17 @@ function InfoScreen.drawNotepadArea()
 	if #noteText > 23 then
 		local	textTest = Utils.getWordWrapLines(noteText, 22)
 		textTest[1] = textTest[1] .. " ..."
-		Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 16, 142, textTest[1], Theme.COLORS["Lower box text"], shadowcolor)
+		Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 16*Constants.SCALE, 142*Constants.SCALE, textTest[1], Theme.COLORS["Lower box text"], shadowcolor)
 	else
-		Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 16, 142, noteText, Theme.COLORS["Lower box text"], shadowcolor)
+		Drawing.drawText(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 16*Constants.SCALE, 142*Constants.SCALE, noteText, Theme.COLORS["Lower box text"], shadowcolor)
 	end
-	gui.drawLine(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 155, Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN, 155, Theme.COLORS["Lower box border"])
-	gui.drawLine(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 156, Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN, 156, Theme.COLORS["Main background"])
+	gui.drawLine(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 155*Constants.SCALE, Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN, 155*Constants.SCALE, Theme.COLORS["Lower box border"])
+	gui.drawLine(Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN, 156*Constants.SCALE, Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN, 156*Constants.SCALE, Theme.COLORS["Main background"])
 	--blank out the part past the button, in case there are too many 'big' letters that bleed past the Back button
 	--and also the part past the box edge
 	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
 	local y = 141
-	gui.drawRectangle(x + 1 , 141, 12, 14, Theme.COLORS["Main background"], Theme.COLORS["Main background"])
+	gui.drawRectangle(x + 1 , 141*Constants.SCALE, 12, 14, Theme.COLORS["Main background"], Theme.COLORS["Main background"])
 	--gui.drawRectangle(Constants.SCREEN.WIDTH + 117 - 1, y, 28, 13, Theme.COLORS["Lower box background"], Theme.COLORS["Lower box background"])
 	gui.drawLine(x, y, x, y + 13, Theme.COLORS["Lower box border"])
 end

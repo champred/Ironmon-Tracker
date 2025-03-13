@@ -91,8 +91,8 @@ function Input.checkForInput()
 		if Input.allowMouse then
 			local mouseInput = input.getmouse()
 			if mouseInput["Left"] and not Input.prevMouseInput["Left"] then
-				local xmouse = mouseInput["X"]
-				local ymouse = mouseInput["Y"] + Constants.SCREEN.UP_GAP
+				local xmouse = gui.GetMouseX()
+				local ymouse = gui.GetMouseY() + Constants.SCREEN.UP_GAP
 				Input.checkMouseInput(xmouse, ymouse)
 			end
 			Input.prevMouseInput = mouseInput
@@ -327,6 +327,8 @@ function Input.checkMouseInput(xmouse, ymouse)
 end
 
 function Input.isMouseInArea(xmouse, ymouse, x, y, width, height)
+	width=width*Constants.SCALE
+	height=height*Constants.SCALE
 	return (xmouse >= x and xmouse <= x + width) and (ymouse >= y and ymouse <= y + height)
 end
 
@@ -378,13 +380,13 @@ function Input.checkAnyMovesClicked(xmouse, ymouse)
 	-- move info lookup, only if pokemon exists and the user should know about its moves already
 	-- TODO: Turn these into buttons
 	local moveOffsetX = Constants.SCREEN.WIDTH + 7
-	local moveOffsetY = 95
+	local moveOffsetY = 95*Constants.SCALE
 	for i = 1, 4, 1 do
 		local move = pokemonMoves[i] or {}
 		if MoveData.isValid(move.id) and Input.isMouseInArea(xmouse, ymouse, moveOffsetX, moveOffsetY, 75, 10) then
 			InfoScreen.changeScreenView(InfoScreen.Screens.MOVE_INFO, move.id)
 			break
 		end
-		moveOffsetY = moveOffsetY + 10
+		moveOffsetY = moveOffsetY + 10*Constants.SCALE
 	end
 end

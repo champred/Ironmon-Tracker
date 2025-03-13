@@ -26,7 +26,7 @@ SCREEN.Pager = {
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer)
 		table.sort(self.Buttons, self.defaultSort)
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffY = Constants.SCREEN.HEIGHT - 20*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -66,13 +66,13 @@ SCREEN.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return SCREEN.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:prevPage()
@@ -81,7 +81,7 @@ SCREEN.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 86, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 86*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:nextPage()
@@ -122,11 +122,11 @@ function TrainersOnRouteScreen.buildScreen(routeId)
 	SCREEN.Data.trainerList = {} -- TODO: Unsure if needed
 
 	local ROW_START_X = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 7
-	local ROW_START_Y = Constants.SCREEN.MARGIN + 23
+	local ROW_START_Y = Constants.SCREEN.MARGIN + 23*Constants.SCALE
 	local ROW_WIDTH = Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN * 2 - 8
 	local ROW_HEIGHT = 33
 	local COL1_X = 0
-	local COL2_X = 35
+	local COL2_X = 35*Constants.SCALE
 
 	local routesToUse = {}
 	if route.area then
@@ -162,7 +162,7 @@ function TrainersOnRouteScreen.buildScreen(routeId)
 			buttonList = {},
 			trainer = trainerGame,
 			index = i,
-			dimensions = { width = ROW_WIDTH, height = ROW_HEIGHT, },
+			dimensions = { width = ROW_WIDTH, height = ROW_HEIGHT*Constants.SCALE, },
 			isVisible = function(self) return SCREEN.Pager.currentPage == self.pageVisible end,
 			includeInGrid = function(self)
 				-- Allow checkboxes to filter defeated trainers or not
@@ -277,7 +277,7 @@ function TrainersOnRouteScreen.buildScreen(routeId)
 			end,
 			draw = function(self, shadowcolor)
 				local x, y = self.box[1], self.box[2]
-				local SIZE_OF_BALL = 9
+				local SIZE_OF_BALL = 9*Constants.SCALE
 				for j = 0, #trainerGame.party - 1, 1 do
 					Drawing.drawImageAsPixels(self.image, x + (j * SIZE_OF_BALL), y, self.iconColors, shadowcolor)
 				end
@@ -378,7 +378,7 @@ function TrainersOnRouteScreen.drawScreen()
 	-- TODO: Show something if no trainers on route
 	if #TrainersOnRouteScreen.Pager.Buttons == 0 then
 		local wrappedDesc = Utils.getWordWrapLines("No trainers on this route", 32) -- TODO: Language
-		local textLineY = Constants.SCREEN.MARGIN + 40
+		local textLineY = Constants.SCREEN.MARGIN + 40*Constants.SCALE
 		for _, line in pairs(wrappedDesc) do
 			local centeredOffset = Utils.getCenteredTextX(line, canvas.width)
 			Drawing.drawText(canvas.x + centeredOffset, textLineY, line, canvas.highlight, canvas.shadow)

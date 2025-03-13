@@ -60,7 +60,7 @@ StatsScreen.Buttons = {
 
 function StatsScreen.initialize()
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	local startY = Constants.SCREEN.MARGIN + 14
+	local startY = Constants.SCREEN.MARGIN + 14*Constants.SCALE
 	local linespacing = Constants.SCREEN.LINESPACING + 1
 
 	for _, statTable in ipairs(StatsScreen.StatTables) do
@@ -88,9 +88,9 @@ function StatsScreen.drawScreen()
 
 	local shadowcolor = Utils.calcShadowColor(Theme.COLORS[StatsScreen.Colors.boxFill])
 	local topboxX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local topboxY = Constants.SCREEN.MARGIN + 10
+	local topboxY = Constants.SCREEN.MARGIN + 10*Constants.SCALE
 	local topboxWidth = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2)
-	local topboxHeight = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10
+	local topboxHeight = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE
 
 	-- Draw header text
 	local headerShadow = Utils.calcShadowColor(Theme.COLORS["Main background"])
@@ -100,7 +100,7 @@ function StatsScreen.drawScreen()
 	gui.drawRectangle(topboxX, topboxY, topboxWidth, topboxHeight, Theme.COLORS[StatsScreen.Colors.border], Theme.COLORS[StatsScreen.Colors.boxFill])
 
 	-- Draw all stat tables
-	local colXOffset = 90
+	local colXOffset = 90*Constants.SCALE
 	for _, statTable in ipairs(StatsScreen.StatTables) do
 		local statValue = statTable.getValue() or 0
 		if type(statValue) == "number" then

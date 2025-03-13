@@ -40,7 +40,7 @@ CustomExtensionsScreen.Buttons = {
 	GetExtensionsSmall = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.CustomExtensionsScreen.ButtonGetMore end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 93, Constants.SCREEN.MARGIN - 2, 47, 12 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 93*Constants.SCALE, Constants.SCREEN.MARGIN - 2, 47, 12 },
 		isVisible = function() return #CustomExtensionsScreen.Pager.Buttons > 0 end,
 		onClick = function(self)
 			Utils.openBrowserWindow(FileManager.Urls.EXTENSIONS)
@@ -51,7 +51,7 @@ CustomExtensionsScreen.Buttons = {
 		optionKey = "Enable custom extensions",
 		getText = function(self) return Resources.CustomExtensionsScreen.OptionAllowCustomCode end,
 		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14, Constants.SCREEN.RIGHT_GAP - 12, 8 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14, 8, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 8, 8 },
 		toggleState = true,
 		updateSelf = function(self) self.toggleState = (Options[self.optionKey] == true) end,
 		onClick = function(self)
@@ -72,7 +72,7 @@ CustomExtensionsScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.INSTALL_BOX,
 		getText = function(self) return Resources.CustomExtensionsScreen.ButtonGetExtensions end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 28, Constants.SCREEN.MARGIN + 70, 80, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 28*Constants.SCALE, Constants.SCREEN.MARGIN + 70*Constants.SCALE, 80, 16 },
 		isVisible = function() return #CustomExtensionsScreen.Pager.Buttons == 0 end,
 		onClick = function(self)
 			Utils.openBrowserWindow(FileManager.Urls.EXTENSIONS)
@@ -81,13 +81,13 @@ CustomExtensionsScreen.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return CustomExtensionsScreen.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 66, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 66*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return CustomExtensionsScreen.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return CustomExtensionsScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			CustomExtensionsScreen.Pager:prevPage()
@@ -96,7 +96,7 @@ CustomExtensionsScreen.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 96, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 96*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return CustomExtensionsScreen.Pager.totalPages > 1 end,
 		onClick = function(self)
 			CustomExtensionsScreen.Pager:nextPage()
@@ -105,7 +105,7 @@ CustomExtensionsScreen.Buttons = {
 	InstallNewExtensions = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.CustomExtensionsScreen.ButtonInstallNew end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135, 47, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 47, 11 },
 		onClick = function(self)
 			CustomCode.refreshExtensionList()
 			CustomExtensionsScreen.buildOutPagedButtons()
@@ -180,7 +180,7 @@ function CustomExtensionsScreen.buildOutPagedButtons()
 	end
 
 	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4
-	local y = Constants.SCREEN.MARGIN + 29
+	local y = Constants.SCREEN.MARGIN + 29*Constants.SCALE
 	local colSpacer = 1
 	local rowSpacer = 5
 	CustomExtensionsScreen.Pager:realignButtonsToGrid(x, y, colSpacer, rowSpacer)
@@ -228,7 +228,7 @@ function CustomExtensionsScreen.drawScreen()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
 		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
 		text = Theme.COLORS[CustomExtensionsScreen.Colors.text],

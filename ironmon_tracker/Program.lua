@@ -353,6 +353,7 @@ function Program.redraw(forced)
 	Program.Frames.waitToDraw = 30
 
 	if Main.IsOnBizhawk() then
+		gui.Refresh()
 		Program.ActiveRepel:draw()
 		Program.GameTimer:draw()
 

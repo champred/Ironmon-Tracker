@@ -107,11 +107,11 @@ SCREEN.PixelImages = {
 	},
 }
 
-local SUMMARY_COL2_X = 53
-local LETTER_GRADE_X = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108
+local SUMMARY_COL2_X = 53*Constants.SCALE
+local LETTER_GRADE_X = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 108*Constants.SCALE
 local GRIDROW = {
 	X = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1,
-	Y = Constants.SCREEN.MARGIN + 68,
+	Y = Constants.SCREEN.MARGIN + 68*Constants.SCALE,
 	W = Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN * 2 - 2,
 	H = 32,
 	CELL_W = 21,
@@ -132,7 +132,7 @@ SCREEN.Pager = {
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer, sortFunc)
 		table.sort(self.Buttons, sortFunc or self.defaultSort)
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP + 1
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffY = Constants.SCREEN.HEIGHT - 20*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -167,31 +167,31 @@ SCREEN.Buttons = {
 	LabelGreat = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.StatMarkingScoreSheet.LabelGreatMarks) end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 11, 8, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 11*Constants.SCALE, 8, 8 },
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
 			local value = SCREEN.Data.greatMarkings or Constants.BLANKLINE
 			local color = Theme.COLORS[SCREEN.Colors.positive]
 			Drawing.drawRightJustifiedNumber(x + SUMMARY_COL2_X, y, value, 4, color, shadowcolor)
-			Drawing.drawImageAsPixels(SCREEN.PixelImages.SMALL_CHECK, x + SUMMARY_COL2_X + 25, y + 4, color, shadowcolor)
+			Drawing.drawImageAsPixels(SCREEN.PixelImages.SMALL_CHECK, x + SUMMARY_COL2_X + 25*Constants.SCALE, y + 4, color, shadowcolor)
 		end,
 	},
 	LabelPoor = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.StatMarkingScoreSheet.LabelPoorMarks) end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 21, 8, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 21*Constants.SCALE, 8, 8 },
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
 			local value = SCREEN.Data.poorMarkings or Constants.BLANKLINE
 			local color = Theme.COLORS[SCREEN.Colors.negative]
 			Drawing.drawRightJustifiedNumber(x + SUMMARY_COL2_X, y, value, 4, color, shadowcolor)
-			Drawing.drawImageAsPixels(SCREEN.PixelImages.SMALL_X, x + SUMMARY_COL2_X + 25, y + 3, color, shadowcolor)
+			Drawing.drawImageAsPixels(SCREEN.PixelImages.SMALL_X, x + SUMMARY_COL2_X + 25*Constants.SCALE, y + 3, color, shadowcolor)
 		end,
 	},
 	LabelTotalNotes = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.StatMarkingScoreSheet.LabelTotal) end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 31, 8, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 31*Constants.SCALE, 8, 8 },
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
 			local value = SCREEN.Data.totalMarkings or Constants.BLANKLINE
@@ -201,14 +201,14 @@ SCREEN.Buttons = {
 	LabelGradeScore = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.StatMarkingScoreSheet.LabelPercentage) end,
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 41, 8, 8 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1, Constants.SCREEN.MARGIN + 41*Constants.SCALE, 8, 8 },
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
 			local value = SCREEN.Data.percentageScore or Constants.BLANKLINE
 			local color = Theme.COLORS[SCREEN.Colors.text]
 			local rightAlignX = 19 - Utils.calcWordPixelLength(value)
 			Drawing.drawText(x + SUMMARY_COL2_X + rightAlignX, y, value, color, shadowcolor)
-			Drawing.drawText(x + SUMMARY_COL2_X + 22, y, "%", color, shadowcolor)
+			Drawing.drawText(x + SUMMARY_COL2_X + 22*Constants.SCALE, y, "%", color, shadowcolor)
 		end,
 	},
 	LetterGradeImage = {
@@ -216,7 +216,7 @@ SCREEN.Buttons = {
 		image = nil,
 		iconColors = { SCREEN.Colors.highlight },
 		circleColor = SCREEN.Colors.highlight,
-		box = {	LETTER_GRADE_X, Constants.SCREEN.MARGIN + 26, 14, 14 },
+		box = {	LETTER_GRADE_X, Constants.SCREEN.MARGIN + 26*Constants.SCALE, 14, 14 },
 		isVisible = function(self) return self.image ~= nil and hasMarkings() end,
 		updateSelf = function(self)
 			if self.image ~= SCREEN.Data.gradeLetter then
@@ -232,7 +232,7 @@ SCREEN.Buttons = {
 		draw = function(self, shadowcolor)
 			local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
 			local color = Theme.COLORS[self.iconColors[1]]
-			local circleX, circleY, circleW, circleH = x - 9, y - 9, 30, 30
+			local circleX, circleY, circleW, circleH = x - 9*Constants.SCALE, y - 9*Constants.SCALE, 30*Constants.SCALE, 30*Constants.SCALE
 			if SCREEN.Data.percentageScore == "100" then
 				circleX = circleX + 3
 				Drawing.drawImageAsPixels(SCREEN.PixelImages.PLUS_SIGN, x + w + 2, y + 5, color, shadowcolor)
@@ -257,13 +257,13 @@ SCREEN.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return SCREEN.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 51, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 51*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 39, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 39*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:prevPage()
@@ -272,7 +272,7 @@ SCREEN.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 93, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 93*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:nextPage()
@@ -285,6 +285,9 @@ SCREEN.Buttons = {
 }
 
 function StatMarkingScoreSheet.initialize()
+	for i=1,#GRIDROW.COLS_X do
+		GRIDROW.COLS_X[i]=GRIDROW.COLS_X[i]*Constants.SCALE
+	end
 	StatMarkingScoreSheet.createHeader()
 
 	for _, button in pairs(SCREEN.Buttons) do
@@ -368,16 +371,16 @@ function StatMarkingScoreSheet.buildScreen()
 			buttonList = {},
 			pokemon = pokemonInfo,
 			index = pokemonInfo.id, -- Used for sorting after a filter is selected
-			dimensions = { width = GRIDROW.W, height = GRIDROW.H, },
+			dimensions = { width = GRIDROW.W, height = GRIDROW.H*Constants.SCALE, },
 			isVisible = function(self) return SCREEN.Pager.currentPage == self.pageVisible end,
 			includeInGrid = function(self)
 				return true
 			end,
 			onClick = function(self)
-				if NotebookPokemonNoteView.buildScreen(pokemonInfo.id) then
-					NotebookPokemonNoteView.previousScreen = SCREEN
-					Program.changeScreenView(NotebookPokemonNoteView)
-				end
+				-- if NotebookPokemonNoteView.buildScreen(pokemonInfo.id) then
+				-- 	NotebookPokemonNoteView.previousScreen = SCREEN
+				-- 	Program.changeScreenView(NotebookPokemonNoteView)
+				-- end
 			end,
 			draw = function(self, shadowcolor)
 				local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
@@ -387,14 +390,14 @@ function StatMarkingScoreSheet.buildScreen()
 				-- Draw vertical dotted lines
 				for i, colX in ipairs(GRIDROW.COLS_X) do
 					if i ~= 1 then -- skip the left-most vertical divider line
-						for offsetY = 1, GRIDROW.H - 1, 2 do
+						for offsetY = 1, GRIDROW.H*Constants.SCALE - 1, 2 do
 							gui.drawPixel(x + colX - 1, y + offsetY, borderColor)
 						end
 					end
 				end
 				-- Draw horizontal dotted lines
 				for offsetX = GRIDROW.COLS_X[2] + 1, GRIDROW.W, 2 do
-					gui.drawPixel(x + offsetX, y + 15, borderColor)
+					gui.drawPixel(x + offsetX, y + 15*Constants.SCALE, borderColor)
 				end
 				for _, button in ipairs(self.buttonList or {}) do
 					Drawing.drawButton(button, shadowcolor)
@@ -448,7 +451,7 @@ function StatMarkingScoreSheet.buildScreen()
 				box = { -1, -1, GRIDROW.CELL_W, GRIDROW.H / 2 },
 				alignToBox = function(self, box)
 					self.box[1] = box[1] + GRIDROW.COLS_X[i + 1]
-					self.box[2] = box[2] + (GRIDROW.H / 2) + 2
+					self.box[2] = box[2] + (GRIDROW.H / 2)*Constants.SCALE + 2
 				end,
 				draw = function(self, shadowcolor)
 					local x, y, w = self.box[1], self.box[2], self.box[3]
@@ -456,12 +459,12 @@ function StatMarkingScoreSheet.buildScreen()
 					local bgColor = Theme.COLORS[SCREEN.Colors.boxFill]
 					if statMarking then
 						local centerOffset = Utils.getCenteredTextX(statMarking, GRIDROW.CELL_W) - 2
-						Drawing.drawTransparentTextbox(x + centerOffset, y - 16, statMarking, textColor, bgColor, shadowcolor)
+						Drawing.drawTransparentTextbox(x + centerOffset, y - 15*Constants.SCALE, statMarking, textColor, bgColor, shadowcolor)
 						if gradeSymbol then
-							Drawing.drawImageAsPixels(gradeSymbol, x + w - 7, y - 17, Theme.COLORS[gradeColor], shadowcolor)
+							Drawing.drawImageAsPixels(gradeSymbol, x + w - 7, y - 16*Constants.SCALE, Theme.COLORS[gradeColor], shadowcolor)
 						end
 					end
-					local centerOffset = Utils.getCenteredTextX(baseStatText, GRIDROW.CELL_W) - 2
+					local centerOffset = Utils.getCenteredTextX(baseStatText, GRIDROW.CELL_W)
 					Drawing.drawTransparentTextbox(x + centerOffset, y, baseStatText, textColor, bgColor, shadowcolor)
 					-- Draw an indicator that this stat is being influenced by the Pokémon's ability
 					if SCREEN.checkAbilityException(statKey, pokemonInfo.abilityId) ~= nil then
@@ -585,9 +588,9 @@ function StatMarkingScoreSheet.drawScreen()
 
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[SCREEN.Colors.text],
 		highlight = Theme.COLORS[SCREEN.Colors.highlight],
 		border = Theme.COLORS[SCREEN.Colors.border],

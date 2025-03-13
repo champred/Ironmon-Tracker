@@ -19,17 +19,17 @@ ExtrasScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.MAGNIFYING_GLASS,
 		getText = function(self) return Resources.ExtrasScreen.ButtonViewLogs end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 27, 130, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 27*Constants.SCALE, 130, 16 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Tools end,
 		onClick = function(self)
-			Program.changeScreenView(ViewLogWarningScreen)
+			--Program.changeScreenView(ViewLogWarningScreen)
 		end,
 	},
 	CoverageCalculator = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		getText = function(self) return Resources.ExtrasScreen.ButtonCoverageCalculator end,
 		image = Constants.PixelImages.SWORD_ATTACK,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 47, 130, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 47*Constants.SCALE, 130, 16 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Tools end,
 		onClick = function(self)
 			CoverageCalcScreen.prepopulateMoveTypes()
@@ -40,7 +40,7 @@ ExtrasScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		getText = function(self) return Resources.ExtrasScreen.ButtonTimeMachine end,
 		image = Constants.PixelImages.CLOCK,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 67, 130, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 67*Constants.SCALE, 130, 16 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Tools end,
 		onClick = function()
 			TimeMachineScreen.buildOutPagedButtons()
@@ -51,7 +51,7 @@ ExtrasScreen.Buttons = {
 		type = Constants.ButtonTypes.ICON_BORDER,
 		image = Constants.PixelImages.WARNING,
 		getText = function(self) return Resources.ExtrasScreen.ButtonCrashRecovery end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 87, 130, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 87*Constants.SCALE, 130, 16 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Tools end,
 		onClick = function(self)
 			Program.changeScreenView(CrashRecoveryScreen)
@@ -67,7 +67,7 @@ ExtrasScreen.Buttons = {
 			end
 		end,
 		ivText = "",
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 107, 130, 16 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 107*Constants.SCALE, 130, 16 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Tools end,
 		draw = function(self, shadowcolor)
 			local x, y = self.box[1], self.box[2]
@@ -81,7 +81,7 @@ ExtrasScreen.Buttons = {
 	TimerEdit = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.ExtrasScreen.ButtonEditTime end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 134, 24, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 134*Constants.SCALE, 24, 11 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Options and Options["Display play time"] end,
 		draw = function(self, shadowcolor)
 			local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3
@@ -92,7 +92,7 @@ ExtrasScreen.Buttons = {
 	TimerRelocate = {
 		type = Constants.ButtonTypes.FULL_BORDER,
 		getText = function(self) return Resources.ExtrasScreen.ButtonRelocateTime end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 60, Constants.SCREEN.MARGIN + 134, 44, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 60*Constants.SCALE, Constants.SCREEN.MARGIN + 134*Constants.SCALE, 44, 11 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Options and Options["Display play time"] end,
 		onClick = function(self)
 			ExtrasScreen.relocateTimer()
@@ -145,7 +145,7 @@ function ExtrasScreen.createTabs()
 	}
 
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN
-	local startY = Constants.SCREEN.MARGIN + 10
+	local startY = Constants.SCREEN.MARGIN + 10*Constants.SCALE
 	local tabHeight = 12
 	local tabPadding = 6
 
@@ -158,7 +158,7 @@ function ExtrasScreen.createTabs()
 			box = {
 				startX,
 				startY,
-				(tabPadding * 2) + Utils.calcWordPixelLength(Resources.ExtrasScreen[tuple[2]]),
+				(tabPadding / 2) + Utils.calcWordPixelLength(Resources.ExtrasScreen[tuple[2]])/Constants.SCALE,
 				tabHeight
 			},
 			updateSelf = function(self)
@@ -203,7 +203,7 @@ function ExtrasScreen.createButtons()
 	}
 
 	local startX = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5
-	local startY = Constants.SCREEN.MARGIN + 27
+	local startY = Constants.SCREEN.MARGIN + 27*Constants.SCALE
 	local linespacing = Constants.SCREEN.LINESPACING + 1
 
 	for _, optionTuple in ipairs(optionKeyMap) do
@@ -331,7 +331,7 @@ function ExtrasScreen.drawScreen()
 	local tabHeight = 12
 	local box = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
 		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
 		text = Theme.COLORS[ExtrasScreen.Colors.text],
