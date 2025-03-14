@@ -11,38 +11,38 @@ NotebookIndexScreen = {
 	},
 }
 local SCREEN = NotebookIndexScreen
-local ROW_WIDTH = Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN * 2 - 11
+local ROW_WIDTH = Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN * 2 - 11*Constants.SCALE
 local ROW_HEIGHT = 32
 
 SCREEN.Buttons = {
 	NotebookDescription = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return string.format("%s:", Resources.NotebookIndexScreen.LabelReviewDescription) end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 13, ROW_WIDTH, 11 },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 3, Constants.SCREEN.MARGIN + 13*Constants.SCALE, ROW_WIDTH, 11 },
 	},
 	PokemonIcon = {
 		type = Constants.ButtonTypes.POKEMON_ICON,
 		getIconId = function(self)
 			return SCREEN.Data.isReady and SCREEN.Data.lastPokemonSeen or 1 -- 1:Bulbasaur
 		end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 37, ROW_HEIGHT, ROW_HEIGHT },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 37*Constants.SCALE, ROW_HEIGHT, ROW_HEIGHT },
 		updateSelf = function(self)
 			local iconset = Options.getIconSet()
 			self.box[1] = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6 + (iconset.xOffset or 0)
-			self.box[2] = Constants.SCREEN.MARGIN + 37 + (iconset.yOffset or 0)
+			self.box[2] = Constants.SCREEN.MARGIN + 37*Constants.SCALE + (iconset.yOffset or 0)
 		end,
 	},
 	PokemonIconRow = {
 		type = Constants.ButtonTypes.NO_BORDER,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 39, ROW_WIDTH, ROW_HEIGHT },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 39, ROW_HEIGHT, ROW_HEIGHT },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 39*Constants.SCALE, ROW_WIDTH, ROW_HEIGHT },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 39*Constants.SCALE, ROW_HEIGHT, ROW_HEIGHT },
 		onClick = function(self)
 			NotebookPokemonSeen.previousScreen = SCREEN
 			NotebookPokemonSeen.buildScreen()
 			Program.changeScreenView(NotebookPokemonSeen)
 		end,
 		draw = function(self, shadowcolor)
-			local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
+			local x, y, w, h = self.box[1], self.box[2], self.box[3]*Constants.SCALE, self.box[4]
 			y = y + 4 -- icons are drawn a bit lower
 			local textColor = Theme.COLORS[self.textColor]
 			local highlightColor = Theme.COLORS[SCREEN.Colors.highlight]
@@ -52,7 +52,7 @@ SCREEN.Buttons = {
 			gui.drawLine(x, y + h + 1, x + ROW_WIDTH, y + h + 1, shadowcolor)
 			gui.drawLine(x + ROW_WIDTH + 1, y - 1, x + ROW_WIDTH + 1, y + h + 1, shadowcolor)
 			gui.drawRectangle(x - 1, y - 2, ROW_WIDTH + 1, h + 2, borderColor)
-			gui.drawLine(x + w, y - 1, x + w, y + h, borderColor)
+			gui.drawLine(x + w, y - 1, x + w, y + h*Constants.SCALE, borderColor)
 
 			-- Draw contained text
 			local textX = x + w + 4
@@ -63,23 +63,23 @@ SCREEN.Buttons = {
 				text = string.format("%s / %s", Constants.BLANKLINE, Constants.BLANKLINE)
 			end
 			Drawing.drawText(textX, y + 3, Resources.NotebookIndexScreen.LabelPokemonSeen, highlightColor, shadowcolor)
-			Drawing.drawText(textX, y + 14, text, textColor, shadowcolor)
+			Drawing.drawText(textX, y + 14*Constants.SCALE, text, textColor, shadowcolor)
 
-			Drawing.drawImageAsPixels(Constants.PixelImages.NOTEBOOK, x + ROW_WIDTH - 20, y + ROW_HEIGHT / 2 - 6, nil, shadowcolor)
+			Drawing.drawImageAsPixels(Constants.PixelImages.NOTEBOOK, x + ROW_WIDTH - 20*Constants.SCALE, y + ROW_HEIGHT / 2 - 6, nil, shadowcolor)
 		end,
 	},
 	TrainerIcon = {
 		type = Constants.ButtonTypes.IMAGE,
 		image = nil,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 87, ROW_WIDTH, ROW_HEIGHT },
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 87, ROW_HEIGHT, ROW_HEIGHT },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 87*Constants.SCALE, ROW_WIDTH, ROW_HEIGHT },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 6, Constants.SCREEN.MARGIN + 87*Constants.SCALE, ROW_HEIGHT, ROW_HEIGHT },
 		onClick = function(self)
 			NotebookTrainersByArea.previousScreen = SCREEN
 			NotebookTrainersByArea.buildScreen()
 			Program.changeScreenView(NotebookTrainersByArea)
 		end,
 		draw = function(self, shadowcolor)
-			local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
+			local x, y, w, h = self.box[1], self.box[2], self.box[3]*Constants.SCALE, self.box[4]
 			local textColor = Theme.COLORS[self.textColor]
 			local highlightColor = Theme.COLORS[SCREEN.Colors.highlight]
 			local borderColor = Theme.COLORS[self.boxColors[1]]
@@ -88,7 +88,7 @@ SCREEN.Buttons = {
 			gui.drawLine(x, y + h + 1, x + ROW_WIDTH, y + h + 1, shadowcolor)
 			gui.drawLine(x + ROW_WIDTH + 1, y - 1, x + ROW_WIDTH + 1, y + h + 1, shadowcolor)
 			gui.drawRectangle(x - 1, y - 2, ROW_WIDTH + 1, h + 2, borderColor)
-			gui.drawLine(x + w, y - 1, x + w, y + h, borderColor)
+			gui.drawLine(x + w, y - 1, x + w, y + h*Constants.SCALE, borderColor)
 
 			-- Draw contained text
 			local textX = x + w + 4
@@ -99,9 +99,9 @@ SCREEN.Buttons = {
 				text = string.format("%s / %s", Constants.BLANKLINE, Constants.BLANKLINE)
 			end
 			Drawing.drawText(textX, y + 3, Resources.NotebookIndexScreen.LabelTrainersFought, highlightColor, shadowcolor)
-			Drawing.drawText(textX, y + 14, text, textColor, shadowcolor)
+			Drawing.drawText(textX, y + 14*Constants.SCALE, text, textColor, shadowcolor)
 
-			Drawing.drawImageAsPixels(Constants.PixelImages.BATTLE_BALLS, x + ROW_WIDTH - 20, y + ROW_HEIGHT / 2 - 8, nil, shadowcolor)
+			Drawing.drawImageAsPixels(Constants.PixelImages.BATTLE_BALLS, x + ROW_WIDTH - 20*Constants.SCALE, y + ROW_HEIGHT / 2 - 8, nil, shadowcolor)
 		end,
 	},
 	Back = Drawing.createUIElementBackButton(function()
@@ -213,9 +213,9 @@ function NotebookIndexScreen.drawScreen()
 
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[SCREEN.Colors.text],
 		highlight = Theme.COLORS[SCREEN.Colors.highlight],
 		border = Theme.COLORS[SCREEN.Colors.border],

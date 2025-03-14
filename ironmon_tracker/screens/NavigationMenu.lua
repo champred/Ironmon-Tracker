@@ -63,8 +63,8 @@ NavigationMenu.Buttons = {
 		index = 5,
 		isVisible = function() return not NavigationMenu.showCredits end,
 		onClick = function()
-			-- NotebookIndexScreen.buildScreen()
-			-- Program.changeScreenView(NotebookIndexScreen)
+			NotebookIndexScreen.buildScreen()
+			Program.changeScreenView(NotebookIndexScreen)
 		end
 	},
 	ThemeCustomization = {

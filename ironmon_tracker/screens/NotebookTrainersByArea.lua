@@ -21,7 +21,7 @@ SCREEN.Pager = {
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer)
 		table.sort(self.Buttons, self.defaultSort)
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP + 1
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffY = Constants.SCREEN.HEIGHT - 20*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -55,8 +55,8 @@ SCREEN.Buttons = {
 	CheckboxShowCompleted = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		getText = function(self) return string.format(" %s", Resources.NotebookTrainersByArea.CheckboxShowCompleted) end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14, 77, 10 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 77, 10 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 8, 8 },
 		toggleState = false,
 		onClick = function(self)
 			self.toggleState = not self.toggleState
@@ -67,8 +67,8 @@ SCREEN.Buttons = {
 	CheckboxSevii = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		getText = function(self) return string.format(" %s", Resources.NotebookTrainersByArea.CheckboxSevii) end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 105, Constants.SCREEN.MARGIN + 14, 31, 10 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 105, Constants.SCREEN.MARGIN + 14, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 105*Constants.SCALE, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 31, 10 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 105*Constants.SCALE, Constants.SCREEN.MARGIN + 14*Constants.SCALE, 8, 8 },
 		isVisible = function() return GameSettings.game == 3 end, -- Only available in FRLG
 		toggleState = false,
 		onClick = function(self)
@@ -81,13 +81,13 @@ SCREEN.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return SCREEN.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 56*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 46*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:prevPage()
@@ -96,7 +96,7 @@ SCREEN.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 86, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 86*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:nextPage()
@@ -130,10 +130,10 @@ function NotebookTrainersByArea.buildScreen()
 	SCREEN.clearBuiltData()
 
 	local ROW_START_X = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1
-	local ROW_START_Y = Constants.SCREEN.MARGIN + 28
+	local ROW_START_Y = Constants.SCREEN.MARGIN + 28*Constants.SCALE
 	local ROW_WIDTH = Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN * 2 - 2
 	local ROW_HEIGHT = 21
-	local COLUMNS_X = { 0, 21, 110 }
+	local COLUMNS_X = { 0, 21*Constants.SCALE, 110*Constants.SCALE }
 
 	local includeCompletedAreas = SCREEN.Buttons.CheckboxShowCompleted.toggleState
 	local includeSevii
@@ -213,7 +213,7 @@ function NotebookTrainersByArea.buildScreen()
 			buttonList = {},
 			area = areaInfo,
 			index = i,
-			dimensions = { width = ROW_WIDTH, height = ROW_HEIGHT, },
+			dimensions = { width = ROW_WIDTH, height = ROW_HEIGHT*Constants.SCALE, },
 			isVisible = function(self) return SCREEN.Pager.currentPage == self.pageVisible end,
 			includeInGrid = function(self)
 				-- Allow checkboxes to filter completed areas or not
@@ -276,7 +276,7 @@ function NotebookTrainersByArea.buildScreen()
 			box = { -1, -1, 90, 11 },
 			alignToBox = function(self, box)
 				self.box[1] = box[1] + COLUMNS_X[2] + 2
-				self.box[2] = box[2] + (ROW_HEIGHT / 2) - (Constants.SCREEN.LINESPACING / 2) - 1
+				self.box[2] = box[2] + (ROW_HEIGHT*Constants.SCALE / 2) - (Constants.SCREEN.LINESPACING / 2) - 1
 			end,
 		}
 		table.insert(buttonRow.buttonList, nameBtn)
@@ -302,7 +302,7 @@ function NotebookTrainersByArea.buildScreen()
 			alignToBox = function(self, box)
 				local offsetX = Utils.getCenteredTextX(self:getText() or "", self.box[3])
 				self.box[1] = box[1] + COLUMNS_X[3] + offsetX
-				self.box[2] = box[2] + (ROW_HEIGHT / 2) - (Constants.SCREEN.LINESPACING / 2) - 1
+				self.box[2] = box[2] + (ROW_HEIGHT*Constants.SCALE / 2) - (Constants.SCREEN.LINESPACING / 2) - 1
 			end,
 		}
 		table.insert(buttonRow.buttonList, trainerCountBtn)
@@ -343,9 +343,9 @@ function NotebookTrainersByArea.drawScreen()
 
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[SCREEN.Colors.text],
 		highlight = Theme.COLORS[SCREEN.Colors.highlight],
 		border = Theme.COLORS[SCREEN.Colors.border],

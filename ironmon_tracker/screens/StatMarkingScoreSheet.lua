@@ -377,10 +377,10 @@ function StatMarkingScoreSheet.buildScreen()
 				return true
 			end,
 			onClick = function(self)
-				-- if NotebookPokemonNoteView.buildScreen(pokemonInfo.id) then
-				-- 	NotebookPokemonNoteView.previousScreen = SCREEN
-				-- 	Program.changeScreenView(NotebookPokemonNoteView)
-				-- end
+				if NotebookPokemonNoteView.buildScreen(pokemonInfo.id) then
+					NotebookPokemonNoteView.previousScreen = SCREEN
+					Program.changeScreenView(NotebookPokemonNoteView)
+				end
 			end,
 			draw = function(self, shadowcolor)
 				local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]

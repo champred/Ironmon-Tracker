@@ -13,10 +13,10 @@ local SCREEN = NotebookPokemonSeen
 
 local GRIDROW = {
 	X = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 1,
-	Y = Constants.SCREEN.MARGIN + 36,
+	Y = Constants.SCREEN.MARGIN + 36*Constants.SCALE,
 	W = Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN * 2 - 2,
 	H = 32,
-	COLS_X = { 0, 33 }
+	COLS_X = { 0, 33*Constants.SCALE }
 }
 
 SCREEN.Pager = {
@@ -27,7 +27,7 @@ SCREEN.Pager = {
 	realignButtonsToGrid = function(self, x, y, colSpacer, rowSpacer, sortFunc)
 		table.sort(self.Buttons, sortFunc or self.defaultSort)
 		local cutoffX = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP + 1
-		local cutoffY = Constants.SCREEN.HEIGHT - 20
+		local cutoffY = Constants.SCREEN.HEIGHT - 20*Constants.SCALE
 		local totalPages = Utils.gridAlign(self.Buttons, x, y, colSpacer, rowSpacer, true, cutoffX, cutoffY)
 		self.currentPage = 1
 		self.totalPages = totalPages or 1
@@ -62,8 +62,8 @@ SCREEN.Buttons = {
 	CheckboxIncludeUnseen = {
 		type = Constants.ButtonTypes.CHECKBOX,
 		getText = function(self) return string.format(" %s", Resources.NotebookPokemonSeen.LabelAll) end,
-		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137, 25, 10 },
-		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137, 8, 8 },
+		clickableArea = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 25, 10 },
+		box = {	Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 4, Constants.SCREEN.MARGIN + 137*Constants.SCALE, 8, 8 },
 		toggleState = false,
 		onClick = function(self)
 			self.toggleState = not self.toggleState
@@ -79,13 +79,13 @@ SCREEN.Buttons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return SCREEN.Pager:getPageText() end,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54, Constants.SCREEN.MARGIN + 135, 50, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 54*Constants.SCALE, Constants.SCREEN.MARGIN + 135*Constants.SCALE, 50, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 	},
 	PrevPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.LEFT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 42, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 42*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:prevPage()
@@ -94,7 +94,7 @@ SCREEN.Buttons = {
 	NextPage = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.RIGHT_ARROW,
-		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 96, Constants.SCREEN.MARGIN + 136, 10, 10, },
+		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 96*Constants.SCALE, Constants.SCREEN.MARGIN + 136*Constants.SCALE, 10, 10, },
 		isVisible = function() return SCREEN.Pager.totalPages > 1 end,
 		onClick = function(self)
 			SCREEN.Pager:nextPage()
@@ -156,9 +156,9 @@ function NotebookPokemonSeen.createNavFilters()
 	end
 	local NAV_GRID = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 2,
-		y = Constants.SCREEN.MARGIN + 12,
+		y = Constants.SCREEN.MARGIN + 12*Constants.SCALE,
 		cutoffx = Constants.SCREEN.WIDTH + Constants.SCREEN.RIGHT_GAP - Constants.SCREEN.MARGIN - 2,
-		cutoffy = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 20,
+		cutoffy = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - 20*Constants.SCALE,
 	}
 	Utils.gridAlign(SCREEN.NavButtons, NAV_GRID.x, NAV_GRID.y, 1, 2, false, NAV_GRID.cutoffx, NAV_GRID.cutoffy)
 end
@@ -193,7 +193,7 @@ function NotebookPokemonSeen.buildScreen(navFilter)
 			pokemon = pokemonInfo,
 			index = pokemonInfo.id, -- Used for sorting after a filter is selected
 			name = pokemonInfo.name, -- Used for default, unfiltered sorting
-			dimensions = { width = GRIDROW.W, height = GRIDROW.H, },
+			dimensions = { width = GRIDROW.W, height = GRIDROW.H*Constants.SCALE, },
 			isVisible = function(self) return SCREEN.Pager.currentPage == self.pageVisible end,
 			includeInGrid = function(self)
 				if SCREEN.Data.navFilter == nil then
@@ -256,7 +256,7 @@ function NotebookPokemonSeen.buildScreen(navFilter)
 			box = { -1, -1, 90, 11 },
 			alignToBox = function(self, box)
 				self.box[1] = box[1] + GRIDROW.COLS_X[2] + 2
-				self.box[2] = box[2] + (GRIDROW.H / 2) - Constants.SCREEN.LINESPACING - 2
+				self.box[2] = box[2] + (GRIDROW.H*Constants.SCALE / 2) - Constants.SCREEN.LINESPACING - 2
 			end,
 			draw = function(self, shadowcolor)
 				local x, y = self.box[1], self.box[2]
@@ -295,7 +295,7 @@ function NotebookPokemonSeen.buildScreen(navFilter)
 				isVisible = function(self) return buttonRow:isVisible() end,
 				box = { -1, -1, 5, 5 },
 				alignToBox = function(self, box)
-					self.box[1] = box[1] + GRIDROW.W - 8
+					self.box[1] = box[1] + GRIDROW.W - 8*Constants.SCALE
 					self.box[2] = box[2] - 1
 				end,
 				draw = function(self, shadowcolor)
@@ -355,9 +355,9 @@ function NotebookPokemonSeen.drawScreen()
 
 	local canvas = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[SCREEN.Colors.text],
 		highlight = Theme.COLORS[SCREEN.Colors.highlight],
 		border = Theme.COLORS[SCREEN.Colors.border],
