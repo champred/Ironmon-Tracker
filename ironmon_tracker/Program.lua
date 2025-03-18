@@ -1075,7 +1075,7 @@ function Program.HandleExit()
 	Drawing.clearGUI()
 	client.SetGameExtraPadding(0, 0, 0, 0)
 	forms.destroyall()
-
+	gui:close()
 	Main.ExitSafely(false)
 end
 

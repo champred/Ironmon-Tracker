@@ -76,7 +76,8 @@ Drawing.ImagePaths = {
 
 function Drawing.initialize()
 	Drawing.allowCachedImages = true
-	if Main.IsOnBizhawk() then
+	if Main.IsOnBizhawk() and not oldgui then
+		oldgui=gui
 		--client.SetGameExtraPadding(0, Constants.SCREEN.UP_GAP, Constants.SCREEN.RIGHT_GAP, Constants.SCREEN.DOWN_GAP)
 		gui=gui.createcanvas(Constants.SCREEN.RIGHT_GAP,Constants.SCREEN.HEIGHT)
 		local mt={
@@ -102,6 +103,11 @@ function Drawing.initialize()
 				end,
 				drawText=gui.DrawText,
 				defaultTextBackground=gui.SetDefaultTextBackground,
+				close=function(self)
+					gui=oldgui
+					oldgui=nil
+					return self.Close()
+				end
 			}
 		}
 		setmetatable(gui,mt)
