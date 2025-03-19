@@ -79,7 +79,8 @@ function Drawing.initialize()
 	if Main.IsOnBizhawk() and not oldgui then
 		oldgui=gui
 		--client.SetGameExtraPadding(0, Constants.SCREEN.UP_GAP, Constants.SCREEN.RIGHT_GAP, Constants.SCREEN.DOWN_GAP)
-		gui=gui.createcanvas(Constants.SCREEN.RIGHT_GAP,Constants.SCREEN.HEIGHT)
+		gui=gui.createcanvas(Constants.SCREEN.RIGHT_GAP,Constants.SCREEN.HEIGHT,250*Constants.SCALE)
+		gui.SetTitle("ironMON Tracker")
 		local mt={
 			__index={
 				clearImageCache=gui.ClearImageCache,
