@@ -118,7 +118,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 
 	local abilityButtonArea ={
 		x = LogOverlay.TabBox.x + 1,
-		y = LogOverlay.TabBox.y + 13,
+		y = LogOverlay.TabBox.y + 13*Constants.SCALE,
 		w = 60,
 		h = Constants.SCREEN.LINESPACING * 2
 	}
@@ -194,9 +194,9 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 	local evoArrowSize = 10
 
 	local pokemonIconRange = {
-		x = LogOverlay.TabBox.x + 75,
+		x = LogOverlay.TabBox.x + 75*Constants.SCALE,
 		y = LogOverlay.TabBox.y - 2,
-		w = function(self) return Constants.SCREEN.WIDTH - self.x - LogOverlay.TabBox.x - 1 end,
+		w = function(self) return LogOverlay.TabBox.width - self.x - LogOverlay.TabBox.x - 1 end,
 		h = pokemonIconSize + evoLabelTextHeight,
 	}
 
@@ -256,7 +256,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 		pokemonIconSize,
 	}
 	if hasPrevEvo then
-		pokeIcon[1] = pokeIcon[1] + pokemonIconSize + pokemonIconSpacing + evoArrowSize
+		pokeIcon[1] = pokeIcon[1] + pokemonIconSize*Constants.SCALE + pokemonIconSpacing + evoArrowSize*Constants.SCALE
 		LogTabPokemonDetails.evosPerSet = 2
 	else
 		LogTabPokemonDetails.evosPerSet = 3
@@ -287,7 +287,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 	local xOffset = evoArrowSize
 	for i, evo in ipairs(evoList) do
 		local evoBox = {
-			xOffset + viewedPokemonIcon.box[1] + pokemonIconSize + pokemonIconSpacing,
+			xOffset + viewedPokemonIcon.box[1] + pokemonIconSize*Constants.SCALE + pokemonIconSpacing,
 			pokemonIconRange.y,
 			pokemonIconSize,
 			pokemonIconSize,
@@ -318,21 +318,21 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 				local bgColor = Theme.COLORS[LogTabPokemonDetails.Colors.boxFill]
 				local evoText = self:getText() or ""
 				local evoTextSize = Utils.calcWordPixelLength(evoText)
-				local offsetX = math.max((self.box[3] - evoTextSize) / 2, 0)
-				Drawing.drawTransparentTextbox(x + offsetX, y + self.box[4] + 2, evoText, textColor, bgColor, shadowcolor)
+				local offsetX = math.max((self.box[3]*Constants.SCALE - evoTextSize) / 2, 0)
+				Drawing.drawTransparentTextbox(x + offsetX, y + self.box[4]*Constants.SCALE + 2, evoText, textColor, bgColor, shadowcolor)
 			end
 		}
 		table.insert(LogTabPokemonDetails.TemporaryButtons, evoButton)
 		if i % LogTabPokemonDetails.evosPerSet == 0 then
 			evoSet = evoSet + 1
-			xOffset = evoArrowSize
+			xOffset = evoArrowSize*Constants.SCALE
 		else
-			xOffset = xOffset + pokemonIconSize + (pokemonIconSpacing / 2)
+			xOffset = xOffset + pokemonIconSize*Constants.SCALE + (pokemonIconSpacing / 2)
 		end
 	end
 
 	-- EVOLUTION ARROW
-	local evoArrowX = viewedPokemonIcon.box[1] + pokemonIconSpacing / 2 + pokemonIconSize
+	local evoArrowX = viewedPokemonIcon.box[1] + pokemonIconSpacing / 2 + pokemonIconSize*Constants.SCALE
 	if hasEvo then
 		local evoArrow = {
 			type = Constants.ButtonTypes.PIXELIMAGE,
@@ -340,7 +340,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 			textColor = LogTabPokemonDetails.Colors.text,
 			box = {
 				evoArrowX,
-				pokemonIconRange.y + (pokemonIconRange.h / 2) - 3,
+				pokemonIconRange.y + (pokemonIconRange.h / 2)*Constants.SCALE - 3,
 				evoArrowSize,
 				evoArrowSize
 			},
@@ -354,7 +354,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 	end
 
 	-- PREV EVOLUTION ARROW
-	local prevEvoArrowX = viewedPokemonIcon.box[1] - pokemonIconSpacing / 2 - evoArrowSize
+	local prevEvoArrowX = viewedPokemonIcon.box[1] - pokemonIconSpacing / 2 - evoArrowSize*Constants.SCALE
 	if hasPrevEvo then
 		local prevEvoArrow = {
 			type = Constants.ButtonTypes.PIXELIMAGE,
@@ -362,7 +362,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 			textColor = "Lower box text",
 			box = {
 				prevEvoArrowX,
-				pokemonIconRange.y + (pokemonIconRange.h / 2) - 3,
+				pokemonIconRange.y + (pokemonIconRange.h / 2)*Constants.SCALE - 3,
 				evoArrowSize,
 				evoArrowSize
 			},
@@ -379,10 +379,10 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 	end
 
 	-- Chevrons to indicate current evoset and prevo set
-	local chevronSizeX = 2
-	local chevronSizeY = 4
+	local chevronSizeX = 2*Constants.SCALE
+	local chevronSizeY = 4*Constants.SCALE
 	local chevronSpacing = 0
-	local chevronThickness = 2
+	local chevronThickness = 2*Constants.SCALE
 
 	if #evoList > LogTabPokemonDetails.evosPerSet then
 		local evosets = math.ceil(#evoList / LogTabPokemonDetails.evosPerSet)
@@ -393,7 +393,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 
 		local chevronBox = {
 			startX,
-			viewedPokemonIcon.box[2] + pokemonIconSize + Constants.Font.SIZE - ((chevronSizeY + 1) / 2),
+			viewedPokemonIcon.box[2] + pokemonIconSize*Constants.SCALE + Constants.Font.SIZE - ((chevronSizeY + 1) / 2),
 			chevronsTotalWidth,
 			chevronSizeY
 		}
@@ -493,8 +493,8 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 		table.insert(LogTabPokemonDetails.TemporaryButtons, chevronButton)
 	end
 
-	local movesColX = LogOverlay.TabBox.x + 118
-	local movesRowY = LogOverlay.TabBox.y + Utils.inlineIf(hasEvo, 42, 0)
+	local movesColX = LogOverlay.TabBox.x + 118*Constants.SCALE
+	local movesRowY = LogOverlay.TabBox.y + Utils.inlineIf(hasEvo, 42*Constants.SCALE, 0)
 	LogTabPokemonDetails.Pager.movesPerPage = Utils.inlineIf(hasEvo, 8, 12)
 
 	local levelupMovesTab = {
@@ -529,7 +529,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 		textColor = LogTabPokemonDetails.Colors.text,
 		tab = LogTabPokemonDetails.Tabs.TmMoves,
 		isSelected = false,
-		box = { movesColX + 70, movesRowY, 41, 11 },
+		box = { movesColX + 70*Constants.SCALE, movesRowY, 41, 11 },
 		updateSelf = function(self)
 			self.isSelected = (LogTabPokemonDetails.Pager.currentTab == self.tab)
 			self.textColor = Utils.inlineIf(self.isSelected, LogTabPokemonDetails.Colors.highlight, LogTabPokemonDetails.Colors.text)
@@ -552,7 +552,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 	table.insert(LogTabPokemonDetails.TemporaryButtons, levelupMovesTab)
 	table.insert(LogTabPokemonDetails.TemporaryButtons, tmMovesTab)
 
-	local moveCategoryOffset = 90
+	local moveCategoryOffset = 90*Constants.SCALE
 
 	-- LEARNABLE MOVES
 	offsetY = 0
@@ -587,7 +587,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 			moveId = moveInfo.id,
 			tab = LogTabPokemonDetails.Tabs.LevelMoves,
 			pageVisible = math.ceil(i / LogTabPokemonDetails.Pager.movesPerPage),
-			box = { movesColX, movesRowY + 13 + offsetY + Utils.inlineIf(hasEvo, 0, -2), 80, 11 },
+			box = { movesColX, movesRowY + 13*Constants.SCALE + offsetY + Utils.inlineIf(hasEvo, 0, -2), 80, 11 },
 			isVisible = function(self) return LogTabPokemonDetails.Pager.currentTab == self.tab and LogTabPokemonDetails.Pager.currentPage == self.pageVisible end,
 			updateSelf = function(self)
 				self.textColor = moveColor
@@ -701,7 +701,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 			moveId = tmInfo.moveId,
 			tab = LogTabPokemonDetails.Tabs.TmMoves,
 			pageVisible = math.ceil(i / LogTabPokemonDetails.Pager.movesPerPage),
-			box = { movesColX, movesRowY + 13 + offsetY + Utils.inlineIf(hasEvo, 0, -2), 80, 11 },
+			box = { movesColX, movesRowY + 13*Constants.SCALE + offsetY + Utils.inlineIf(hasEvo, 0, -2), 80, 11 },
 			isVisible = function(self) return LogTabPokemonDetails.Pager.currentTab == self.tab and LogTabPokemonDetails.Pager.currentPage == self.pageVisible end,
 			draw = function (self, shadowcolor)
 				local x, y = self.box[1], self.box[2]
@@ -749,7 +749,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.UP_ARROW,
 		textColor = LogTabPokemonDetails.Colors.text,
-		box = { movesColX + 107, movesRowY + 24 + Utils.inlineIf(hasEvo, 0, 10), 10, 10 },
+		box = { movesColX + 107*Constants.SCALE, movesRowY + 24*Constants.SCALE + Utils.inlineIf(hasEvo, 0, 10), 10, 10 },
 		isVisible = function() return LogTabPokemonDetails.Pager.totalPages > 1 end,
 		onClick = function(self) LogTabPokemonDetails.Pager:prevPage() end,
 	}
@@ -757,7 +757,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.DOWN_ARROW,
 		textColor = LogTabPokemonDetails.Colors.text,
-		box = { movesColX + 107, movesRowY + 81 + Utils.inlineIf(hasEvo, 0, 30), 10, 10 },
+		box = { movesColX + 107*Constants.SCALE, movesRowY + 81*Constants.SCALE + Utils.inlineIf(hasEvo, 0, 30), 10, 10 },
 		isVisible = function() return LogTabPokemonDetails.Pager.totalPages > 1 end,
 		onClick = function(self) LogTabPokemonDetails.Pager:nextPage() end,
 	}
@@ -770,7 +770,7 @@ function LogTabPokemonDetails.buildZoomButtons(pokemonID)
 
 	-- LABEL/BUTTON FOR "Show IVs/EVs/BST"
 	local canSeeIVsEVs = LogOverlay.viewedLog == FileManager.PostFixes.AUTORANDOMIZED and LogTabPokemonDetails.playerTeam[pokemonID] ~= nil
-	local showBtnBox = { LogOverlay.TabBox.x + 66, LogOverlay.TabBox.y + 42, 43, 11 } -- x, y, width, height
+	local showBtnBox = { LogOverlay.TabBox.x + 66*Constants.SCALE, LogOverlay.TabBox.y + 42*Constants.SCALE, 43, 11 } -- x, y, width, height
 
 	local lblStatGraphHeader = {
 		type = Constants.ButtonTypes.NO_BORDER,
@@ -885,7 +885,7 @@ function LogTabPokemonDetails.drawStatGraph(data, shadowcolor)
 	-- If these change, also update "lblStatGraphHeader", "lblBaseStatTotal", etc. above
 	local statBox = {
 		x = LogOverlay.TabBox.x + 6,
-		y = LogOverlay.TabBox.y + 53,
+		y = LogOverlay.TabBox.y + 53*Constants.SCALE,
 		width = 103,
 		height = 68,
 		barW = 8,
@@ -895,16 +895,16 @@ function LogTabPokemonDetails.drawStatGraph(data, shadowcolor)
 	-- Draw stat box
 	gui.drawRectangle(statBox.x, statBox.y, statBox.width, statBox.height, borderColor, fillColor)
 	local quarterMark = statBox.height/4
-	gui.drawLine(statBox.x - 2, statBox.y, statBox.x, statBox.y, borderColor)
-	gui.drawLine(statBox.x + statBox.width, statBox.y, statBox.x + statBox.width + 2, statBox.y, borderColor)
-	gui.drawLine(statBox.x - 1, statBox.y + quarterMark * 1, statBox.x, statBox.y + quarterMark * 1, borderColor)
-	gui.drawLine(statBox.x + statBox.width, statBox.y + quarterMark * 1, statBox.x + statBox.width + 1, statBox.y + quarterMark * 1, borderColor)
-	gui.drawLine(statBox.x - 2, statBox.y + quarterMark * 2, statBox.x, statBox.y + quarterMark * 2, borderColor)
-	gui.drawLine(statBox.x + statBox.width, statBox.y + quarterMark * 2, statBox.x + statBox.width + 2, statBox.y + quarterMark * 2, borderColor)
-	gui.drawLine(statBox.x - 1, statBox.y + quarterMark * 3, statBox.x, statBox.y + quarterMark * 3, borderColor)
-	gui.drawLine(statBox.x + statBox.width, statBox.y + quarterMark * 3, statBox.x + statBox.width + 1, statBox.y + quarterMark * 3, borderColor)
-	gui.drawLine(statBox.x - 2, statBox.y + statBox.height, statBox.x, statBox.y + statBox.height, borderColor)
-	gui.drawLine(statBox.x + statBox.width, statBox.y + statBox.height, statBox.x + statBox.width + 2, statBox.y + statBox.height, borderColor)
+	-- gui.drawLine(statBox.x - 2, statBox.y, statBox.x, statBox.y, borderColor)
+	-- gui.drawLine(statBox.x + statBox.width, statBox.y, statBox.x + statBox.width + 2, statBox.y, borderColor)
+	-- gui.drawLine(statBox.x - 1, statBox.y + quarterMark * 1, statBox.x, statBox.y + quarterMark * 1, borderColor)
+	-- gui.drawLine(statBox.x + statBox.width, statBox.y + quarterMark * 1, statBox.x + statBox.width + 1, statBox.y + quarterMark * 1, borderColor)
+	-- gui.drawLine(statBox.x - 2, statBox.y + quarterMark * 2, statBox.x, statBox.y + quarterMark * 2, borderColor)
+	-- gui.drawLine(statBox.x + statBox.width, statBox.y + quarterMark * 2, statBox.x + statBox.width + 2, statBox.y + quarterMark * 2, borderColor)
+	-- gui.drawLine(statBox.x - 1, statBox.y + quarterMark * 3, statBox.x, statBox.y + quarterMark * 3, borderColor)
+	-- gui.drawLine(statBox.x + statBox.width, statBox.y + quarterMark * 3, statBox.x + statBox.width + 1, statBox.y + quarterMark * 3, borderColor)
+	-- gui.drawLine(statBox.x - 2, statBox.y + statBox.height, statBox.x, statBox.y + statBox.height, borderColor)
+	-- gui.drawLine(statBox.x + statBox.width, statBox.y + statBox.height, statBox.x + statBox.width + 2, statBox.y + statBox.height, borderColor)
 
 	local barVals = {}
 	local pokemon = LogTabPokemonDetails.playerTeam[data.p.id]
@@ -926,7 +926,7 @@ function LogTabPokemonDetails.drawStatGraph(data, shadowcolor)
 		end
 		-- Draw the vertical bar
 		local barH = math.floor(barVal / 255 * (statBox.height - 2) + 0.5)
-		local barY = statBox.y + statBox.height - barH - 1 -- -1/-2 for box pixel border margin
+		local barY = statBox.y + (statBox.height - barH)*Constants.SCALE - 1 -- -1/-2 for box pixel border margin
 		local barColor
 		if barVal >= 180 then -- top ~70%
 			barColor = Theme.COLORS["Positive text"]
@@ -943,8 +943,8 @@ function LogTabPokemonDetails.drawStatGraph(data, shadowcolor)
 		-- Draw the bar's label
 		local statLabelOffsetX = (3 - string.len(statKey)) * 2
 		local statValueOffsetX = (3 - string.len(tostring(barVals[statKey]))) * 2
-		Drawing.drawText(statX + statLabelOffsetX, statBox.y + statBox.height + 1, Utils.firstToUpper(statKey), textColor, shadowcolor)
-		Drawing.drawText(statX + statValueOffsetX, statBox.y + statBox.height + 11, barVals[statKey], barColor, shadowcolor)
-		statX = statX + statBox.labelW
+		Drawing.drawText(statX + statLabelOffsetX, statBox.y + statBox.height*Constants.SCALE + 1, Utils.firstToUpper(statKey), textColor, shadowcolor)
+		Drawing.drawText(statX + statValueOffsetX, statBox.y + statBox.height*Constants.SCALE + Constants.SCREEN.LINESPACING, barVals[statKey], barColor, shadowcolor)
+		statX = statX + statBox.labelW*Constants.SCALE
 	end
 end

@@ -361,8 +361,8 @@ end
 function Drawing.drawUnderline(button, color)
 	if button == nil or button.box == nil then return end
 	color = color or Theme.COLORS[button.textColor or ""] or Theme.COLORS["Default text"]
-	local x1, x2 = button.box[1] + 2, button.box[1] + button.box[3] - 1
-	local y1, y2 = button.box[2] + button.box[4] - 1, button.box[2] + button.box[4] - 1
+	local x1, x2 = button.box[1] + 2, button.box[1] + button.box[3]*Constants.SCALE - 1
+	local y1, y2 = button.box[2] + button.box[4]*Constants.SCALE - 1, button.box[2] + button.box[4]*Constants.SCALE - 1
 	gui.drawLine(x1, y1, x2, y2, color)
 end
 

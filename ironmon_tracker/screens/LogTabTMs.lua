@@ -112,7 +112,7 @@ function LogTabTMs.buildPagedButtons(gymTMs)
 			gymNumber = gymNumber,
 			trainerId = trainerId,
 			group = filterGroup,
-			dimensions = { width = 80, height = 11, },
+			dimensions = { width = 80*Constants.SCALE, height = 11*Constants.SCALE, },
 			isVisible = function(self) return LogOverlay.Windower.currentPage == self.pageVisible end,
 			includeInGrid = function(self)
 				local shouldInclude = LogOverlay.Windower.filterGrid == LogOverlay.NavFilters.TMs.TMNumber.group or LogOverlay.Windower.filterGrid == self.group
@@ -136,7 +136,7 @@ function LogTabTMs.buildGymTMButtons()
 	local gymTMNav = LogOverlay.NavFilters.TMs.GymTMs
 	LogTabTMs.realignGrid(gymTMNav.group, gymTMNav.sortFunc)
 
-	local gymColOffsetX = 80 + 17
+	local gymColOffsetX = (80 + 17)*Constants.SCALE
 	for _, tmButton in pairs(LogTabTMs.PagedButtons) do
 		local trainerLog = RandomizerLog.Data.Trainers[tmButton.trainerId or -1] or {}
 
@@ -161,9 +161,9 @@ function LogTabTMs.buildGymTMButtons()
 				isVisible = function(self) return LogOverlay.Windower.filterGrid == self.group end,
 				draw = function(self, shadowcolor)
 					-- Draw badge icon to the left of the TM move
-					Drawing.drawImage(badgeImage, tmButton.box[1] - 18, tmButton.box[2] - 2)
+					Drawing.drawImage(badgeImage, tmButton.box[1] - 18*Constants.SCALE, tmButton.box[2] - 2,16,16)
 					-- Draw the gym leader name and gym # to the right of the TM move
-					Drawing.drawText(self.box[1] + 55, self.box[2], gymLabel, Theme.COLORS[self.textColor], shadowcolor)
+					Drawing.drawText(self.box[1] + 55*Constants.SCALE, self.box[2], gymLabel, Theme.COLORS[self.textColor], shadowcolor)
 				end,
 				onClick = function(self)
 					LogOverlay.Windower:changeTab(LogTabTrainerDetails, 1, 1, self.trainerId)
@@ -185,8 +185,8 @@ function LogTabTMs.realignGrid(gridFilter, sortFunc, startingPage)
 
 	table.sort(LogTabTMs.PagedButtons, sortFunc)
 
-	local x = LogOverlay.TabBox.x + 25
-	local y = LogOverlay.TabBox.y + 14
+	local x = LogOverlay.TabBox.x + 25*Constants.SCALE
+	local y = LogOverlay.TabBox.y + 14*Constants.SCALE
 	local colSpacer = 17
 	local rowSpacer = 2
 	local maxWidth = LogOverlay.TabBox.width + LogOverlay.TabBox.x

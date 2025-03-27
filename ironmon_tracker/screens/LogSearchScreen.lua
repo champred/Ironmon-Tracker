@@ -178,9 +178,9 @@ function LogSearchScreen.createButtons()
 	local LSS = LogSearchScreen
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 	}
 
 	-- =====KEYBOARD BUTTONS=====
@@ -195,8 +195,8 @@ function LogSearchScreen.createButtons()
 		padding = 2,
 		clicked = 0,
 		box = {
-			topBox.x + topBox.width - imageSize - LSS.padding * 3,
-			LSS.KeyboardBox.y - imageSize - LSS.padding * 3,
+			topBox.x + topBox.width - imageSize*Constants.SCALE - LSS.padding * 3,
+			LSS.KeyboardBox.y - imageSize*Constants.SCALE - LSS.padding * 3,
 			imageSize + LSS.padding + 1,
 			imageSize + LSS.padding + 1,
 		},
@@ -227,7 +227,7 @@ function LogSearchScreen.createButtons()
 		clicked = 0,
 		-- To the left of the clear search button
 		box = {
-			LSS.Buttons.ClearSearch.box[1] - LSS.Buttons.ClearSearch.box[3] - LSS.padding - 1,
+			LSS.Buttons.ClearSearch.box[1] - LSS.Buttons.ClearSearch.box[3]*Constants.SCALE - LSS.padding - 1,
 			LSS.Buttons.ClearSearch.box[2],
 			LSS.Buttons.ClearSearch.box[3],
 			LSS.Buttons.ClearSearch.box[4],
@@ -253,7 +253,7 @@ function LogSearchScreen.createButtons()
 	-- =====SEARCH TEXT DISPLAY BUTTON=====
 	LSS.Buttons.SearchTextField = {
 		maxLetters = 10,
-		letterSize = 7,
+		letterSize = 7*Constants.SCALE,
 		type = Constants.ButtonTypes.FULL_BORDER,
 		searchText = {},
 		box = {
@@ -281,7 +281,7 @@ function LogSearchScreen.createButtons()
 			for i = 1, self.maxLetters do
 				local x = self.box[1] + (i - 1) * (self.letterSize + 3) + 2
 				x = x + (self.box[3] / 2) - (self.maxLetters * (self.letterSize + 3)) / 2
-				local y = self.box[2] + self.box[4] - 2
+				local y = self.box[2] + (self.box[4] - 3)*Constants.SCALE
 				if i <= #self.searchText then
 					-- Center the character
 					local textOffsetX = Utils.centerTextOffset(self.searchText[i],
@@ -320,13 +320,13 @@ function LogSearchScreen.createUpdateSortOrderDropdown()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 	}
 
 	local dropdownBox = {
-		x = topBox.x + 40,
+		x = topBox.x + 40*Constants.SCALE,
 		y = topBox.y + LSS.padding + 1,
 		width = 90,
 		height = 13,
@@ -348,8 +348,8 @@ function LogSearchScreen.createUpdateSortOrderDropdown()
 			end
 		end,
 		draw = function(self)
-			local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
-			local size = #self.image + LSS.padding
+			local x, y, w, h = self.box[1], self.box[2], self.box[3]*Constants.SCALE, self.box[4]*Constants.SCALE
+			local size = (#self.image + LSS.padding)*Constants.SCALE
 
 			-- Draw Image
 			Drawing.drawImageAsPixels(self.image, x + w - size + 1, y + 1, Theme.COLORS[self.textColor], LSS.Colors.lowerShadowcolor)
@@ -370,7 +370,7 @@ function LogSearchScreen.createUpdateSortOrderDropdown()
 		local sortbyButton = {
 			type = Constants.ButtonTypes.FULL_BORDER,
 			textColor = LSS.Colors.lowerText,
-			dimensions = { width = dropdownBox.width, height = dropdownBox.height, },
+			dimensions = { width = dropdownBox.width, height = dropdownBox.height*Constants.SCALE, },
 			boxColors = { LSS.Colors.lowerBorder, LSS.Colors.lowerBoxFill, },
 			isVisible = function(self) return LSS.sortDropDownOpen and self.pageVisible ~= -1 end,
 			includeInGrid = function(self) return sortby.contexts[LogOverlay.Windower.currentTab or {}] end,
@@ -386,7 +386,7 @@ function LogSearchScreen.createUpdateSortOrderDropdown()
 				Drawing.drawText(self.box[1] + 1, self.box[2] + 1, sortby:getText(), Theme.COLORS[self.textColor],
 					LSS.Colors.lowerTextShadow)
 				if LSS.currentSortOrder == sortby then
-					Drawing.drawImageAsPixels(Constants.PixelImages.LEFT_ARROW, self.box[1] + self.box[3] - 11, self.box[2] + 2,
+					Drawing.drawImageAsPixels(Constants.PixelImages.LEFT_ARROW, self.box[1] + (self.box[3] - 11)*Constants.SCALE, self.box[2] + 2,
 					Theme.COLORS["Intermediate text"], LSS.Colors.lowerTextShadow)
 				end
 			end
@@ -408,13 +408,13 @@ function LogSearchScreen.createUpdateFilterDropdown()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 	}
 
 	local dropdownBox = {
-		x = topBox.x + 40,
+		x = topBox.x + 40*Constants.SCALE,
 		y = LSS.Buttons.SearchTextField.box[2] - Constants.SCREEN.LINESPACING - LSS.padding * 2 - 1,
 		width = 90,
 		height = 13,
@@ -436,8 +436,8 @@ function LogSearchScreen.createUpdateFilterDropdown()
 			end
 		end,
 		draw = function(self)
-			local x, y, w, h = self.box[1], self.box[2], self.box[3], self.box[4]
-			local size = #self.image + LSS.padding
+			local x, y, w, h = self.box[1], self.box[2], self.box[3]*Constants.SCALE, self.box[4]*Constants.SCALE
+			local size = (#self.image + LSS.padding)*Constants.SCALE
 
 			-- Draw Image
 			Drawing.drawImageAsPixels(self.image, x + w - size + 1, y + 1, Theme.COLORS[self.textColor], LSS.Colors.lowerShadowcolor)
@@ -458,7 +458,7 @@ function LogSearchScreen.createUpdateFilterDropdown()
 		local filterButton = {
 			type = Constants.ButtonTypes.FULL_BORDER,
 			textColor = LSS.Colors.lowerText,
-			dimensions = { width = dropdownBox.width, height = dropdownBox.height, },
+			dimensions = { width = dropdownBox.width, height = dropdownBox.height*Constants.SCALE, },
 			boxColors = { LSS.Colors.lowerBorder, LSS.Colors.lowerBoxFill, },
 			isVisible = function(self) return LSS.filterDropDownOpen and self.pageVisible ~= -1 end,
 			includeInGrid = function(self) return filter.contexts[LogOverlay.Windower.currentTab or {}] end,
@@ -474,7 +474,7 @@ function LogSearchScreen.createUpdateFilterDropdown()
 				Drawing.drawText(self.box[1] + 1, self.box[2] + 1, filter:getText(), Theme.COLORS[self.textColor],
 					LSS.Colors.lowerTextShadow)
 				if LSS.currentFilter == filter then
-					Drawing.drawImageAsPixels(Constants.PixelImages.LEFT_ARROW, self.box[1] + self.box[3] - 11, self.box[2] + 2,
+					Drawing.drawImageAsPixels(Constants.PixelImages.LEFT_ARROW, self.box[1] + (self.box[3] - 11)*Constants.SCALE, self.box[2] + 2,
 					Theme.COLORS["Intermediate text"], LSS.Colors.lowerTextShadow)
 				end
 			end
@@ -529,8 +529,8 @@ function LogSearchScreen.createKeyboardButtons()
 	local height = 60
 	local botBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - height,
-		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
+		y = Constants.SCREEN.HEIGHT - Constants.SCREEN.MARGIN - height*Constants.SCALE,
+		width = (Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2))/Constants.SCALE,
 		height = height,
 		paddingX = 2, -- The padding between keys on the x axis
 		paddingY = 2, -- The padding between keys on the y axis
@@ -607,9 +607,9 @@ function LogSearchScreen.createKeyboardButtons()
 				end,
 			}
 			LSS.KeyboardButtons[key] = button
-			keyX = keyX + keyWidth + botBox.paddingX
+			keyX = keyX + keyWidth*Constants.SCALE + botBox.paddingX
 		end
-		keyRowY = keyRowY + keyHeight + botBox.paddingY
+		keyRowY = keyRowY + keyHeight*Constants.SCALE + botBox.paddingY
 	end
 
 	-- Reuse the 'M' key to help clone the spacebar button
@@ -620,7 +620,7 @@ function LogSearchScreen.createKeyboardButtons()
 	end
 	-- modify the copy
 	spaceKeyBox[3] = (spaceKeyBox[3] * 2) + botBox.paddingX
-	spaceKeyBox[1] = spaceKeyBox[1] + keyWidth + botBox.paddingX
+	spaceKeyBox[1] = spaceKeyBox[1] + keyWidth*Constants.SCALE + botBox.paddingX
 
 	local spaceKeyTextOffset = Utils.getCenteredTextX("_", spaceKeyBox[3]) - 2
 
@@ -665,9 +665,9 @@ function LogSearchScreen.drawScreen()
 
 	local topBox = {
 		x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN,
-		y = Constants.SCREEN.MARGIN + 10,
+		y = Constants.SCREEN.MARGIN + 10*Constants.SCALE,
 		width = Constants.SCREEN.RIGHT_GAP - (Constants.SCREEN.MARGIN * 2),
-		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10,
+		height = Constants.SCREEN.HEIGHT - (Constants.SCREEN.MARGIN * 2) - 10*Constants.SCALE,
 		text = Theme.COLORS[LSS.Colors.upperText],
 		border = Theme.COLORS[LSS.Colors.upperBorder],
 		fill = Theme.COLORS[LSS.Colors.upperBoxFill],
@@ -732,7 +732,7 @@ function LogSearchScreen.drawNoSearchResults(textColor, shadowcolor, x, y)
 
 	local image = {
 		filepath = FileManager.buildImagePath(FileManager.Folders.Icons, "missingno", ".png"),
-		w = 24, h = 56,
+		w = 24*Constants.SCALE, h = 56*Constants.SCALE,
 	}
 	x = x or LogOverlay.TabBox.x + math.floor((LogOverlay.TabBox.width - image.w) / 2 + 0.5)
 	y = y or LogOverlay.TabBox.y + math.floor((LogOverlay.TabBox.height - image.h) / 2 + 0.5) - 4

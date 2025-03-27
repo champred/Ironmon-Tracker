@@ -354,6 +354,9 @@ function Program.redraw(forced)
 
 	if Main.IsOnBizhawk() then
 		gui.Refresh()
+		if LogOverlay.form then
+			forms.refresh(LogOverlay.pbox)
+		end
 		Program.ActiveRepel:draw()
 		Program.GameTimer:draw()
 

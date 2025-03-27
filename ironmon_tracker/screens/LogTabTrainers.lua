@@ -137,6 +137,7 @@ function LogTabTrainers.buildPagedButtons()
 		local customFullname = Utils.firstToUpperEachWord(trainerLog.customFullname)
 		local button = {
 			type = Constants.ButtonTypes.IMAGE,
+			moveType=PokemonData.Types.EMPTY,
 			image = TrainerData.getPortraitIcon(trainerInternal.class),
 			getText = function(self) -- Mostly just used for searching
 				if Options["Use Custom Trainer Names"] then
@@ -255,7 +256,7 @@ function LogTabTrainers.drawTrainerPortraitInfo(button, shadowcolor)
 	end
 
 	local nameWidth = Utils.calcWordPixelLength(nameText)
-	local offsetX = math.floor((button.box[3] - nameWidth) / 2) - 3
+	local offsetX = math.floor((button.box[3]*Constants.SCALE - nameWidth) / 2) - 3
 	Drawing.drawText(x + offsetX, y, nameText, textColor, shadowcolor)
 
 	-- Draw pokeballs for each Pokemon on the trainer's team below the trainer icon
@@ -271,10 +272,10 @@ function LogTabTrainers.drawTrainerPortraitInfo(button, shadowcolor)
 		return
 	end
 	x = x + 1 + (button.box[3] - (#trainerLog.party * 8)) / 2
-	y = button.box[2] + button.box[4] + 2
+	y = button.box[2] + button.box[4]*Constants.SCALE + 2
 	for _ = 1, #trainerLog.party, 1 do
 		Drawing.drawImageAsPixels(image, x, y, colorList, shadowcolor)
-		x = x + 8
+		x = x + 8*Constants.SCALE
 	end
 end
 
@@ -285,12 +286,12 @@ function LogTabTrainers.realignGrid(gridFilter, sortFunc, startingPage)
 
 	table.sort(LogTabTrainers.PagedButtons, sortFunc)
 
-	local x = LogOverlay.TabBox.x + 15
-	local y = LogOverlay.TabBox.y + 30
-	local colSpacer = 24
-	local rowSpacer = 28
+	local x = LogOverlay.TabBox.x + 15*Constants.SCALE
+	local y = LogOverlay.TabBox.y + 30*Constants.SCALE
+	local colSpacer = 24 + 8*Constants.SCALE
+	local rowSpacer = 32 + 8*Constants.SCALE
 	local maxWidth = LogOverlay.TabBox.width + LogOverlay.TabBox.x
-	local maxHeight = LogOverlay.TabBox.height + LogOverlay.TabBox.y
+	local maxHeight = LogOverlay.TabBox.height + LogOverlay.TabBox.y-50
 
 	LogOverlay.Windower.filterGrid = gridFilter
 	LogOverlay.Windower.totalPages = Utils.gridAlign(LogTabTrainers.PagedButtons, x, y, colSpacer, rowSpacer, false, maxWidth, maxHeight)

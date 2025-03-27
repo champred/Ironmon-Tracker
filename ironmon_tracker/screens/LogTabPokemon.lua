@@ -95,6 +95,7 @@ function LogTabPokemon.buildPagedButtons()
 	for id, pokemon in pairs(RandomizerLog.Data.Pokemon) do
 		local button = {
 			type = Constants.ButtonTypes.POKEMON_ICON,
+			moveType=PokemonData.Types.EMPTY,
 			id = id,
 			getText = function(self) return RandomizerLog.getPokemonName(id) end,
 			textColor = LogTabPokemon.Colors.text,
@@ -144,7 +145,7 @@ function LogTabPokemon.buildPagedButtons()
 				-- Draw the Pokemon's name above the icon
 				local pokemonName = self:getText() or ""
 				local nameWidth = Utils.calcWordPixelLength(pokemonName)
-				local offsetX = math.floor((self.box[3] - nameWidth) / 2) - 2
+				local offsetX = math.floor((self.box[3]*Constants.SCALE - nameWidth) / 2) - 2
 				Drawing.drawTransparentTextbox(x + offsetX, y - 2, pokemonName, textColor, bgColor, shadowcolor)
 			end,
 		}
@@ -167,7 +168,7 @@ function LogTabPokemon.realignGrid(gridFilter, sortFunc, startingPage)
 		table.sort(LogTabPokemon.PagedButtons, sortFunc)
 	end
 
-	local x = LogOverlay.TabBox.x + 19
+	local x = LogOverlay.TabBox.x + 19*Constants.SCALE
 	local y = LogOverlay.TabBox.y + 2
 	local colSpacer = 23
 	local rowSpacer = 4
@@ -175,7 +176,7 @@ function LogTabPokemon.realignGrid(gridFilter, sortFunc, startingPage)
 	local maxHeight = LogOverlay.TabBox.height + LogOverlay.TabBox.y
 
 	LogOverlay.Windower.filterGrid = gridFilter
-	LogOverlay.Windower.totalPages = Utils.gridAlign(LogTabPokemon.PagedButtons, x, y, colSpacer, rowSpacer, false, maxWidth, maxHeight)
+	LogOverlay.Windower.totalPages = Utils.gridAlign(LogTabPokemon.PagedButtons, x, y, colSpacer, rowSpacer, false, maxWidth, maxHeight-50)
 	LogOverlay.Windower.currentPage = math.min(startingPage, LogOverlay.Windower.totalPages)
 
 	LogTabPokemon.refreshButtons()

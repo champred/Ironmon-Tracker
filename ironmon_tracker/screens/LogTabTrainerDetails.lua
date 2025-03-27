@@ -35,10 +35,10 @@ function LogTabTrainerDetails.buildZoomButtons(trainerId)
 
 	LogTabTrainerDetails.TemporaryButtons = {}
 
-	local partyListX, partyListY = LogOverlay.TabBox.x + 1, LogOverlay.TabBox.y + 82
-	local startX, startY = LogOverlay.TabBox.x + 60, LogOverlay.TabBox.y + 2
+	local partyListX, partyListY = LogOverlay.TabBox.x + 1, LogOverlay.TabBox.y + 82*Constants.SCALE
+	local startX, startY = LogOverlay.TabBox.x + 60*Constants.SCALE, LogOverlay.TabBox.y + 2
 	local offsetX, offsetY = 0, 0
-	local colOffset, rowOffset = 86, 49 -- 2nd column, and 2nd/3rd rows
+	local colOffset, rowOffset = 86*Constants.SCALE, 49*Constants.SCALE -- 2nd column, and 2nd/3rd rows
 	local moveLineSpacing = Constants.SCREEN.LINESPACING - 1
 	local itemAdjustY = 0
 
@@ -138,11 +138,11 @@ function LogTabTrainerDetails.buildZoomButtons(trainerId)
 				local textColor = Theme.COLORS[self.textColor]
 				local bgColor = Theme.COLORS[LogTabTrainerDetails.Colors.boxFill]
 				-- Draw the Pokemon's level below the icon
-				Drawing.drawTransparentTextbox(x + 5, y + self.box[4] + 2, self:getText(), textColor, bgColor, shadowcolor)
+				Drawing.drawTransparentTextbox(x + 5, y + self.box[4]*Constants.SCALE + 2, self:getText(), textColor, bgColor, shadowcolor)
 				-- If this was found through search
 				if self.isSelected then
 					local color = Theme.COLORS[LogTabTrainerDetails.Colors.highlight]
-					Drawing.drawSelectionIndicators(x + 1, y + 7, self.box[3] - 3, self.box[4] - 6, color, 1, 5, 1)
+					Drawing.drawSelectionIndicators(x + 1, y + 7, self.box[3]*Constants.SCALE - 3, self.box[4]*Constants.SCALE - 6, color, 1, 5, 1)
 				end
 			end,
 		}
@@ -150,7 +150,7 @@ function LogTabTrainerDetails.buildZoomButtons(trainerId)
 		table.insert(LogTabTrainerDetails.TemporaryButtons, pokemonIconButton)
 
 		-- PARTY POKEMON's MOVES
-		local moveOffsetX = startX + offsetX + 30
+		local moveOffsetX = startX + offsetX + 30*Constants.SCALE
 		local moveOffsetY = startY + offsetY + itemAdjustY
 		for j, moveInfo in ipairs(partyPokemon.moves or {}) do
 			local moveColor = Utils.inlineIf(moveInfo.isstab, "Positive text", LogTabTrainerDetails.Colors.text)
@@ -259,11 +259,11 @@ function LogTabTrainerDetails.drawTab()
 	if data.x.gymNumber ~= nil then
 		local badgeName = GameSettings.badgePrefix .. "_badge" .. data.x.gymNumber
 		local badgeImage = FileManager.buildImagePath(FileManager.Folders.Badges, badgeName, FileManager.Extensions.BADGE)
-		Drawing.drawImage(badgeImage, LogOverlay.TabBox.x + 44, LogOverlay.TabBox.y + 2)
+		Drawing.drawImage(badgeImage, LogOverlay.TabBox.x + 44*Constants.SCALE, LogOverlay.TabBox.y + 2,16,16)
 	end
 
 	-- TRAINER NAME & ICON
-	Drawing.drawImage(data.t.filename, LogOverlay.TabBox.x, LogOverlay.TabBox.y + 20)
+	Drawing.drawImage(data.t.filename, LogOverlay.TabBox.x, LogOverlay.TabBox.y + 20*Constants.SCALE,64,64)
 	local classText = data.t.class
 	local nameText = data.t.name
 	if Options["Use Custom Trainer Names"] then
@@ -276,5 +276,5 @@ function LogTabTrainerDetails.drawTab()
 		nameText = string.format("%s #%s", nameText, data.t.id)
 	end
 	Drawing.drawTransparentTextbox(LogOverlay.TabBox.x + 2, LogOverlay.TabBox.y + 1, Utils.toUpperUTF8(classText), highlightColor, fillColor, shadowcolor)
-	Drawing.drawTransparentTextbox(LogOverlay.TabBox.x + 2, LogOverlay.TabBox.y + 10, Utils.toUpperUTF8(nameText), highlightColor, fillColor, shadowcolor)
+	Drawing.drawTransparentTextbox(LogOverlay.TabBox.x + 2, LogOverlay.TabBox.y + 10*Constants.SCALE, Utils.toUpperUTF8(nameText), highlightColor, fillColor, shadowcolor)
 end

@@ -22,7 +22,7 @@ ExtrasScreen.Buttons = {
 		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5, Constants.SCREEN.MARGIN + 27*Constants.SCALE, 130, 16 },
 		isVisible = function(self) return ExtrasScreen.currentTab == ExtrasScreen.Tabs.Tools end,
 		onClick = function(self)
-			--Program.changeScreenView(ViewLogWarningScreen)
+			Program.changeScreenView(ViewLogWarningScreen)
 		end,
 	},
 	CoverageCalculator = {

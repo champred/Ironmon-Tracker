@@ -5,7 +5,7 @@ LogOverlay = {
 		headerFill = "Main background",
 	},
 	margin = 2,
-	tabHeight = 12,
+	tabHeight = 12*Constants.SCALE,
 	isDisplayed = false,
 	isGameOver = false, -- Set to true when game is over, so we known to show game over screen if X is pressed
 	viewedLog = "None", -- use to note if the opened log is the current seed, previous seed, or other
@@ -15,7 +15,7 @@ LogOverlay = {
 LogOverlay.TabBox = {
 	x = LogOverlay.margin,
 	y = LogOverlay.tabHeight,
-	width = Constants.SCREEN.WIDTH - (LogOverlay.margin * 2),
+	width = (240 - (LogOverlay.margin * 2))*Constants.SCALE,
 	height = Constants.SCREEN.HEIGHT - LogOverlay.tabHeight - LogOverlay.margin - 1,
 }
 
@@ -101,7 +101,7 @@ LogOverlay.Windower = {
 	end,
 }
 
-local pagerOffsetX = 155
+local pagerOffsetX = 155*Constants.SCALE
 LogOverlay.HeaderButtons = {
 	CurrentPage = {
 		type = Constants.ButtonTypes.NO_BORDER,
@@ -115,7 +115,7 @@ LogOverlay.HeaderButtons = {
 		image = Constants.PixelImages.LEFT_ARROW,
 		textColor = LogOverlay.Colors.headerText,
 		shadowcolor = false,
-		box = { LogOverlay.margin + pagerOffsetX - 13, 1, 10, 10 },
+		box = { LogOverlay.margin + pagerOffsetX - 13*Constants.SCALE, 1, 10, 10 },
 		isVisible = function() return LogOverlay.Windower.totalPages > 1 end,
 		onClick = function(self) LogOverlay.Windower:prevPage() end,
 	},
@@ -124,7 +124,7 @@ LogOverlay.HeaderButtons = {
 		image = Constants.PixelImages.RIGHT_ARROW,
 		textColor = LogOverlay.Colors.headerText,
 		shadowcolor = false,
-		box = { LogOverlay.margin + pagerOffsetX + 50, 1, 10, 10 },
+		box = { LogOverlay.margin + pagerOffsetX + 50*Constants.SCALE, 1, 10, 10 },
 		isVisible = function() return LogOverlay.Windower.totalPages > 1 end,
 		onClick = function(self) LogOverlay.Windower:nextPage() end,
 	},
@@ -132,7 +132,7 @@ LogOverlay.HeaderButtons = {
 		type = Constants.ButtonTypes.PIXELIMAGE,
 		image = Constants.PixelImages.CLOSE,
 		textColor = LogOverlay.Colors.headerText,
-		box = { LogOverlay.margin + 228, 2, 10, 10 },
+		box = { LogOverlay.margin + 228*Constants.SCALE, 2, 10, 10 },
 		updateSelf = function(self)
 			local canGoBackTabs = {
 				[LogTabPokemonDetails] = true,
@@ -308,7 +308,7 @@ function LogOverlay.addHeaderTabButtons()
 		tab.chosenIcon = icons[1]
 		local width = spacer
 		for _, icon in ipairs(icons or {}) do
-			width = width + (icon.w or 0) + spacer
+			width = width + (icon.w or 0)*Constants.SCALE + spacer
 		end
 		local tabButton = {
 			type = Constants.ButtonTypes.NO_BORDER,
@@ -317,6 +317,7 @@ function LogOverlay.addHeaderTabButtons()
 			index = i,
 			isSelected = false,
 			box = { offsetX, 0, width, 11, },
+			clickableArea = { offsetX, 0, width/Constants.SCALE, 11, },
 			updateSelf = function(self)
 				self.isSelected = (LogOverlay.Windower.currentTab == tab)
 				self.textColor = Utils.inlineIf(self.isSelected, Theme.headerHighlightKey, LogOverlay.Colors.headerText)
@@ -326,9 +327,9 @@ function LogOverlay.addHeaderTabButtons()
 				for _, icon in ipairs(self.icons) do
 					if icon.image then
 						local adjustedX = x + (icon.x or 0) + spacer
-						local adjustedY = y + (icon.y or 0) + LogOverlay.tabHeight - (icon.h or 12)
-						Drawing.drawImage(icon.image, adjustedX, adjustedY)
-						x = x + (icon.w or 0) + spacer
+						local adjustedY = y + (icon.y or 0) + LogOverlay.tabHeight - (icon.h or 12)*Constants.SCALE
+						Drawing.drawImage(icon.image, adjustedX, adjustedY,icon.w,icon.h)
+						x = x + (icon.w or 0)*Constants.SCALE + spacer
 					end
 				end
 				-- if self.isSelected then
@@ -407,7 +408,8 @@ end
 -- USER INPUT FUNCTIONS
 function LogOverlay.checkInput(xmouse, ymouse)
 	if not LogOverlay.isDisplayed then return end
-
+	xmouse=forms.getMouseX(LogOverlay.pbox)
+	ymouse=forms.getMouseY(LogOverlay.pbox)
 	Input.checkButtonsClicked(xmouse, ymouse, LogOverlay.HeaderButtons)
 
 	local currentTab = LogOverlay.Windower.currentTab or {}
@@ -415,12 +417,41 @@ function LogOverlay.checkInput(xmouse, ymouse)
 		currentTab.checkInput(xmouse, ymouse)
 	end
 end
-
+local function resetForm()
+	LogOverlay.form=nil
+	LogOverlay.pbox=nil
+	LogOverlay.isDisplayed=false
+	Program.changeScreenView(ViewLogWarningScreen)
+end
 -- DRAWING FUNCTIONS
 function LogOverlay.drawScreen()
 	if not LogOverlay.isDisplayed then return end
-
-	Drawing.drawBackgroundAndMargins(0, 0, Constants.SCREEN.WIDTH, Constants.SCREEN.HEIGHT)
+	LogOverlay.form=LogOverlay.form or forms.newform(240*Constants.SCALE,Constants.SCREEN.HEIGHT,"Log Viewer",resetForm)
+	LogOverlay.pbox=LogOverlay.pbox or forms.pictureBox(LogOverlay.form,0,0,240*Constants.SCALE,Constants.SCREEN.HEIGHT)
+	forms.setlocation(LogOverlay.form,0,Constants.SCREEN.HEIGHT)
+	local canvasmt=getmetatable(gui)
+	local mt={
+		__index=function(t,k)
+			return function(...)
+				local args={...}
+				local fun=forms[k]
+				if not fun then
+					Utils.printDebug(k)
+					assert(k=="defaultTextBackground")
+					fun=forms.setDefaultTextBackground
+				elseif k=="drawImage" and #args>3 then
+					args[5]=args[5]*Constants.SCALE
+					args[4]=args[4]*Constants.SCALE
+				elseif k=="drawRectangle" then
+					args[3]=args[3]*Constants.SCALE
+					args[4]=args[4]*Constants.SCALE
+				end
+				return fun(LogOverlay.pbox,table.unpack(args))
+			end
+		end
+	}
+	setmetatable(gui,mt)
+	Drawing.drawBackgroundAndMargins(0, 0, 240, 160)
 
 	local currentTab = LogOverlay.Windower.currentTab or {}
 
@@ -447,6 +478,7 @@ function LogOverlay.drawScreen()
 	if type(currentTab.drawTab) == "function" then
 		currentTab.drawTab()
 	end
+	setmetatable(gui,canvasmt)
 end
 
 -- Check if there exists a parsed log with the same postfix as the one being requested

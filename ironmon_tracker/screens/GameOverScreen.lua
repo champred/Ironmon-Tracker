@@ -166,7 +166,7 @@ GameOverScreen.Buttons = {
 		end,
 		box = { Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 14, Constants.SCREEN.MARGIN + 132*Constants.SCALE, 112, 16 },
 		onClick = function(self)
-			--LogOverlay.viewLogFile(FileManager.PostFixes.AUTORANDOMIZED)
+			LogOverlay.viewLogFile(FileManager.PostFixes.AUTORANDOMIZED)
 		end,
 	},
 }

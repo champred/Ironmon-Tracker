@@ -63,8 +63,8 @@ function LogTabRoutes.buildPagedButtons()
 	-- Header label buttons for the route bars
 	local rightOffsetX = 0
 	local routeBar = {
-		width = 230,
-		height = 21,
+		width = 230*Constants.SCALE,
+		height = 21*Constants.SCALE,
 		cols = {
 			{
 				w = 21,
@@ -97,7 +97,7 @@ function LogTabRoutes.buildPagedButtons()
 	}
 	-- Build the column positions from right-to-left
 	for i = #routeBar.cols, 1, -1 do
-		rightOffsetX = rightOffsetX + routeBar.cols[i].w
+		rightOffsetX = rightOffsetX + routeBar.cols[i].w*Constants.SCALE
 		routeBar.cols[i].x = routeBar.width - rightOffsetX
 	end
 
@@ -106,14 +106,14 @@ function LogTabRoutes.buildPagedButtons()
 		local button = {
 			type = Constants.ButtonTypes.NO_BORDER,
 			textColor = LogTabRoutes.Colors.highlight,
-			box = { LogOverlay.TabBox.x + col.x + 3, LogOverlay.TabBox.y + 1, 16, 16 },
+			box = { LogOverlay.TabBox.x + col.x + 3*Constants.SCALE, LogOverlay.TabBox.y + 1, 16, 16 },
 			draw = function(self, shadowcolor)
 				local x, y = self.box[1], self.box[2]
 				local w, h = self.box[3], self.box[4]
 				if col.icon then
-					local adjustedX = x + (w - (col.icon.w or 0)) / 2 + 1
-					local adjustedY = y + (col.icon.y or 0) + (h - (col.icon.h or 12)) - 1
-					Drawing.drawImage(col.icon.image, adjustedX, adjustedY)
+					local adjustedX = x + (w - (col.icon.w or 0)*Constants.SCALE) / 2 + 1
+					local adjustedY = y + (col.icon.y or 0) + (h - (col.icon.h or 12))*Constants.SCALE - 1
+					Drawing.drawImage(col.icon.image, adjustedX, adjustedY,col.icon.w,col.icon.h)
 					-- local centeredX = (w - (col.icon.w or 0)) / 2 + 2
 					-- Drawing.drawImage(col.icon.image, x + centeredX, y + 1)
 				end
@@ -152,7 +152,7 @@ function LogTabRoutes.buildPagedButtons()
 			updateSelf = function(self)
 				if not self.box then return end
 				-- Make the clickable area just a tad smaller to prevent overlappying clicks
-				self.clickableArea = { self.box[1], self.box[2] + 1, self.box[3], self.box[4] - 2, }
+				self.clickableArea = { self.box[1], self.box[2] + 1, self.box[3], self.box[4]/Constants.SCALE, }
 			end,
 			includeInGrid = function(self)
 				-- If no search text entered, check any filter groups and/or show all results
@@ -261,7 +261,7 @@ function LogTabRoutes.buildPagedButtons()
 				if routeIcon then
 					local adjustedX = x + routeBar.cols[1].x + 1 + (routeIcon.x or 0)
 					local adjustedY = y + 1 + (routeIcon.y or 0)
-					Drawing.drawImage(routeIcon:getIconPath(), adjustedX, adjustedY)
+					Drawing.drawImage(routeIcon:getIconPath(), adjustedX, adjustedY,20,20)
 				end
 
 				-- Route Name
@@ -289,7 +289,7 @@ function LogTabRoutes.buildPagedButtons()
 					col = routeBar.cols[5]
 					textColor = Theme.COLORS[col.textColor or false] or Theme.COLORS[LogTabRoutes.Colors.text]
 					text = tostring(self.numTrainers or 0)
-					centeredX = Utils.getCenteredTextX(text, col.w) - 1
+					centeredX = Utils.getCenteredTextX(text, col.w)
 					Drawing.drawText(x + col.x + centeredX, y + centeredY, text, textColor, shadowcolor)
 					col = routeBar.cols[6]
 					textColor = Theme.COLORS[col.textColor or false] or Theme.COLORS[LogTabRoutes.Colors.text]
@@ -315,7 +315,7 @@ function LogTabRoutes.realignGrid(gridFilter, sortFunc, startingPage)
 	table.sort(LogTabRoutes.PagedButtons, sortFunc)
 
 	local x = LogOverlay.TabBox.x + 3
-	local y = LogOverlay.TabBox.y + 17
+	local y = LogOverlay.TabBox.y + 17*Constants.SCALE
 	local colSpacer = 999
 	local rowSpacer = 0
 	local maxWidth = LogOverlay.TabBox.width + LogOverlay.TabBox.x
