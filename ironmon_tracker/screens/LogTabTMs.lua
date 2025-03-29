@@ -63,7 +63,7 @@ function LogTabTMs.buildNavigation()
 			getText = function(self) return navFilter:getText() end,
 			textColor = LogTabTMs.Colors.text,
 			isSelected = false,
-			box = { LogOverlay.TabBox.x + nextNavX, navHeaderY, navLabelWidth, 11 },
+			box = { LogOverlay.TabBox.x + nextNavX, navHeaderY, navLabelWidth/Constants.SCALE, 11 },
 			updateSelf = function(self)
 				self.isSelected = (LogOverlay.Windower.filterGrid == navFilter.group and Utils.isNilOrEmpty(LogSearchScreen.searchText))
 				self.textColor = Utils.inlineIf(self.isSelected, LogTabTMs.Colors.highlight, LogTabTMs.Colors.text)

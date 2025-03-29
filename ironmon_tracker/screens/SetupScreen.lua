@@ -472,7 +472,7 @@ function SetupScreen.createButtons()
 		SCREEN.Buttons["CarouselSpeed" .. speedLabel] = {
 			type = Constants.ButtonTypes.NO_BORDER,
 			getText = function(self) return speedLabel end,
-			box = {	startX, startY, speedWidth, 11 },
+			box = {	startX, startY, speedWidth/Constants.SCALE, 11 },
 			isSelected = false,
 			isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Carousel end,
 			updateSelf = function(self)
@@ -503,7 +503,7 @@ function SetupScreen.createButtons()
 	SCREEN.Buttons.CarouselInfoHeader = {
 		type = Constants.ButtonTypes.NO_BORDER,
 		getText = function(self) return infoText end,
-		box = {	startX - 2, startY, Utils.calcWordPixelLength(infoText) + 5, 11 },
+		box = {	startX - 2, startY, Utils.calcWordPixelLength(infoText)/Constants.SCALE + 5, 11 },
 		isVisible = function(self) return SCREEN.currentTab == SCREEN.Tabs.Carousel end,
 		draw = function(self, shadowcolor) Drawing.drawUnderline(self) end,
 	}

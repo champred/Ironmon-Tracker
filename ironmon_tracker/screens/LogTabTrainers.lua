@@ -87,7 +87,7 @@ function LogTabTrainers.buildNavigation()
 			getText = function(self) return navFilter:getText() end,
 			textColor = LogTabTrainers.Colors.text,
 			isSelected = false,
-			box = { LogOverlay.TabBox.x + nextNavX, navHeaderY, navLabelWidth, 11 },
+			box = { LogOverlay.TabBox.x + nextNavX, navHeaderY, navLabelWidth/Constants.SCALE, 11 },
 			updateSelf = function(self)
 				if navFilter.group == TrainerData.TrainerGroups.All and not Utils.isNilOrEmpty(LogSearchScreen.searchText) then
 					self.isSelected = true
